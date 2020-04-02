@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://admin:' + process.env.Mongo_Atlas_PWD + '@cluster0-mgk28.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://admin:admin@cluster0-mgk28.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -16,10 +16,10 @@ function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
     var consumer = connection.getConsumer(topic_name);
     var producer = connection.getProducer();
-    console.log('server is running ');
+    console.log('server is running '+topic_name);
     consumer.on('message', function (message) {
-        console.log('message received for ' + topic_name +" "+ fname);
-        console.log(JSON.stringify(message.value));
+        console.log('message received for ' + topic_name +" ", fname);
+        console.log("JSONSTRING",JSON.stringify(message.value));
         var data = JSON.parse(message.value);
         
         fname.handle_request(data.data, function(err,res){
@@ -41,6 +41,7 @@ function handleTopicRequest(topic_name,fname){
         
     });
 }
+
 // Add your TOPICs here
 //first argument is topic name
 //second argument is a function that will handle this topic request

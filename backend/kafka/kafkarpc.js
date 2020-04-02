@@ -47,7 +47,7 @@ KafkaRPC.prototype.makeRequest = function(topic_name, content, callback){
         var payloads = [
             { topic: topic_name, messages: JSON.stringify({
                 correlationId:correlationId,
-                replyTo:"PostStudentCreate",
+                replyTo:'response_topic',
                 data:content}),
                 partition:0}
         ];
@@ -72,11 +72,10 @@ KafkaRPC.prototype.setupResponseQueue = function(producer,topic_name, next){
     self = this;
 
     //subscribe to messages
-    var consumer = self.connection.getConsumer('PostStudentCreate');
-    consumer.on('message', function (messages) {
+    var consumer = self.connection.getConsumer('response_topic');
+    consumer.on('message', function (message) {
         console.log('msg received');
-        console.log("message",messages)
-        var data = JSON.parse(messages.value);
+        var data = JSON.parse(message.value);
         //get the correlationId
         var correlationId = data.correlationId;
         //is it a response to a pending request

@@ -17,7 +17,7 @@ function handle_request(msg, callback) {
     .save()
     .then(result => {
       console.log("Student Added : ", result)
-      callback(null,JSON.parse(result))
+      callback(null,result)
       // res.status(200).json({
       //   message: "Handling Add Student Post Request",
       //   student: result
