@@ -4,18 +4,16 @@ var kafka = require('../../kafka/client');
 
 // const mongoose = require("mongoose")
 
-const Student = require("../../models/students")
-
 router.post('/', (req, res, next) => {
 
     console.log("Req Body", req.body)
-    kafka.make_request('PostStudentCreate', req.body, function (err, results) {
+    kafka.make_request('PostCompanyCreate', req.body, function (err, results) {
         console.log('in result');
         console.log(results);
         if (err || results == "Account Exists") {
             if (results == "Account Exists") {
                 console.log("Inside err");
-                res.status(402).send("Account Exists");
+                res.status(401).send("Account Exists");
             }
             else {
                 console.log("Inside err");

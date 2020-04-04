@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-const Student = require("../models/students")
+const Company = require("../models/company")
 const bcrypt = require("bcrypt");
-
 
 
 
 function handle_request(msg, callback) {
   console.log("message", msg)
-
-  Student.
+  Company.
         findOne({
             email: msg.email,
         })
@@ -24,23 +22,22 @@ function handle_request(msg, callback) {
             else {
                 const salt = bcrypt.genSaltSync(10);
                 const password = bcrypt.hashSync(msg.password, salt);
-                const student = new Student({
-                  name: msg.name,
-                  email: msg.email,
-                  schoolName: msg.schoolName,
-                  password: password,
-                });
-                student
-                  .save()
-                  .then(result => {
-                    console.log("Student Added : ", result)
-                    callback(null,result)
-                  })
-                  .catch(err => {
-                    console.log(err)
-                    callback(err,null)
-                  })
-              
+                const company = new Company({
+                    name: msg.name,
+                    email: msg.email,
+                    password: password,
+                    location : msg.location
+                  });
+                  company
+                    .save()
+                    .then(result => {
+                      console.log("Company Added : ", result)
+                      callback(null,result)
+                    })
+                    .catch(err => {
+                      console.log(err)
+                      callback(err,null)
+                    })
                 }
         })
         .catch(err => {
@@ -48,5 +45,6 @@ function handle_request(msg, callback) {
             callback(err, null);
         })
 }
+  
 
 exports.handle_request = handle_request;

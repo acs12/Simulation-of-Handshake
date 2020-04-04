@@ -11,7 +11,47 @@ var cookieParser = require('cookie-parser');
 var cors = require('cors');
 // app.set('view engine', 'ejs');
 
+//common
+const getStudents = require('./routes/common/getStudents')
+
+//student
 const student = require("./routes/student/students");
+const studentLogin = require("./routes/student/login")
+
+const addEducation = require('./routes/student/education')
+const addExperience = require('./routes/student/experience')
+const addCareerObjective = require('./routes/student/addCareerObjective')
+const addSkill = require('./routes/student/skill')
+
+
+const updateProfile = require('./routes/student/updateProfile')
+const updateCareerObjective = require('./routes/student/updateCareerObjective')
+const updateExperience = require('./routes/student/experience')
+const updateEducation = require('./routes/student/education')
+const updateStudentContactDetails = require('./routes/student/updateStudentContactDetails')
+
+const deleteEducation = require('./routes/student/education')
+const deleteExperience = require('./routes/student/experience')
+const deleteSkill = require('./routes/student/skill')
+
+const getAllJobs = require('./routes/student/getAllJobs')
+const getAllEvents = require('./routes/student/getAllEvents')
+
+const applyToJob = require('./routes/student/applyToJob')
+const applyToEvent = require('./routes/student/applyToEvent')
+
+const appliedJobs = require('./routes/student/appliedJobs')
+const appliedEvents = require('./routes/student/appliedEvents')
+
+//company
+const company = require("./routes/company/company")
+const companyLogin = require("./routes/company/login")
+const addEvent = require("./routes/company/addEvent")
+const addJob = require("./routes/company/addJob")
+const getEventsById = require("./routes/company/getEventsById")
+const getJobsById = require("./routes/company/getJobsById")
+const updateCompanyProfile = require("./routes/company/updateCompanyProfile")
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -61,6 +101,53 @@ mongoose.connect('mongodb+srv://admin:' + process.env.Mongo_Atlas_PWD + '@cluste
   useUnifiedTopology: true
 });
 
+//common
+app.use("/getStudents",getStudents)
+
+//student
 app.use("/student",student)
+app.use("/login",studentLogin)
+
+app.use("/education",addEducation)
+app.use("/experience",addExperience)
+app.use("/addCareerobjective",addCareerObjective)
+app.use("/skill",addSkill)
+
+app.use("/updateProfile",updateProfile)
+app.use("/updateCareerObjective",updateCareerObjective)
+app.use("/updateEducation",updateEducation)
+app.use("/experience",updateExperience)
+app.use("/updateStudentContactDetails",updateStudentContactDetails)
+
+app.use("education",deleteEducation)
+app.use("/experience",deleteExperience)
+app.use("/skill",deleteSkill)
+
+app.use("/appliedEvents",appliedEvents)
+app.use("/appliedJobs",appliedJobs)
+
+app.use("/applyToEvent",applyToEvent)
+app.use("/applyToJob",applyToJob)
+
+app.use("/getAllEvents",getAllEvents)
+app.use("/getAllJobs",getAllJobs)
+
+
+
+
+//company
+app.use("/company",company)
+app.use("/Clogin",companyLogin)
+
+app.use("/updateCompanyProfile",updateCompanyProfile)
+
+app.use("/addEvent",addEvent)
+app.use("/addJob",addJob)
+
+app.use("/getEventsById",getEventsById)
+app.use("/getJobsById",getJobsById)
+
+
+
 
 app.listen(process.env.port, () => { console.log('Server is running on port',process.env.port) });
