@@ -35,6 +35,7 @@ var appliedJobs = require('./services/appliedJobs')
 var appliedEvents = require('./services/appliedEvents')
 var applyToJob = require('./services/applyToJob')
 var applyToEvent = require('./services/applyToEvent')
+var companyDetails = require('./services/companyDetails')
 
 
 //company
@@ -45,6 +46,8 @@ var addJob = require('./services/addJob')
 var addEvent = require('./services/addEvent')
 var getJobsById = require('./services/getJobsById')
 var getEventsById = require('./services/getEventsById')
+var jobApplication = require('./services/jobApplication')
+var eventApplication = require('./services/eventApplication')
 
 
 
@@ -111,6 +114,8 @@ handleTopicRequest("ApplyToEvent",applyToEvent)
 handleTopicRequest("AppliedJobs",appliedJobs)
 handleTopicRequest("AppliedEvents",appliedEvents)
 
+handleTopicRequest("CompanyDetails",companyDetails)
+
 
 //company
 handleTopicRequest("PostCompanyCreate",company)
@@ -123,6 +128,9 @@ handleTopicRequest("AddEvent",addEvent)
 
 handleTopicRequest("GetJobsById",getJobsById)
 handleTopicRequest("GetEventsById",getEventsById)
+
+handleTopicRequest("JobApplication",jobApplication)
+handleTopicRequest("EventApplication",eventApplication)
 
 
 //common

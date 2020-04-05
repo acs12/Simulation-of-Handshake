@@ -2,36 +2,50 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const Event = require("../models/event")
+const Student = require("../models/students")
 var ObjectId = mongoose.Types.ObjectId;
 
 
 function handle_request(msg, callback) {
     console.log("message", msg)
-    Event.updateOne(
+    Event.update(
         { _id: msg._id },
         {
-            $push: {
-                application: {
-                    studentId: msg.studentId
-                }
+            $addToSet: {
+                application : msg.studentId
             }
         }
     )
         .exec()
         .then(result => {
-            console.log(result)
-            Event.find(
-                {
-                    $where: { "application.studentId" : { $nin: [msg.studentId] } }
+            console.log("first",result)
+            Student.update({
+                _id: msg.studentId
+            }, {
+                $set: {
+                    resumeUrl: msg.resumeUrl
                 }
-            ).exec()
+            })
+                .exec()
                 .then(result => {
-                    console.log(result)
-                    callback(null, result)
+                    console.log("second",result)
+                    Event.find(
+                        {
+                            application : {$nin: [msg.studentId]}
+                        }
+                    ).exec()
+                        .then(result => {
+                            console.log("third",result)
+                            callback(null, result)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            callback(err, null)
+                        })
                 })
-                .catch(err => {
+                .catch(err=>{
                     console.log(err)
-                    callback(err, null)
+                    callback(err,null)
                 })
         })
         .catch(err => {

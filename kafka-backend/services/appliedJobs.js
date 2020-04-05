@@ -9,7 +9,8 @@ function handle_request(msg, callback) {
     console.log("message", msg)
     Job.find(
         {
-            $where: { "application.studentId": { $in: [msg.studentId] } }
+            application : { $in : [msg.studentId] }
+
         }
     ).exec()
         .then(result => {

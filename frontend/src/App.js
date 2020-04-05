@@ -1,14 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
-import CakeContainer from './component/CakeContainer';
+import { Provider } from 'react-redux'
+import store from './redux/store/store'
+import Main from './component/Main';
+import { BrowserRouter } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <CakeContainer/>
-    </div>
-  );
+//App Component
+class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        {/*Use Browser Router to route to different pages*/}
+        <BrowserRouter>
+          <div>
+            {/* App Component Has a Child Component called Main*/}
+            <Main />
+          </div>
+        </BrowserRouter>
+      </Provider>
+    );
+  }
 }
-
+//Export the App component so that it can be used in index.js
 export default App;

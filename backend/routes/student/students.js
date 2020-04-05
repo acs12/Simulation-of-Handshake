@@ -24,7 +24,7 @@ router.post('/', (req, res, next) => {
 
         } else {
             console.log("Inside else");
-            res.status(200).send("Success");
+            res.status(200).send(results);
         }
 
     });

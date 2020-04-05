@@ -43,6 +43,8 @@ const applyToEvent = require('./routes/student/applyToEvent')
 const appliedJobs = require('./routes/student/appliedJobs')
 const appliedEvents = require('./routes/student/appliedEvents')
 
+const companyDetails = require('./routes/student/companyDetails')
+
 //company
 const company = require("./routes/company/company")
 const companyLogin = require("./routes/company/login")
@@ -51,6 +53,8 @@ const addJob = require("./routes/company/addJob")
 const getEventsById = require("./routes/company/getEventsById")
 const getJobsById = require("./routes/company/getJobsById")
 const updateCompanyProfile = require("./routes/company/updateCompanyProfile")
+const jobApplication = require("./routes/company/jobApplication")
+const eventApplication = require("./routes/company/eventApplication")
 
 
 const storage = multer.diskStorage({
@@ -105,8 +109,8 @@ mongoose.connect('mongodb+srv://admin:' + process.env.Mongo_Atlas_PWD + '@cluste
 app.use("/getStudents",getStudents)
 
 //student
-app.use("/student",student)
-app.use("/login",studentLogin)
+app.use("/studentSignup",student)
+app.use("/StudentLogin",studentLogin)
 
 app.use("/education",addEducation)
 app.use("/experience",addExperience)
@@ -132,6 +136,9 @@ app.use("/applyToJob",applyToJob)
 app.use("/getAllEvents",getAllEvents)
 app.use("/getAllJobs",getAllJobs)
 
+app.use("/companyDetails",companyDetails)
+
+
 
 
 
@@ -146,6 +153,9 @@ app.use("/addJob",addJob)
 
 app.use("/getEventsById",getEventsById)
 app.use("/getJobsById",getJobsById)
+
+app.use("/jobApplication",jobApplication)
+app.use("/eventApplication",eventApplication)
 
 
 

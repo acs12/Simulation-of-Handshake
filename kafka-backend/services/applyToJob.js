@@ -8,20 +8,18 @@ var ObjectId = mongoose.Types.ObjectId;
 
 function handle_request(msg, callback) {
     console.log("message", msg)
-    Job.updateOne(
+    Job.update(
         { _id: msg._id },
         {
-            $push: {
-                application: {
-                    studentId: msg.studentId
-                }
+            $addToSet: {
+                application : msg.studentId
             }
         }
     )
         .exec()
         .then(result => {
-            console.log(result)
-            Student.updateOne({
+            console.log("first",result)
+            Student.update({
                 _id: msg.studentId
             }, {
                 $set: {
@@ -30,13 +28,14 @@ function handle_request(msg, callback) {
             })
                 .exec()
                 .then(result => {
+                    console.log("second",result)
                     Job.find(
                         {
-                            $where: { "application.studentId": { $nin: [msg.studentId] } }
+                            application : {$nin: [msg.studentId]}
                         }
                     ).exec()
                         .then(result => {
-                            console.log(result)
+                            console.log("third",result)
                             callback(null, result)
                         })
                         .catch(err => {
