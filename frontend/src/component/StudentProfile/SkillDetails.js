@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import EditSkill from './EditSkill'
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 
 
@@ -87,7 +87,7 @@ class SkillDetails extends Component {
 
     render() {
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         // let response = this.state.response

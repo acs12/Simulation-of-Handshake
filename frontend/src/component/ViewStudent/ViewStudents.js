@@ -3,7 +3,7 @@ import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import AllStudent from './AllStudent'
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 
 
@@ -82,7 +82,7 @@ class ViewStudents extends Component {
 
     render() {
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         let type = localStorage.getItem("type")

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer, MDBCol } from "mdbreact";
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import URL from '../../constants'
+import { getJobs, applyToJob } from '../../redux'
+import { connect } from 'react-redux'
 
 //Define a Login Component
 class JobDetails extends Component {
@@ -17,17 +20,18 @@ class JobDetails extends Component {
             jobDetailsStatus: false,
             toggle: false,
             name: this.props.item.name,
-            jobId: this.props.item.jobId,
+            jobId: this.props.item._id,
             postedDate : this.props.item.postedDate,
             deadlineDate : this.props.item.deadlineDate,
             status: "Pending",
             response: "",
-            resume: ""  
+            resumeUrl: ""  
         }
 
         this.changeHandler = this.changeHandler.bind(this)
         this.changeJobDetailsStatus = this.changeJobDetailsStatus.bind(this)
         this.changeDisplay = this.changeDisplay.bind(this)
+        // this.apply = this.apply.bind(this)
 
     }
 
@@ -42,23 +46,59 @@ class JobDetails extends Component {
         })
     }
 
+    // submitHandler = (e) =>{
+    //     let data = {
+    //         studentId: this.state.id
+    //     }
+    //     //set the with credentials to true
+    //     axios.defaults.withCredentials = true;
+    //     //make a post request with the user data
+    //     this.props.getJobs(getAllJobs, res => {
+
+    //         console.log('Response signup user: ', res.data)
+    //         this.setState({
+    //             getJobs: this.props.data,
+    //             filteredJobs: this.props.data
+    //         })
+    //         //localStorage.setItem("token")
+
+    //     })
+    // }
+
+    // apply = (e) =>{
+    //     let apply = {
+    //         studentId: this.state.id,
+    //         _id : this.state.jobId,
+    //         resumeUrl : this.state.resume
+    //     }
+    //     //set the with credentials to true
+    //     axios.defaults.withCredentials = true;
+    //     //make a post request with the user data
+    //     this.props.applyToJob(apply, res => {
+
+    //         console.log('Response : ', res.data)
+    //         //localStorage.setItem("token")
+
+    //     })
+    // }
+
     changeHandler = (e) => {
         console.log("event", e)
         this.setState({
-            [e.target.name]: e.target.files[0]
+            resumeUrl: e.target.files[0]
         })
-        console.log("Resume", this.state.resume.name)
+        console.log("Resume", this.state.resume)
     }
 
     changeDisplay = (e) => {
         if (this.state.toggle === false) {
-            this.refs.ResumeButtonDisplay.style.display = "block"
+            
                 this.setState({
                     toggle: true
                 })
         }
         else {
-            this.refs.ResumeButtonDisplay.style.display = "none"
+
                 this.setState({
                     toggle: false
                 })
@@ -79,11 +119,12 @@ class JobDetails extends Component {
         }
     }
     render() {
+        console.log("_id",this.state.jobId)
         console.log("Resume", this.state.resume)
         let particularJobs = null
         let specificJob = null
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         if (this.state.jobDetailsStatus === true) {
@@ -124,24 +165,23 @@ class JobDetails extends Component {
                                     <h4 className="card-subtitle mb-2 text-muted">Posted On : {this.state.postedDate}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Deadline Date : {this.state.deadlineDate}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Job Description : {this.props.item.description}</h4>
-                                    <button type="button" refs="buttonToggle" style={{ display: "block", float: "right" }} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
-                                    <div className="card-subtitle mb-2 text-muted" ref="ResumeButtonDisplay" style={{ display: "none" }}>
-                                        <form action="/updateResume" method="POST" encType='multipart/form-data'>
+                                    <button type="button" style={this.state.toggle ? { display: "none", float: "right" } : {display : "block"}} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
+                                    <div className="card-subtitle mb-2 text-muted"  style={this.state.toggle ? { display: "block", float: "right" } : {display : "none"}}>
+                                        <form action="http://localhost:3001/applyToJob" method="POST" encType='multipart/form-data'>
                                             <div className="form-group">
                                                 <b>Select resume to apply :</b>
                                                 <input
                                                     type="file"
-                                                    name="resume"
+                                                    name="resumeUrl"
                                                     className="form-control"
                                                     onChange={this.changeHandler}
                                                     required
                                                 />
                                                 <input style={{display:"none"}} name = "studentId" value={this.state.id}/>
-                                                <input style={{display:"none"}} name = "jobId" value={this.props.item.jobId}/>
-                                                <input style={{display:"none"}} name = "companyId" value={this.props.item.companyId}/>
+                                                <input style={{display:"none"}} name = "_id" value={this.state.jobId}/>
                                             </div>
                                             <button type="submit" className="btn btn-primary" style={{ float: "left" }} >Upload</button>
-                                            <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeDisplay} >Cancel</button>
+                                            <button type="button" className="btn btn-danger" style={this.state.toggle ? { display: "block", float: "right" } : {display : "none"}} onClick={this.changeDisplay} >Cancel</button>
                                         </form>
 
                                     </div>
@@ -187,5 +227,7 @@ class JobDetails extends Component {
         )
     }
 }
+
+
 //export Login Component
-export default JobDetails;
+export default (JobDetails);

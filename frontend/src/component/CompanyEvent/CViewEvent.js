@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import CompanyEventBar from '../LandingPage/CompanyEventBar'
@@ -38,7 +37,7 @@ class CViewEvent extends Component {
     render() {
         let events = null
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         if (this.state.eventsByCompany.length === 0) {

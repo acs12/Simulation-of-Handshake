@@ -3,7 +3,6 @@ import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBCol } from "mdbreact";
 import CompanyJobBar from '../LandingPage/CompanyJobBar'
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 
 
@@ -69,7 +68,7 @@ class PostJob extends Component {
     render() {
         let response = this.state.response
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/Home" />
         }
         console.log(this.state)

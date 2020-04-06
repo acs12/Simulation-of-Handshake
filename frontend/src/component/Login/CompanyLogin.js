@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 
@@ -72,7 +72,7 @@ class CompanyLogin extends Component {
     render() {
         let response = this.state.response
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             localStorage.setItem("id" ,this.state.companyId)
             localStorage.setItem("type","company")
             redirectVar = <Redirect to="/CompanyJob/CViewJob" />

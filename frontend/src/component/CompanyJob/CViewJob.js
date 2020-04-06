@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import CompanyJobBar from '../LandingPage/CompanyJobBar'
@@ -39,7 +38,7 @@ class CViewJob extends Component {
     render() {
         let jobs = null
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         if (this.state.jobsByCompany.length === 0) {

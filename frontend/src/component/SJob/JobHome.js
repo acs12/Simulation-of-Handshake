@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import StudentJob from './StudentJob'
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 
 
@@ -14,7 +14,7 @@ class JobHome extends Component {
     render() {
         // let response = this.state.response
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         return (

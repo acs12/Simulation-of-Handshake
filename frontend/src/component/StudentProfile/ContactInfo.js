@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 
 
@@ -88,7 +88,7 @@ class ContactInfo extends Component {
 
     render() {
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         let studentContactInfo = null;

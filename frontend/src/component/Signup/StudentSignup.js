@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 import {studentSignup} from '../../redux'
@@ -55,9 +55,14 @@ class StudentSignup extends Component {
         this.props.studentSignup(data, res => {
             if (res.status === 200) {
               console.log('Response signup user: ', res.data)
+              this.setState({
+                response: <div className="alert alert-success" role="alert">Account Created Go To Sign In Page </div>
+            })
               //localStorage.setItem("token")
             } else {
-              console.log('Failed')
+                this.setState({
+                    response: <div className="alert alert-danger" role="alert">Error</div>
+                })
             }
           })
     }

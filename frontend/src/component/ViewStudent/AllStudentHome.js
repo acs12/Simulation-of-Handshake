@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import ViewStudents from './ViewStudents'
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 
 
@@ -13,7 +13,7 @@ class AllStudentHome extends Component {
 
     render() {
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 
@@ -78,7 +78,7 @@ class CompanySignup extends Component {
         let response = this.state.response;
         //redirect based on successful login
         let redirectVar = null;
-        if (cookie.load('cookie')) {
+        if (localStorage.getItem("token")) {
             redirectVar = <Redirect to="/home" />
         }
         return (

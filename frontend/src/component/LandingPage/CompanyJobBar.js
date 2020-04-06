@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import cookie from 'react-cookies';
 import { MDBContainer, MDBCol } from "mdbreact";
 
 //create the Navbar Component
@@ -8,7 +7,7 @@ class CompanyJobBar extends Component {
 
     render() {
         let redirectVar = null
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/CompanyLogin" />
         }
         return (

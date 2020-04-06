@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
+import Navbar from '../LandingPage/Navbar'
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 import { studentLogin } from '../../redux'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 
 
@@ -31,6 +31,10 @@ class StudentLogin extends Component {
         this.submitStudentLogin = this.submitStudentLogin.bind(this);
     }
 
+    componentDidMount(){
+
+    }
+
     changeHandler = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
@@ -52,9 +56,6 @@ class StudentLogin extends Component {
         this.props.studentLogin(data, res => {
             if (res.status === 200) {
                 console.log('Response signup user: ', res.data)
-                localStorage.setItem("token", res.data.token)
-                localStorage.setItem("id", res.data.data._id)
-                localStorage.setItem("type", "student")
                 //localStorage.setItem("token")
             } else {
                 console.log('Failed')
@@ -68,11 +69,12 @@ class StudentLogin extends Component {
     render() {
         let response = this.state.response
         let redirectVar = null;
-        if (localStorage.getItem('token')) {
+        if (localStorage.getItem("token")) {
             redirectVar = <Redirect to="/SJob/StudentJob" />
         }
         return (
             <div>
+                <Navbar/>
                 <MDBContainer>
                     <MDBCol md="3">
 
@@ -152,11 +154,11 @@ class StudentLogin extends Component {
     }
 }
 
-const mapStateToProps = state =>{
-    return{
-        auth : state.auth
+const mapStateToProps = state => {
+    return {
+        isLoggedIn: state.student.isLoggedIn
     }
 }
 
 //export Login Component
-export default connect(mapStateToProps,{studentLogin})(StudentLogin);
+export default connect(mapStateToProps, { studentLogin })(StudentLogin);

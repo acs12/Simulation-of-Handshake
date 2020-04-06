@@ -7,7 +7,7 @@ import EducationDetails from './EducationDetails'
 import ExperienceDetails from './ExperienceDetails'
 import ContactInfo from './ContactInfo'
 import SkillDetails from './SkillDetails'
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 
 
@@ -19,7 +19,7 @@ class Profile extends Component {
         // let style_box = { boxShadow: "1px 3px 5px grey", padding: "2%" };
         
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         return (

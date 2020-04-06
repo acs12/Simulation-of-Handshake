@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Route} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import Home from './Home/Home';
 import Navbar from './LandingPage/Navbar';
 import StudentSignup from './Signup/StudentSignup';
@@ -37,43 +37,43 @@ import CompanyProfile from './Company/CompanyProfile'
 
 //Create a Main Component
 class Main extends Component {
-    render(){
-        return(
+    render() {
+        return (
             <div>
-                {/*Render Different Component based on Route*/}
-                <Route  path = "/" component={Navbar}/>
-                <Route  path = "/StudentProfile" component={Profile}/>
-                <Route exact path="/Studentlogin" component={StudentLogin}/>
-                <Route exact path="/Companylogin" component={CompanyLogin}/>
-                <Route exact path="/studentSignup" component={StudentSignup}/>
-                <Route exact path = "/companySignup" component ={CompanySignup}/>
-                <Route exact path = "/NavbarJob" component={NavbarJob}/>
-                <Route exact path = "/SJob/StudentJob" component={StudentJob}/>
-                <Route exact path = "/SJob/JobDetails" component={JobDetails}/>
-                <Route exact path = "/SJob/JobHome" component={JobHome}/>
-                <Route exact path = "/SJob/CompanyDetails" component ={CompanyDetails}/>
-                <Route exact path = "/SApplication/StudentApplication" component={StudentApplication}/>
-                <Route exact path = "/ViewStudent/AllStudentHome" component={AllStudentHome}/>
-                <Route exact path = "/ViewStudent/StudentDetailsHome" component={StudentDetailsHome}/>
-                <Route exact path = "/SEvents/EventHome" component={EventHome}/>
-                <Route exact path = "/SEvents/EventDetails" component={EventDetails}/>
-                <Route exact path = "/SEvents/StudentEvent" component={StudentEvent}/>
-                <Route exact path = "/SEvents/RegisteredEvent" component={RegisteredEvent}/>
-                <Route exact path = "/NavbarEvent" component={NavbarEvent}/>
-                {/*Render Different Component based on Route*/}
-                <Route exact path = "/CompanyJobBar" component={CompanyJobBar}/>
-                <Route exact path = "/CompanyJob/CViewJob" component={CViewJob}/>
-                <Route exact path = "/CompanyJob/StudentList" component={StudentList}/>
-                <Route exact path = "/CompanyJob/PostJob" component={PostJob}/>
-                <Route exact path = "/CompanyEventBar" component={CompanyEventBar}/>
-                <Route exact path = "/CompanyEvent/CViewEvent" component={CViewEvent}/>
-                <Route exact path = "/CompanyEvent/StudentListEvent" component={StudentListEvent}/>
-                <Route exact path = "/CompanyEvent/PostEvent" component={PostEvent}/>
-                <Route exact path = "/Company/CompanyProfile" component={CompanyProfile}/>
+                    {/*Render Different Component based on Route*/}
+                    <Route exact path="/" component={Navbar} />
+                    <Route exact path="/StudentProfile" component={Profile} />
+                    <Route exact path="/Studentlogin" component={StudentLogin} />
+                    <Route exact path="/Companylogin" component={CompanyLogin} />
+                    <Route exact path="/studentSignup" component={StudentSignup} />
+                    <Route exact path="/companySignup" component={CompanySignup} />
+                    <Route exact path="/NavbarJob" component={NavbarJob} />
+                    <Route exact path="/SJob/StudentJob" component={StudentJob} />
+                    <Route exact path="/SJob/JobDetails" component={JobDetails} />
+                    <Route exact path="/SJob/JobHome" component={JobHome} />
+                    <Route exact path="/SJob/CompanyDetails" component={CompanyDetails} />
+                    <Route exact path="/SApplication/StudentApplication" component={StudentApplication} />
+                    <Route exact path="/ViewStudent/AllStudentHome" component={AllStudentHome} />
+                    <Route exact path="/ViewStudent/StudentDetailsHome" component={StudentDetailsHome} />
+                    <Route exact path="/SEvents/EventHome" component={EventHome} />
+                    <Route exact path="/SEvents/EventDetails" component={EventDetails} />
+                    <Route exact path="/SEvents/StudentEvent" component={StudentEvent} />
+                    <Route exact path="/SEvents/RegisteredEvent" component={RegisteredEvent} />
+                    <Route exact path="/NavbarEvent" component={NavbarEvent} />
+                    {/*Render Different Component based on Route*/}
+                    <Route exact path="/CompanyJobBar" component={CompanyJobBar} />
+                    <Route exact path="/CompanyJob/CViewJob" component={CViewJob} />
+                    <Route exact path="/CompanyJob/StudentList" component={StudentList} />
+                    <Route exact path="/CompanyJob/PostJob" component={PostJob} />
+                    <Route exact path="/CompanyEventBar" component={CompanyEventBar} />
+                    <Route exact path="/CompanyEvent/CViewEvent" component={CViewEvent} />
+                    <Route exact path="/CompanyEvent/StudentListEvent" component={StudentListEvent} />
+                    <Route exact path="/CompanyEvent/PostEvent" component={PostEvent} />
+                    <Route exact path="/Company/CompanyProfile" component={CompanyProfile} />
 
 
 
-                <Route path="/home" component={Home}/>
+                    <Route path="/home" component={Home} />
             </div>
         )
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer, MDBCol } from "mdbreact";
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -37,7 +37,7 @@ class AllStudent extends Component {
 
     render() {
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
         let particularStudent = null

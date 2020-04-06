@@ -1,2 +1,2 @@
-export {studentSignup} from './actions/student/student' 
-export {studentLogin} from './actions/student/student' 
+export {studentSignup,studentLogin} from './actions/student/student' 
+export {getJobs,applyToJob} from './actions/student/jobs' 

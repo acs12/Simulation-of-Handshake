@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBCol } from "mdbreact";
-import cookie from 'react-cookies';
 import { Redirect } from 'react-router';
 
 
@@ -80,7 +79,7 @@ class CompanyProfile extends Component {
 
     render() {
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/CompanyLogin" />
         }
         console.log("Profile pic url", this.state.profilePicUrl)

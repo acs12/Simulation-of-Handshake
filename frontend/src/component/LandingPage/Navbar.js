@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
 import { MDBContainer, MDBCol } from "mdbreact";
+import { Redirect } from 'react-router';
+
 
 // import {Redirect} from 'react-router';
 
@@ -13,18 +14,17 @@ class Navbar extends Component {
     }
     // handle logout to destroy the cookie
     handleLogout = () => {
-        cookie.remove('cookie', { path: '/' })
-        localStorage.removeItem("id")
+        localStorage.removeItem("token")
         localStorage.removeItem("type")
+        localStorage.removeItem("id")
     }
     render() {
         let type = localStorage.getItem("type")
-        // //if Cookie is set render Logout Button
         let navLogin = null;
         let bar = null
-        if (cookie.load('cookie')) {
+        if (localStorage.getItem("token")) {
 
-            console.log("Able to read cookie");
+            console.log("Able to read token");
             navLogin = (
 
                 <Link to="/StudentLogin" onClick={this.handleLogout}><span className="glyphicon glyphicon-user"></span>Logout</Link>
@@ -32,11 +32,9 @@ class Navbar extends Component {
             );
         } else {
             //Else display login button
-            console.log("Not Able to read cookie");
+            console.log("Not Able to read token");
             navLogin = (
-
                 <Link to="/StudentLogin"><span className="glyphicon glyphicon-log-in"></span> Login</Link>
-
             )
         }
 
@@ -45,29 +43,26 @@ class Navbar extends Component {
                 <nav className="navbar navbar-default">
                     <div className="navbar-brand">
                         <MDBContainer>
-                            <MDBCol md="2">
+                            <MDBCol>
                                 <div className="navbar-header">
                                     <Link to="../SJob/StudentJob">Handshake</Link>
                                 </div>
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="../SJob/StudentJob">Jobs</Link>
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="../SEvents/StudentEvent">Events</Link>
 
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="../ViewStudent/AllStudentHome">Students</Link>
 
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="../StudentProfile/Profile">Profile</Link>
                             </MDBCol>
-                            <MDBCol md="5">
-
-                            </MDBCol>
-                            <MDBCol md="1" >
+                            <MDBCol>
                                 <div className="nav navbar-nav navbar-right">
                                     {navLogin}
                                 </div>
@@ -83,29 +78,29 @@ class Navbar extends Component {
             bar = <nav className="navbar navbar-default">
                 <div className="navbar-brand">
                     <MDBContainer>
-                        <MDBCol md="2">
+                        <MDBCol>
                             <div className="navbar-header">
                                 <Link to="../CompanyJob/CViewJob">Handshake</Link>
                             </div>
                         </MDBCol>
-                        <MDBCol md="1">
+                        <MDBCol >
                             <Link to="../CompanyJob/CViewJob">Jobs</Link>
                         </MDBCol>
-                        <MDBCol md="1">
+                        <MDBCol >
                             <Link to="../CompanyEvent/CViewEvent">Events</Link>
 
                         </MDBCol>
-                        <MDBCol md="1">
+                        <MDBCol >
                             <Link to="../ViewStudent/AllStudentHome">Students</Link>
 
                         </MDBCol>
-                        <MDBCol md="1">
+                        <MDBCol >
                             <Link to="../Company/CompanyProfile">Profile</Link>
                         </MDBCol>
-                        <MDBCol md="5">
+                        <MDBCol >
 
                         </MDBCol>
-                        <MDBCol md="1">
+                        <MDBCol >
                             <div className="nav navbar-nav navbar-right">
                                 {navLogin}
                             </div>
@@ -122,29 +117,29 @@ class Navbar extends Component {
                 <nav className="navbar navbar-default">
                     <div className="navbar-brand">
                         <MDBContainer>
-                            <MDBCol md="2">
+                            <MDBCol >
                                 <div className="navbar-header">
                                     <Link to="/Navbar">Handshake</Link>
                                 </div>
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="/NavbarJob">Jobs</Link>
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="/NavbarEvent">Events</Link>
 
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="../ViewStudent/AllStudentHome">Students</Link>
 
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <Link to="../StudentProfile/Profile">Profile</Link>
                             </MDBCol>
-                            <MDBCol md="5">
+                            <MDBCol >
 
                             </MDBCol>
-                            <MDBCol md="1">
+                            <MDBCol >
                                 <div className="nav navbar-nav navbar-right">
                                     {navLogin}
                                 </div>

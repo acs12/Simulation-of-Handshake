@@ -9,11 +9,12 @@ function handle_request(msg, callback) {
     console.log("message", msg)
 
     Job.find(
-        {}
-    )
-        .exec()
+        {
+            application : {$nin: [msg.studentId]}
+        }
+    ).populate("companyId")
         .then(result => {
-            console.log(result)
+            console.log("result",result)
             callback(null, result)
         })
         .catch(err => {

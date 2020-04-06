@@ -9,8 +9,10 @@ function handle_request(msg, callback) {
     console.log("message", msg)
 
     Event.find(
-        {}
-    ).exec()
+        {
+            application : {$nin: [msg.studentId]}
+        }
+    ).populate("companyId")
         .then(result => {
             console.log(result)
             callback(null, result)

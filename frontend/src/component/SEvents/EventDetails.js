@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer, MDBCol } from "mdbreact";
 import axios from 'axios';
-import cookie from 'react-cookies';
+
 import { Redirect } from 'react-router';
 
 class EventDetails extends Component {
@@ -97,7 +97,7 @@ class EventDetails extends Component {
         let particularEvents = null
         let response = this.state.response
         let redirectVar = null;
-        if (!cookie.load('cookie')) {
+        if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/home" />
         }
         if (this.state.eventDetailsStatus === true) {

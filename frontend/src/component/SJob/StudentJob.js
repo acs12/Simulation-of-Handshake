@@ -4,6 +4,8 @@ import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import NavbarJob from '../LandingPage/NavbarJob';
 import JobDetails from './JobDetails'
+import { getJobs, applyToJob } from '../../redux'
+import { connect } from 'react-redux'
 
 //Define a Login Component
 class StudentJob extends Component {
@@ -15,8 +17,8 @@ class StudentJob extends Component {
         this.state = {
             id: localStorage.getItem("id"),
             getJobsStatus: false,
-            getJobs: [],
-            filteredJobs: [],
+            getJobs: this.props.data,
+            filteredJobs: this.props.data,
             appliedFilters: [],
             fullTimeStatus: false,
             partTimeStatus: false,
@@ -38,14 +40,16 @@ class StudentJob extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/getJobs', getAllJobs)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    getJobs: this.state.getJobs.concat(acknowledge.data),
-                    filteredJobs: this.state.filteredJobs.concat(acknowledge.data)
-                })
+        this.props.getJobs(getAllJobs, res => {
+
+            console.log('Response signup user: ', res.data)
+            this.setState({
+                getJobs: this.props.data,
+                filteredJobs: this.props.data
             })
+            //localStorage.setItem("token")
+
+        })
     }
 
 
@@ -144,20 +148,20 @@ class StudentJob extends Component {
 
     render() {
         let clear = null
+        var gtJobs = null
+        console.log("FJ",this.state.filteredJobs)
         if (this.state.appliedFilters.length > 0) {
             clear = <button onClick={() => { this.filterClear() }} className="btn">Clear All</button>
         }
-        var gtJobs = null
-
-        console.log("inside else in student jobs", this.state.filteredJobs)
 
         if (this.state.filteredJobs.length === 0) {
             gtJobs = "No Jobs Available"
         }
+
         else {
             gtJobs = <div>
                 <form style={{ textAlign: "center" }}>
-                    {this.state.filteredJobs.map(x => <JobDetails key={x.jobId} item={x}></JobDetails>)}
+                    {this.state.filteredJobs.map(x =>  <JobDetails key={x._id} item={x}></JobDetails>)}
                 </form>
             </div>
         }
@@ -172,21 +176,21 @@ class StudentJob extends Component {
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol style={{ textAlign: "center" }}>
-
+                            <br></br>
                             <div>
                                 <i className="glyphicon glyphicon-search"></i>
-                                <input id="search" class="form-control" type="text" onChange={this.jobSearch} placeholder="Enter Job Title or Company Name or Location" />
+                                <input id="search" className="form-control" type="text" onChange={this.jobSearch} placeholder="Enter Job Title or Company Name or Location" />
                             </div>
                         </MDBCol>
                     </MDBRow>
                     <br></br>
                     <MDBRow>
                         <MDBCol style={{ textAlign: "center" }}>
-                            <div class="btn-group" role="group" style={{ alignItems: "center" }} >
-                                <button type="button" ref="FT" className={this.state.fullTimeStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="fullTime" onClick={() => { this.changeStatusHandler("Full-Time") }}>Full Time</button>
-                                <button type="button" ref="PT" className={this.state.partTimeStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="partTime" onClick={() => { this.changeStatusHandler("Part-Time") }}>Part Time</button>
-                                <button type="button" ref="IT" className={this.state.internshipStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="internship" onClick={() => { this.changeStatusHandler("Internship") }}>Internship</button>
-                                <button type="button" ref="OC" className={this.state.onCampusStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="onCampus" onClick={() => { this.changeStatusHandler("On-Campus") }}>On Campus</button>
+                            <div className="btn-group" role="group" style={{ alignItems: "center" }} >
+                                <button type="button" className={this.state.fullTimeStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="fullTime" onClick={() => { this.changeStatusHandler("Full-Time") }}>Full Time</button>
+                                <button type="button" className={this.state.partTimeStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="partTime" onClick={() => { this.changeStatusHandler("Part-Time") }}>Part Time</button>
+                                <button type="button" className={this.state.internshipStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="internship" onClick={() => { this.changeStatusHandler("Internship") }}>Internship</button>
+                                <button type="button" className={this.state.onCampusStatus ? 'btn btn-outline-colored' : 'btn btn-outline'} name="onCampus" onClick={() => { this.changeStatusHandler("On-Campus") }}>On Campus</button>
                                 {clear}
                             </div>
                         </MDBCol>
@@ -202,5 +206,11 @@ class StudentJob extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        data: state.jobs.data
+    }
+}
 //export Login Component
-export default StudentJob;
+export default connect(mapStateToProps, { getJobs })(StudentJob);
