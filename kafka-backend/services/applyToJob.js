@@ -29,19 +29,7 @@ function handle_request(msg, callback) {
                 .exec()
                 .then(result => {
                     console.log("second",result)
-                    Job.find(
-                        {
-                            application : {$nin: [msg.studentId]}
-                        }
-                    ).exec()
-                        .then(result => {
-                            console.log("third",result)
-                            callback(null, result)
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            callback(err, null)
-                        })
+                    callback(null,result)
                 })
                 .catch(err=>{
                     console.log(err)

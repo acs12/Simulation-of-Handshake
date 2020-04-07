@@ -4,7 +4,7 @@ import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import NavbarJob from '../LandingPage/NavbarJob';
 import JobDetails from './JobDetails'
-import { getJobs, applyToJob } from '../../redux'
+import { getJobs } from '../../redux'
 import { connect } from 'react-redux'
 
 //Define a Login Component
@@ -17,8 +17,8 @@ class StudentJob extends Component {
         this.state = {
             id: localStorage.getItem("id"),
             getJobsStatus: false,
-            getJobs: this.props.data,
-            filteredJobs: this.props.data,
+            getJobs: [],
+            filteredJobs:[],
             appliedFilters: [],
             fullTimeStatus: false,
             partTimeStatus: false,
@@ -40,16 +40,14 @@ class StudentJob extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        this.props.getJobs(getAllJobs, res => {
-
-            console.log('Response signup user: ', res.data)
+        this.props.getJobs(getAllJobs,res =>{
             this.setState({
-                getJobs: this.props.data,
-                filteredJobs: this.props.data
+                getJobs: res.data,
+                filteredJobs : res.data
             })
-            //localStorage.setItem("token")
-
+            console.log("Data",this.props.data)
         })
+        
     }
 
 
@@ -149,7 +147,8 @@ class StudentJob extends Component {
     render() {
         let clear = null
         var gtJobs = null
-        console.log("FJ",this.state.filteredJobs)
+        console.log("GJ",this.state.getJobs)
+        console.log("FJ", this.state.filteredJobs)
         if (this.state.appliedFilters.length > 0) {
             clear = <button onClick={() => { this.filterClear() }} className="btn">Clear All</button>
         }
@@ -161,7 +160,7 @@ class StudentJob extends Component {
         else {
             gtJobs = <div>
                 <form style={{ textAlign: "center" }}>
-                    {this.state.filteredJobs.map(x =>  <JobDetails key={x._id} item={x}></JobDetails>)}
+                    {this.props.data.map(x => <JobDetails key={x._id} item={x}></JobDetails>)}
                 </form>
             </div>
         }
@@ -208,9 +207,10 @@ class StudentJob extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-        data: state.jobs.data
+    return{
+        data : state.jobs.data
     }
 }
+
 //export Login Component
-export default connect(mapStateToProps, { getJobs })(StudentJob);
+export default connect(mapStateToProps,{getJobs})(StudentJob);

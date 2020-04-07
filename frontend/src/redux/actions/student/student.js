@@ -21,7 +21,7 @@ export function studentSignup(values, callback) {
                 type: STUDENT_SIGNUP,
                 payload: res.data
             });
-            callback(res);
+            
         })
     }
 
@@ -45,7 +45,7 @@ export function studentLogin(values, callback) {
                 type: STUDENT_LOGIN,
                 payload: res.data
             });
-            callback(res);
+            
         })
     }
 

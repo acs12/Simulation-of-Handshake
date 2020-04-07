@@ -1,4 +1,4 @@
-import { GET_JOBS, APPLY_TO_JOB } from '../../types/student/jobs'
+import { GET_JOBS, APPLY_TO_JOB, APPLIED_JOBS } from '../../types/student/jobs'
 import axios from 'axios';
 import URL from '../../../constants.js';
 const jwt_decode = require('jwt-decode')
@@ -46,6 +46,27 @@ export function applyToJob(values, callback) {
             // console.log("In signup user response:" + JSON.stringify(res));
             dispatch({
                 type: APPLY_TO_JOB,
+                payload: res.data
+            });
+            callback(res);
+        })
+    }
+
+}
+
+
+export function appliedJobs(values, callback) {
+    // console.log(values);
+
+    axios.defaults.withCredentials = true;
+    const request = axios
+        .post(`${URL}/appliedJobs`, values);
+
+    return (dispatch) => {
+        request.then((res) => {
+            // console.log("In signup user response:" + JSON.stringify(res));
+            dispatch({
+                type: APPLIED_JOBS,
                 payload: res.data
             });
             callback(res);

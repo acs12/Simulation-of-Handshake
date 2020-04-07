@@ -16,33 +16,33 @@ class JobDetails extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
             jobDetailsStatus: false,
             toggle: false,
-            name: this.props.item.name,
+            name: this.props.item.companyId.name,
             jobId: this.props.item._id,
-            postedDate : this.props.item.postedDate,
-            deadlineDate : this.props.item.deadlineDate,
+            postedDate: this.props.item.postedDate,
+            deadlineDate: this.props.item.deadlineDate,
             status: "Pending",
             response: "",
-            resumeUrl: ""  
+            resumeUrl: ""
         }
 
         this.changeHandler = this.changeHandler.bind(this)
         this.changeJobDetailsStatus = this.changeJobDetailsStatus.bind(this)
         this.changeDisplay = this.changeDisplay.bind(this)
-        // this.apply = this.apply.bind(this)
+        this.apply = this.apply.bind(this)
 
     }
 
     componentDidMount = () => {
         let pDate = String(this.props.item.postedDate)
         let dDate = String(this.props.item.deadlineDate)
-        pDate = pDate.slice(0,10)
-        dDate = dDate.slice(0,10)
+        pDate = pDate.slice(0, 10)
+        dDate = dDate.slice(0, 10)
         this.setState({
-            postedDate : pDate,
-            deadlineDate : dDate
+            postedDate: pDate,
+            deadlineDate: dDate
         })
     }
 
@@ -65,22 +65,41 @@ class JobDetails extends Component {
     //     })
     // }
 
-    // apply = (e) =>{
-    //     let apply = {
-    //         studentId: this.state.id,
-    //         _id : this.state.jobId,
-    //         resumeUrl : this.state.resume
-    //     }
-    //     //set the with credentials to true
-    //     axios.defaults.withCredentials = true;
-    //     //make a post request with the user data
-    //     this.props.applyToJob(apply, res => {
+    apply = (e) => {
+        e.preventDefault()
+        // let apply = {
+        //     studentId: this.state.id,
+        //     _id: this.state.jobId,
+        //     resumeUrl: this.state.resume
+        // }
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        const formData = new FormData();
+        formData.append('resumeUrl', this.state.resumeUrl);
+        formData.append("studentId", this.state.id)
+        formData.append("_id", this.state.jobId)
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        console.log("form data", formData)
+        axios.post(`${URL}/applyToJob`, formData, config)
+            .then((res) => {
+                // console.log("In signup user response:" + JSON.stringify(res));
+                
+                console.log(res)
+            }).catch(function(){
+                console.log("failure")
+            })
+        // make a post request with the user data
+        // this.props.applyToJob(apply, res => {
 
-    //         console.log('Response : ', res.data)
-    //         //localStorage.setItem("token")
+        //     console.log('Response : ', res.data)
+        //     //localStorage.setItem("token")
 
-    //     })
-    // }
+        // })
+    }
 
     changeHandler = (e) => {
         console.log("event", e)
@@ -92,16 +111,16 @@ class JobDetails extends Component {
 
     changeDisplay = (e) => {
         if (this.state.toggle === false) {
-            
-                this.setState({
-                    toggle: true
-                })
+
+            this.setState({
+                toggle: true
+            })
         }
         else {
 
-                this.setState({
-                    toggle: false
-                })
+            this.setState({
+                toggle: false
+            })
         }
     }
 
@@ -119,8 +138,8 @@ class JobDetails extends Component {
         }
     }
     render() {
-        console.log("_id",this.state.jobId)
-        console.log("Resume", this.state.resume)
+        console.log("_id", this.state.jobId)
+        console.log("Resume", this.state.resumeUrl)
         let particularJobs = null
         let specificJob = null
         let redirectVar = null;
@@ -139,7 +158,7 @@ class JobDetails extends Component {
                             <div>
                                 <div className="card-body">
                                     <h2 className="card-title">{this.props.item.title}</h2>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.name}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.companyId.name}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">{this.props.item.location}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">{this.props.item.category}</h4>
                                 </div>
@@ -165,9 +184,9 @@ class JobDetails extends Component {
                                     <h4 className="card-subtitle mb-2 text-muted">Posted On : {this.state.postedDate}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Deadline Date : {this.state.deadlineDate}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Job Description : {this.props.item.description}</h4>
-                                    <button type="button" style={this.state.toggle ? { display: "none", float: "right" } : {display : "block"}} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
-                                    <div className="card-subtitle mb-2 text-muted"  style={this.state.toggle ? { display: "block", float: "right" } : {display : "none"}}>
-                                        <form action="http://localhost:3001/applyToJob" method="POST" encType='multipart/form-data'>
+                                    <button type="button" style={this.state.toggle ? { display: "none", float: "right" } : { display: "block" }} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
+                                    <div className="card-subtitle mb-2 text-muted" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }}>
+                                        <form action={this.apply} method="POST" encType='multipart/form-data'>
                                             <div className="form-group">
                                                 <b>Select resume to apply :</b>
                                                 <input
@@ -177,11 +196,11 @@ class JobDetails extends Component {
                                                     onChange={this.changeHandler}
                                                     required
                                                 />
-                                                <input style={{display:"none"}} name = "studentId" value={this.state.id}/>
-                                                <input style={{display:"none"}} name = "_id" value={this.state.jobId}/>
+                                                <input style={{ display: "none" }} name="studentId" value={this.state.id} />
+                                                <input style={{ display: "none" }} name="_id" value={this.state.jobId} />
                                             </div>
-                                            <button type="submit" className="btn btn-primary" style={{ float: "left" }} >Upload</button>
-                                            <button type="button" className="btn btn-danger" style={this.state.toggle ? { display: "block", float: "right" } : {display : "none"}} onClick={this.changeDisplay} >Cancel</button>
+                                            <button type="submit" className="btn btn-primary" style={{ float: "left" }} ></button>
+                                            <button type="button" className="btn btn-danger" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }} onClick={this.changeDisplay} >Cancel</button>
                                         </form>
 
                                     </div>
@@ -190,7 +209,7 @@ class JobDetails extends Component {
                         </form>
                     </MDBCol>
                 </MDBContainer>
-            
+
         }
 
         else {
@@ -230,4 +249,4 @@ class JobDetails extends Component {
 
 
 //export Login Component
-export default (JobDetails);
+export default connect(null,{applyToJob}) (JobDetails);

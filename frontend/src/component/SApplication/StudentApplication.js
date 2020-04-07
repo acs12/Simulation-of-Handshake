@@ -3,6 +3,9 @@ import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import NavbarJob from '../LandingPage/NavbarJob';
+import { appliedJobs } from '../../redux'
+import { connect } from 'react-redux'
+
 
 class StudentApplication extends Component {
     //call the constructor method
@@ -34,13 +37,16 @@ class StudentApplication extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/getApplication', getAllApplication)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    getApps: this.state.getApps.concat(acknowledge.data)
-                })
+        this.props.appliedJobs(getAllApplication, res => {
+
+            console.log('Response signup user: ', res.data)
+            this.setState({
+                getApps : res.data,
+               filteredApplicaion : res.data
             })
+            //localStorage.setItem("token")
+
+        })
     }
 
     changePendingStatus = (e) => {
@@ -104,6 +110,7 @@ class StudentApplication extends Component {
 
     render() {
         let gtApps = null
+        console.log("Filtered applicatiob",this.state.filteredApplicaion)
         if(this.state.getApps.length === 0){
             gtApps = <form style={{ textAlign: "center" }}>
             <br></br>
@@ -120,9 +127,9 @@ class StudentApplication extends Component {
                                 <br></br>
                                 <div className="card-body">
                                     <h2 className="card-title">{x.title}</h2>
-                                    <h4 className="card-subtitle mb-2 text-muted">Company: {x.name}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Status : {x.status}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.applicationDate).slice(0,10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Company: {x.companyId.name}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Status : Pending</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0,10)}</h4>
                                 </div>
                                 <br></br>
                             </div>
@@ -141,9 +148,9 @@ class StudentApplication extends Component {
                                 <br></br>
                                 <div className="card-body">
                                     <h2 className="card-title">{x.title}</h2>
-                                    <h4 className="card-subtitle mb-2 text-muted">Company: {x.name}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Status : {x.status}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.applicationDate).slice(0,10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Company: {x.companyId.name}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Status : Pending</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0,10)}</h4>
                                 </div>
                                 <br></br>
                             </div>
@@ -177,4 +184,5 @@ class StudentApplication extends Component {
         )
     }
 }
-export default StudentApplication;
+
+export default connect(null,{appliedJobs})(StudentApplication);

@@ -31,9 +31,7 @@ class StudentLogin extends Component {
         this.submitStudentLogin = this.submitStudentLogin.bind(this);
     }
 
-    componentDidMount(){
 
-    }
 
     changeHandler = (e) => {
         this.setState({
@@ -53,17 +51,19 @@ class StudentLogin extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        this.props.studentLogin(data, res => {
+        this.props.studentLogin(data,res =>{
             if (res.status === 200) {
-                console.log('Response signup user: ', res.data)
-                //localStorage.setItem("token")
-            } else {
-                console.log('Failed')
-                this.setState({
-                    response: <div className="alert alert-danger" role="alert">Error</div>
-                })
-            }
+            console.log('Inside response', res.data)
+            this.setState({
+                response : <div className="alert alert-success" role="alert">Success</div>
+            })
+          }else{
+              this.setState({
+                  response:<div className="alert alert-danger" role="alert">Error</div>
+              })
+          }
         })
+        
     }
 
     render() {
@@ -154,11 +154,7 @@ class StudentLogin extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        isLoggedIn: state.student.isLoggedIn
-    }
-}
+
 
 //export Login Component
-export default connect(mapStateToProps, { studentLogin })(StudentLogin);
+export default connect(null, { studentLogin })(StudentLogin);
