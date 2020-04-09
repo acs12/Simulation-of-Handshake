@@ -51,15 +51,15 @@ class EditEducation extends Component {
             cgpa: this.state.cgpa,
         }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/updateExistingEducation', updateExistingEducation)
-            .then(acknowledge => {
-                this.setState({
-                    existingExperienceStatus: false
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // axios.post('http://localhost:3001/updateExistingEducation', updateExistingEducation)
+        //     .then(acknowledge => {
+        //         this.setState({
+        //             existingExperienceStatus: false
 
-                })
-            })
+        //         })
+        //     })
 
     }
 

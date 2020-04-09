@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import NavbarJob from '../LandingPage/NavbarJob';
 import JobDetails from './JobDetails'
-import { getJobs } from '../../redux'
+import { getJobs,changeFilter } from '../../redux'
 import { connect } from 'react-redux'
 
 //Define a Login Component
@@ -41,9 +40,10 @@ class StudentJob extends Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         this.props.getJobs(getAllJobs,res =>{
+            console.log(typeof(this.state.getJobs))
             this.setState({
-                getJobs: res.data,
-                filteredJobs : res.data
+                getJobs: this.props.data,
+                filteredJobs : this.props.data
             })
             console.log("Data",this.props.data)
         })
@@ -110,6 +110,7 @@ class StudentJob extends Component {
         if (this.state.onCampusStatus) {
             filters.push("On-Campus");
         }
+        console.log(filters)
 
         let tempJobs;
         if (filters.length > 0) {
@@ -123,9 +124,9 @@ class StudentJob extends Component {
         }
         this.setState({
             appliedFilters: filters,
-            filteredJobs: tempJobs
-
         })
+
+        changeFilter(tempJobs)
 
 
         return tempJobs;
@@ -160,7 +161,7 @@ class StudentJob extends Component {
         else {
             gtJobs = <div>
                 <form style={{ textAlign: "center" }}>
-                    {this.props.data.map(x => <JobDetails key={x._id} item={x}></JobDetails>)}
+                    {this.state.filteredJobs.map(x => <JobDetails key={x._id} item={x}></JobDetails>)}
                 </form>
             </div>
         }
@@ -171,7 +172,6 @@ class StudentJob extends Component {
 
         return (
             <div>
-                <NavbarJob />
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol style={{ textAlign: "center" }}>
@@ -208,9 +208,11 @@ class StudentJob extends Component {
 
 const mapStateToProps = state => {
     return{
-        data : state.jobs.data
+        data : state.jobs.data,
+        getjobs : state.jobs.getJobs,
+        filteredJobs : state.jobs.filteredJobs
     }
 }
 
 //export Login Component
-export default connect(mapStateToProps,{getJobs})(StudentJob);
+export default connect(mapStateToProps,{getJobs,changeFilter})(StudentJob);

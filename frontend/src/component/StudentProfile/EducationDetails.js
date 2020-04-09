@@ -35,15 +35,15 @@ class EducationDetails extends Component {
             studentId: this.state.id
         }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/getEducationDetails', getStudentDetails)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    getEduDetails: this.state.getEduDetails.concat(acknowledge.data)
-                })
-            })
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // axios.post('http://localhost:3001/getEducationDetails', getStudentDetails)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             getEduDetails: this.state.getEduDetails.concat(acknowledge.data)
+        //         })
+        //     })
     }
 
 
@@ -65,17 +65,17 @@ class EducationDetails extends Component {
             yearOfPassing: this.state.yearOfPassing,
             cgpa: this.state.cgpa,
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/updateEducationDetails', EducationDetails)
-            .then(acknowledge => {
-                this.setState({
-                    response: acknowledge.data,
-                    eduDetailsStatus: false
+        // //set the with credentials to true
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // axios.post('http://localhost:3001/updateEducationDetails', EducationDetails)
+        //     .then(acknowledge => {
+        //         this.setState({
+        //             response: acknowledge.data,
+        //             eduDetailsStatus: false
 
-                })
-            })
+        //         })
+        //     })
     }
 
     changeEduDetailsStatus = (e) => {

@@ -1,4 +1,4 @@
-import { GET_JOBS, APPLY_TO_JOB, APPLIED_JOBS } from '../../types/student/jobs'
+import { GET_JOBS, APPLY_TO_JOB, APPLIED_JOBS, CHANGE_FILTER } from '../../types/student/jobs'
 import axios from 'axios';
 import URL from '../../../constants.js';
 const jwt_decode = require('jwt-decode')
@@ -31,15 +31,15 @@ export function applyToJob(values, callback) {
 
     axios.defaults.withCredentials = true;
     const formData = new FormData();
-        formData.append('myImage',values.resumeUrl);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-    console.log("form data",formData)
+    formData.append('myImage', values.resumeUrl);
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+    console.log("form data", formData)
     const request = axios
-        .post(`${URL}/applyToJob`, formData,config);
+        .post(`${URL}/applyToJob`, formData, config);
 
     return (dispatch) => {
         request.then((res) => {
@@ -73,4 +73,16 @@ export function appliedJobs(values, callback) {
         })
     }
 
+}
+
+
+export function changeFilter(values) {
+    // console.log(values);
+
+    return (dispatch) => {
+        dispatch({
+            type: CHANGE_FILTER,
+            payload: values
+        });
+    }
 }

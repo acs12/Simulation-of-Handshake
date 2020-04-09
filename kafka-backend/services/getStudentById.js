@@ -9,11 +9,11 @@ const Student = require("../models/students")
 function handle_request(msg, callback) {
     console.log("message", msg)
     Student.findOne({
-        _id:msg.id
+        _id:msg.studentId
     })
         .exec()
         .then(result => {
-            console.log(result);
+            console.log("result",result);
             callback(null, result);
         })
         .catch(err => {

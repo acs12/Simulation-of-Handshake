@@ -38,16 +38,16 @@ class EditSkill extends Component {
             skillId: this.state.skillId,
         }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/deleteSkill', deleteSkill)
-            .then(acknowledge => {
-                this.setState({
-                    // response: acknowledge.data,
-                    existingSkillStatus: false
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // axios.post('http://localhost:3001/deleteSkill', deleteSkill)
+        //     .then(acknowledge => {
+        //         this.setState({
+        //             // response: acknowledge.data,
+        //             existingSkillStatus: false
 
-                })
-            })
+        //         })
+        //     })
 
     }
 

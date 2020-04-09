@@ -41,9 +41,9 @@ class Main extends Component {
         return (
             <div>
                     {/*Render Different Component based on Route*/}
-                    <Route exact path="/" component={Navbar} />
-                    <Route exact path="/StudentProfile" component={Profile} />
-                    <Route exact path="/Studentlogin" component={StudentLogin} />
+                    <Route path="/" component={Navbar} />
+                    <Route path="/StudentProfile" component={Profile} />
+                    <Route exact path="/StudentLogin" component={StudentLogin} />
                     <Route exact path="/Companylogin" component={CompanyLogin} />
                     <Route exact path="/studentSignup" component={StudentSignup} />
                     <Route exact path="/companySignup" component={CompanySignup} />

@@ -35,14 +35,14 @@ class ContactInfo extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/getStudentDetails', getStudentContactInfo)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    email: acknowledge.data.email,
-                    phoneNumber: acknowledge.data.phoneNumber
-                })
-            })
+        // axios.post('http://localhost:3001/getStudentDetails', getStudentContactInfo)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             email: acknowledge.data.email,
+        //             phoneNumber: acknowledge.data.phoneNumber
+        //         })
+        //     })
     }
 
     changeHandler = (e) => {
@@ -59,16 +59,16 @@ class ContactInfo extends Component {
             studentId: this.state.id
         }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        console.log("Inside updateStudentContactinfo");
-        axios.post('http://localhost:3001/updateStudentContactinfo', updateStudentContactinfo)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    studentContactInfoStatus: false
-                })
-            })
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // console.log("Inside updateStudentContactinfo");
+        // axios.post('http://localhost:3001/updateStudentContactinfo', updateStudentContactinfo)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             studentContactInfoStatus: false
+        //         })
+        //     })
     }
 
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Navbar from '../LandingPage/Navbar'
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 import { studentLogin } from '../../redux'
@@ -51,30 +50,33 @@ class StudentLogin extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        this.props.studentLogin(data,res =>{
+        this.props.studentLogin(data, res => {
             if (res.status === 200) {
-            console.log('Inside response', res.data)
-            this.setState({
-                response : <div className="alert alert-success" role="alert">Success</div>
-            })
-          }else{
-              this.setState({
-                  response:<div className="alert alert-danger" role="alert">Error</div>
-              })
-          }
+                console.log('Inside response', res.data)
+                localStorage.setItem("token", res.data.token)
+                localStorage.setItem("id", res.data.data._id)
+                localStorage.setItem("type", "student")
+                this.setState({
+                    response: <div className="alert alert-success" role="alert">Success</div>
+                })
+            } else {
+                this.setState({
+                    response: <div className="alert alert-danger" role="alert">Error</div>
+                })
+            }
         })
-        
+
     }
 
     render() {
         let response = this.state.response
         let redirectVar = null;
         if (localStorage.getItem("token")) {
+            console.log("inside get token")
             redirectVar = <Redirect to="/SJob/StudentJob" />
         }
         return (
             <div>
-                <Navbar/>
                 <MDBContainer>
                     <MDBCol md="3">
 

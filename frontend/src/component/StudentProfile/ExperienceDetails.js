@@ -37,14 +37,14 @@ class ExperienceDetails extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        console.log("Inside expereince componenetDidMount")
-        axios.post('http://localhost:3001/getExperienceDetails', getExperienceDetails)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    getExpDetails: this.state.getExpDetails.concat(acknowledge.data)
-                })
-            })
+        // console.log("Inside expereince componenetDidMount")
+        // axios.post('http://localhost:3001/getExperienceDetails', getExperienceDetails)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             getExpDetails: this.state.getExpDetails.concat(acknowledge.data)
+        //         })
+        //     })
     }
 
 
@@ -66,17 +66,17 @@ class ExperienceDetails extends Component {
             endDate: this.state.endDate,
             description: this.state.description,
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/updateExperienceDetails', ExperienceDetails)
-            .then(acknowledge => {
-                this.setState({
-                    response: acknowledge.data,
-                    expDetailsStatus: false
+        // //set the with credentials to true
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // axios.post('http://localhost:3001/updateExperienceDetails', ExperienceDetails)
+        //     .then(acknowledge => {
+        //         this.setState({
+        //             response: acknowledge.data,
+        //             expDetailsStatus: false
 
-                })
-            })
+        //         })
+        //     })
     }
 
     changeExpDetailsStatus = (e) => {

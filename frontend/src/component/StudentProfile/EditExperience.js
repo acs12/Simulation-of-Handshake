@@ -62,16 +62,16 @@ class EditExperience extends Component {
             description: this.state.description,
         }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/updateExistingExperience', updateExistingExperience)
-            .then(acknowledge => {
-                this.setState({
-                    response: acknowledge.data,
-                    existingExperienceStatus: false
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // axios.post('http://localhost:3001/updateExistingExperience', updateExistingExperience)
+        //     .then(acknowledge => {
+        //         this.setState({
+        //             response: acknowledge.data,
+        //             existingExperienceStatus: false
 
-                })
-            })
+        //         })
+        //     })
 
     }
 

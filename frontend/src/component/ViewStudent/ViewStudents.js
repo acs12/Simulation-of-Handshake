@@ -92,7 +92,7 @@ class ViewStudents extends Component {
                 <MDBCol style={{ textAlign: "center" }}>
                     <MDBRow>
                         <i className="glyphicon glyphicon-search"></i>
-                        <input id="searchStudent" class="form-control" type="text" onChange={this.studentSearch} placeholder="Search with Name, College or Major" />
+                        <input id="searchStudent" className="form-control" type="text" onChange={this.studentSearch} placeholder="Search with Name, College or Major" />
                     </MDBRow>
                 </MDBCol>
             </MDBRow>

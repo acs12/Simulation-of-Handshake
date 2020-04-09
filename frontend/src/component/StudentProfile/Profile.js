@@ -7,7 +7,6 @@ import EducationDetails from './EducationDetails'
 import ExperienceDetails from './ExperienceDetails'
 import ContactInfo from './ContactInfo'
 import SkillDetails from './SkillDetails'
-
 import { Redirect } from 'react-router';
 
 
@@ -17,7 +16,7 @@ class Profile extends Component {
 
     render() {
         // let style_box = { boxShadow: "1px 3px 5px grey", padding: "2%" };
-        
+
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
@@ -25,35 +24,36 @@ class Profile extends Component {
         return (
             <div>
                 {redirectVar}
-                <MDBContainer style={{ marginTop: "3%" }}>
+                <MDBContainer>
+
                     <MDBRow>
-                        <MDBCol md="5" >
+                        <MDBCol>
                             <StudentProfile />
                         </MDBCol>
-                        <MDBCol md="7" >
+                        {/* <MDBCol>
                             <CareerObjective />
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                        <MDBCol md="5" >
+                        <MDBCol>
                             <br></br>
                             <ContactInfo />
                         </MDBCol>
-                        <MDBCol md="7" >
+                        <MDBCol>
                             <br></br>
                             <EducationDetails />
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                        <MDBCol md="5" >
+                        <MDBCol>
                             <br></br>
                             <SkillDetails />
                         </MDBCol>
-                        <MDBCol md="7" >
+                        <MDBCol>
                             <br></br>
                             <ExperienceDetails />
 
-                        </MDBCol>
+                        </MDBCol> */}
                     </MDBRow>
                 </MDBContainer>
             </div>

@@ -35,16 +35,16 @@ class JobDetails extends Component {
 
     }
 
-    componentDidMount = () => {
-        let pDate = String(this.props.item.postedDate)
-        let dDate = String(this.props.item.deadlineDate)
-        pDate = pDate.slice(0, 10)
-        dDate = dDate.slice(0, 10)
-        this.setState({
-            postedDate: pDate,
-            deadlineDate: dDate
-        })
-    }
+    // componentDidMount = () => {
+    //     let pDate = String(this.props.item.postedDate)
+    //     let dDate = String(this.props.item.deadlineDate)
+    //     pDate = pDate.slice(0, 10)
+    //     dDate = dDate.slice(0, 10)
+    //     this.setState({
+    //         postedDate: pDate,
+    //         deadlineDate: dDate
+    //     })
+    // }
 
     // submitHandler = (e) =>{
     //     let data = {
@@ -67,31 +67,31 @@ class JobDetails extends Component {
 
     apply = (e) => {
         e.preventDefault()
-        // let apply = {
-        //     studentId: this.state.id,
-        //     _id: this.state.jobId,
-        //     resumeUrl: this.state.resume
-        // }
+        let apply = {
+            studentId: this.state.id,
+            _id: this.state.jobId,
+            resumeUrl: this.state.resume
+        }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        const formData = new FormData();
-        formData.append('resumeUrl', this.state.resumeUrl);
-        formData.append("studentId", this.state.id)
-        formData.append("_id", this.state.jobId)
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-        console.log("form data", formData)
-        axios.post(`${URL}/applyToJob`, formData, config)
-            .then((res) => {
-                // console.log("In signup user response:" + JSON.stringify(res));
+        // axios.defaults.withCredentials = true;
+        // const formData = new FormData();
+        // formData.append('resumeUrl', this.state.resumeUrl);
+        // formData.append("studentId", this.state.id)
+        // formData.append("_id", this.state.jobId)
+        // const config = {
+        //     headers: {
+        //         'content-type': 'multipart/form-data'
+        //     }
+        // };
+        // console.log("form data", formData)
+        // axios.post(`${URL}/applyToJob`, formData, config)
+        //     .then((res) => {
+        //         // console.log("In signup user response:" + JSON.stringify(res));
                 
-                console.log(res)
-            }).catch(function(){
-                console.log("failure")
-            })
+        //         console.log(res)
+        //     }).catch(function(){
+        //         console.log("failure")
+        //     })
         // make a post request with the user data
         // this.props.applyToJob(apply, res => {
 
@@ -99,6 +99,7 @@ class JobDetails extends Component {
         //     //localStorage.setItem("token")
 
         // })
+        applyToJob(apply)
     }
 
     changeHandler = (e) => {
@@ -199,7 +200,7 @@ class JobDetails extends Component {
                                                 <input style={{ display: "none" }} name="studentId" value={this.state.id} />
                                                 <input style={{ display: "none" }} name="_id" value={this.state.jobId} />
                                             </div>
-                                            <button type="submit" className="btn btn-primary" style={{ float: "left" }} ></button>
+                                            <button type="submit" className="btn btn-primary" style={{ float: "left" }} >Upload</button>
                                             <button type="button" className="btn btn-danger" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }} onClick={this.changeDisplay} >Cancel</button>
                                         </form>
 

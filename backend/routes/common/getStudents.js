@@ -22,10 +22,10 @@ router.get('/', (req, res, next) => {
     });
 })
 
-router.get('/:id', (req, res, next) => {
+router.post('/', (req, res, next) => {
     console.log("Req Params",req.params)
     console.log("Req Body", req.body)
-    kafka.make_request('GetStudentsById', req.params, function (err, results) {
+    kafka.make_request('GetStudentsById', req.body, function (err, results) {
         console.log('in result');
         console.log(results);
         if (err) {

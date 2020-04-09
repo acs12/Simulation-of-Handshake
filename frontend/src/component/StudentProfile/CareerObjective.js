@@ -35,18 +35,18 @@ class CareerObjective extends Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         console.log("Inside getCareerObjective");
-        axios.post('http://localhost:3001/getCareerObjective', getCareerObjective)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    getCareerObjective: acknowledge.data[0].careerObjective,
-                })
-            }).catch(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    response : acknowledge.data
-                })
-            })
+        // axios.post('http://localhost:3001/getCareerObjective', getCareerObjective)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             getCareerObjective: acknowledge.data[0].careerObjective,
+        //         })
+        //     }).catch(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             response : acknowledge.data
+        //         })
+        //     })
     }
 
     changeHandler = (e) => {
@@ -64,16 +64,16 @@ class CareerObjective extends Component {
         }
 
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        console.log("Inside updateCareerObjective");
-        axios.post('http://localhost:3001/updateCareerObjective', updateCareerObjective)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    response: acknowledge.data
-                })
-            })
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // console.log("Inside updateCareerObjective");
+        // axios.post('http://localhost:3001/updateCareerObjective', updateCareerObjective)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             response: acknowledge.data
+        //         })
+        //     })
 
     }
 

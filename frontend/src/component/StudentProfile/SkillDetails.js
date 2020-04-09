@@ -32,16 +32,16 @@ class SkillDetails extends Component {
         }
 
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        console.log("Inside get Skills ");
-        axios.post('http://localhost:3001/getSkill', getSkills)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    skills: this.state.skills.concat(acknowledge.data)
-                })
-            })
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // console.log("Inside get Skills ");
+        // axios.post('http://localhost:3001/getSkill', getSkills)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             skills: this.state.skills.concat(acknowledge.data)
+        //         })
+        //     })
     }
 
     changeHandler = (e) => {
@@ -58,17 +58,17 @@ class SkillDetails extends Component {
             skillName: this.state.skillName
         }
 
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        console.log("Inside Add Skills");
-        axios.post('http://localhost:3001/addSkill', addSkills)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    response: acknowledge.data
-                })
-            })
+        // //set the with credentials to true
+        // axios.defaults.withCredentials = true;
+        // //make a post request with the user data
+        // console.log("Inside Add Skills");
+        // axios.post('http://localhost:3001/addSkill', addSkills)
+        //     .then(acknowledge => {
+        //         console.log(acknowledge.data)
+        //         this.setState({
+        //             response: acknowledge.data
+        //         })
+        //     })
 
     }
 

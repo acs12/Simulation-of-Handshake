@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
-
+import { getProfile,updateProfile } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
@@ -36,23 +37,15 @@ class StudentProfile extends Component {
     }
 
     componentDidMount = (e) => {
+        console.log("Inside Student Profile")
         // e.preventDefault();
         let getStudentDetails = {
-            studentId: this.state.id
+            studentId: localStorage.getItem("id")
         }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/getStudentDetails', getStudentDetails)
-            .then(acknowledge => {
-                console.log("Student details", acknowledge.data)
-                this.setState({
-                    name: acknowledge.data.name,
-                    schoolName: acknowledge.data.schoolName,
-                    major: acknowledge.data.major,
-                    profilePicUrl: acknowledge.data.profilePicUrl
-                })
-            })
+        getProfile(getStudentDetails,res =>{
+            console.log(res.data)
+        })
     }
 
     changeHandler = (e) => {
@@ -100,9 +93,9 @@ class StudentProfile extends Component {
                             <h5 className="card-subtitle mb-2 text-muted"><div style={{ textAlign: "left" }}>
                                 <img style={{ width: "15%", height: "5%" }} className="img-circle" src={this.state.profilePicUrl} alt="" />
                             </div></h5>
-                            <h5 className="card-subtitle mb-2 text-muted">Name : {this.state.name}</h5>
-                            <h5 className="card-subtitle mb-2 text-muted">School Name : {this.state.schoolName}</h5>
-                            <h5 className="card-subtitle mb-2 text-muted">Major : {this.state.major}</h5>
+                            <h5 className="card-subtitle mb-2 text-muted">Name : {this.props.name}</h5>
+                            <h5 className="card-subtitle mb-2 text-muted">School Name : {this.props.schoolName}</h5>
+                            <h5 className="card-subtitle mb-2 text-muted">Major : {this.props.major}</h5>
                         </div>
                         <button className="btn btn-primary" type="button" onClick={this.changeStudentDetailsStatus}>Edit</button>
                     </div>
@@ -249,5 +242,13 @@ class StudentProfile extends Component {
         )
     }
 }
+
+// const mapStateToProps = state =>{
+//     return{
+//         name : state.studentProfile.name,
+//         schoolName : state.studentProfile.schoolName,
+//         major : state.studentProfile.major
+//     }
+// }
 //export Login Component
-export default StudentProfile;
+export default connect(null,{getProfile})(StudentProfile);
