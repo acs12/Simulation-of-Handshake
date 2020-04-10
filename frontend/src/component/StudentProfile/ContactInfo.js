@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
-
+import { updateContact } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
@@ -27,23 +28,6 @@ class ContactInfo extends Component {
         this.updateStudentContactinfo = this.updateStudentContactinfo.bind(this)
     }
 
-    componentDidMount = (e) => {
-        // e.preventDefault();
-        let getStudentContactInfo = {
-            studentId: this.state.id
-        }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        // axios.post('http://localhost:3001/getStudentDetails', getStudentContactInfo)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             email: acknowledge.data.email,
-        //             phoneNumber: acknowledge.data.phoneNumber
-        //         })
-        //     })
-    }
 
     changeHandler = (e) => {
         this.setState({
@@ -52,23 +36,26 @@ class ContactInfo extends Component {
     }
 
     updateStudentContactinfo = (e) => {
+        e.preventDefault()
         let updateStudentContactinfo = {
 
             email: this.state.email,
             phoneNumber: this.state.phoneNumber,
             studentId: this.state.id
         }
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // console.log("Inside updateStudentContactinfo");
-        // axios.post('http://localhost:3001/updateStudentContactinfo', updateStudentContactinfo)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             studentContactInfoStatus: false
-        //         })
-        //     })
+        this.props.updateContact(updateStudentContactinfo,res =>{
+            console.log(res)
+            if (this.state.studentContactInfoStatus === true) {
+                this.setState({
+                    studentContactInfoStatus: false
+                })
+            }
+            else {
+                this.setState({
+                    studentContactInfoStatus: true
+                })
+            }
+        })
     }
 
 
@@ -98,10 +85,10 @@ class ContactInfo extends Component {
                 <br></br>
                 <br></br>
                 <div>
-                    Email : {this.state.email}
+                    Email : {this.props.email}
                 </div>
                 <div>
-                    Phone-Number : {this.state.phoneNumber}
+                    Phone-Number : {this.props.phoneNumber}
                 </div>
                 <br></br>
                 <button className="btn btn-primary" type="button" onClick={this.changeStudentContactInfoStatus}>Edit</button>
@@ -156,5 +143,12 @@ class ContactInfo extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        email : state.studentProfile.email,
+        phoneNumber : state.studentProfile.phoneNumber
+    }
+}
 //export Login Component
-export default ContactInfo;
+export default connect(mapStateToProps,{updateContact}) (ContactInfo);

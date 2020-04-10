@@ -43,7 +43,7 @@ class StudentProfile extends Component {
             studentId: localStorage.getItem("id")
         }
         //set the with credentials to true
-        getProfile(getStudentDetails,res =>{
+        this.props.getProfile(getStudentDetails,res =>{
             console.log(res.data)
         })
     }
@@ -243,12 +243,13 @@ class StudentProfile extends Component {
     }
 }
 
-// const mapStateToProps = state =>{
-//     return{
-//         name : state.studentProfile.name,
-//         schoolName : state.studentProfile.schoolName,
-//         major : state.studentProfile.major
-//     }
-// }
+const mapStateToProps = state =>{
+    return{
+        name : state.studentProfile.name,
+        schoolName : state.studentProfile.schoolName,
+        major : state.studentProfile.major
+    }
+}
+
 //export Login Component
-export default connect(null,{getProfile})(StudentProfile);
+export default connect(mapStateToProps,{getProfile})(StudentProfile);

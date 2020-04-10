@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios'; 
-
+import { updateEducation,deleteEducation } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
@@ -15,9 +16,9 @@ class EditEducation extends Component {
         this.state = {
             id : localStorage.getItem("id"),
             existingEducationStatus: false,
-            educationId: this.props.item.educationId,
+            educationId: this.props.item._id,
             collegeName: this.props.item.collegeName,
-            location: this.props.item.location,
+            location: this.props.item.educationLocation,
             degree: this.props.item.degree,
             major: this.props.item.major,
             yearOfPassing: this.props.item.yearOfPassing,
@@ -37,50 +38,48 @@ class EditEducation extends Component {
         })
     }
 
-    updateExistingEducation = (e) => {
+    updateExistingEducation = async (e) => {
         //prevent page from refresh
-
+        e.preventDefault()
         let updateExistingEducation = {
-            studentId: this.state.id,
-            educationId: this.state.educationId,
+            _id: this.state.id,
+            id: this.state.educationId,
             collegeName: this.state.collegeName,
-            location: this.state.location,
+            educationLocation: this.state.location,
             degree: this.state.degree,
             major: this.state.major,
             yearOfPassing: this.state.yearOfPassing,
             cgpa: this.state.cgpa,
         }
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/updateExistingEducation', updateExistingEducation)
-        //     .then(acknowledge => {
-        //         this.setState({
-        //             existingExperienceStatus: false
 
-        //         })
-        //     })
+        await this.props.updateEducation(updateExistingEducation, res=>{
+            console.log(res)
+            if (this.state.existingEducationStatus === true) {
+                this.setState({
+                    existingEducationStatus: false
+                })
+            }
+            else {
+                this.setState({
+                    existingEducationStatus: true
+                })
+            }
+        })
+        
 
     }
 
 
-    delete = (e) => {
-
+    delete = async (e) => {
+        e.preventDefault()
         let deleteEducation = {
-            studentId: this.state.id,
-            educationId: this.state.educationId,
+            _id: this.state.id,
+            id: this.state.educationId,
         }
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/deleteEducation', deleteEducation)
-            .then(acknowledge => {
-                this.setState({
-                    response: acknowledge.data,
-                    existingEducationStatus: false
-
-                })
-            })
+       await this.props.deleteEducation(deleteEducation,res=>{
+           console.log(res)
+       })
 
     }
 
@@ -100,6 +99,7 @@ class EditEducation extends Component {
     }
 
     render() {
+        console.log(this.state)
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
@@ -112,7 +112,7 @@ class EditEducation extends Component {
                     <div className="card-body">
                         <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.delete}>Delete</button>
                         <h5 className="card-title">School : {this.props.item.collegeName}</h5>
-                        <h6 className="card-subtitle mb-2 text-muted"> Location: {this.props.item.location}</h6>
+                        <h6 className="card-subtitle mb-2 text-muted"> Location: {this.props.item.educationLocation}</h6>
                         <h6 className="card-subtitle mb-2 text-muted">Degree : {this.props.item.degree}</h6>
                         <h6 className="card-subtitle mb-2 text-muted">Major : {this.props.item.major}</h6>
                         <h6 className="card-subtitle mb-2 text-muted">Year of Passing : {this.props.item.yearOfPassing}</h6>
@@ -149,7 +149,7 @@ class EditEducation extends Component {
                                 type="text"
                                 className="form-control"
                                 name="location"
-                                placeholder={this.props.item.location}
+                                placeholder={this.props.item.educationLocation}
                             />
                         </div>
 
@@ -217,4 +217,4 @@ class EditEducation extends Component {
     }
 }
 //export Login Component
-export default EditEducation;
+export default connect(null,{updateEducation,deleteEducation})(EditEducation);

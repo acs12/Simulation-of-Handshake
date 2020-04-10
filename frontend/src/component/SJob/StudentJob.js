@@ -5,6 +5,7 @@ import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import JobDetails from './JobDetails'
 import { getJobs,changeFilter } from '../../redux'
 import { connect } from 'react-redux'
+import NavbarJob from "../LandingPage/NavbarJob";
 
 //Define a Login Component
 class StudentJob extends Component {
@@ -172,6 +173,7 @@ class StudentJob extends Component {
 
         return (
             <div>
+                <NavbarJob/>
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol style={{ textAlign: "center" }}>

@@ -1,4 +1,4 @@
-import { GET_PROFILE,ADD_EDUCATION,ADD_EXPERIENCE,ADD_SKILL,UPDATE_CAREER,UPDATE_PROFILE,UPDATE_EDUCATION,UPDATE_EXPERIENCE,DELETE_EDUCATION,DELETE_EXPERIENCE,DELETE_SKILL } from '../../types/student/studentProfile'
+import { GET_PROFILE, ADD_EDUCATION, ADD_EXPERIENCE, ADD_SKILL,UPDATE_CONTACT, UPDATE_CAREER, UPDATE_PROFILE, UPDATE_EDUCATION, UPDATE_EXPERIENCE, DELETE_EDUCATION, DELETE_EXPERIENCE, DELETE_SKILL } from '../../types/student/studentProfile'
 import axios from 'axios';
 import URL from '../../../constants.js';
 const jwt_decode = require('jwt-decode')
@@ -10,18 +10,46 @@ export function getProfile(values, callback) {
     axios.defaults.withCredentials = true;
     console.log("inside get profile api action")
     console.log(values)
-    const request = axios.post(`${URL}/getStudents`, values);
+    const request = axios
+        .post(`${URL}/getStudents`, values);
 
     return (dispatch) => {
+        console.log("RESPONSE")
         request.then((res) => {
-            console.log("RES",res)
+            console.log("RES", res)
             // console.log("In signup user response:" + JSON.stringify(res));
             dispatch({
                 type: GET_PROFILE,
                 payload: res.data
             });
+
             callback(res)
-            
+
+        })
+        // request.catch((err) => {
+        //     console.log(err)
+        // })
+    }
+
+}
+
+export function updateContact(values, callback) {
+    console.log(values);
+
+    axios.defaults.withCredentials = true;
+
+    const request = axios
+        .post(`${URL}/updateStudentContactDetails`, values);
+
+    return (dispatch) => {
+        request.then((res) => {
+            // console.log("In signup user response:" + JSON.stringify(res));
+            dispatch({
+                type: UPDATE_CONTACT,
+                payload: res.data
+            });
+            callback(res)
+
         })
     }
 
@@ -42,7 +70,7 @@ export function updateProfile(values, callback) {
                 type: UPDATE_PROFILE,
                 payload: res.data
             });
-            
+
         })
     }
 
@@ -63,7 +91,7 @@ export function updateCareer(values, callback) {
                 type: UPDATE_CAREER,
                 payload: res.data
             });
-            
+            callback(res)
         })
     }
 
@@ -84,7 +112,8 @@ export function updateEducation(values, callback) {
                 type: UPDATE_EDUCATION,
                 payload: res.data
             });
-            
+            callback(res)
+
         })
     }
 
@@ -105,7 +134,7 @@ export function updateExperience(values, callback) {
                 type: UPDATE_EXPERIENCE,
                 payload: res.data
             });
-            
+
         })
     }
 
@@ -126,7 +155,8 @@ export function addEducation(values, callback) {
                 type: ADD_EDUCATION,
                 payload: res.data
             });
-            
+
+            callback(res)
         })
     }
 
@@ -147,7 +177,7 @@ export function deleteEducation(values, callback) {
                 type: DELETE_EDUCATION,
                 payload: res.data
             });
-            
+            callback(res)
         })
     }
 
@@ -168,7 +198,7 @@ export function addExperience(values, callback) {
                 type: ADD_EXPERIENCE,
                 payload: res.data
             });
-            
+
         })
     }
 
@@ -190,7 +220,7 @@ export function deleteExperience(values, callback) {
                 type: DELETE_EXPERIENCE,
                 payload: res.data
             });
-            
+
         })
     }
 
@@ -212,7 +242,7 @@ export function addSkill(values, callback) {
                 type: ADD_SKILL,
                 payload: res.data
             });
-            
+
         })
     }
 
@@ -233,7 +263,7 @@ export function deleteSkill(values, callback) {
                 type: DELETE_SKILL,
                 payload: res.data
             });
-            
+
         })
     }
 

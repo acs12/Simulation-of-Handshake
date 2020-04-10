@@ -15,7 +15,7 @@ class NavbarJob extends Component {
         return (
             <div>
                 {redirectVar}
-                <Navbar/>
+                
                 <nav className="navbar navbar-default">
                     <div className="navbar-brand">
                         <MDBContainer>

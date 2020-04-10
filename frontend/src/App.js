@@ -3,15 +3,13 @@ import './App.css';
 import { Provider } from 'react-redux'
 import Main from './component/Main';
 import { BrowserRouter } from 'react-router-dom';
-
+import promise from "redux-promise";
 import {createStore, applyMiddleware, compose} from "redux"
 import thunk from 'redux-thunk';
 import rootReducer from './redux/reducers/rootReducer'
 
-
-const middlewares = [thunk]
 const composePlugin = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer,composePlugin(applyMiddleware(...middlewares)));
+const store = createStore(rootReducer,composePlugin(applyMiddleware(promise,thunk)));
 
 //App Component
 class App extends Component {

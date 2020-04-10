@@ -13,7 +13,7 @@ function handle_request(msg, callback) {
     Student.
         updateOne(
             {
-                _id: msg._id
+                _id: msg.studentId
             },
             {
                 $set: {
@@ -25,7 +25,7 @@ function handle_request(msg, callback) {
         .then(result => {
             Student.
                 findOne({
-                    _id: msg._id
+                    _id: msg.studentId
                 })
                 .exec()
                 .then(result => {

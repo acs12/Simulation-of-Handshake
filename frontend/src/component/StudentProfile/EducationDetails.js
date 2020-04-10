@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
-
+import { addEducation } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 import EditEducation from './EditEducation';
 
@@ -29,24 +30,13 @@ class EducationDetails extends Component {
         this.submitEducationDetails = this.submitEducationDetails.bind(this);
         this.changeEduDetailsStatus = this.changeEduDetailsStatus.bind(this)
     }
-    //Call the Will Mount to set the auth Flag to false
-    componentDidMount = (e) => {
-        let getStudentDetails = {
-            studentId: this.state.id
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("EDUCATION : componentDidUpdate CALLED")
+        if (prevProps.education !== this.props.education) {
+            this.setState({ getEduDetails: this.props.education })
         }
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/getEducationDetails', getStudentDetails)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             getEduDetails: this.state.getEduDetails.concat(acknowledge.data)
-        //         })
-        //     })
     }
-
-
     //username change handler to update state variable with the text entered by the user
     changeHandler = (e) => {
         this.setState({
@@ -55,27 +45,31 @@ class EducationDetails extends Component {
     }
 
     //submit Login handler to send a request to the node backend
-    submitEducationDetails = (e) => {
+    submitEducationDetails = async (e) => {
+        e.preventDefault()
         let EducationDetails = {
-            studentId : this.state.id,
+            _id : this.state.id,
             collegeName: this.state.collegeName,
-            location: this.state.location,
+            educationLocation: this.state.location,
             degree: this.state.degree,
             major: this.state.major,
             yearOfPassing: this.state.yearOfPassing,
             cgpa: this.state.cgpa,
         }
-        // //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/updateEducationDetails', EducationDetails)
-        //     .then(acknowledge => {
-        //         this.setState({
-        //             response: acknowledge.data,
-        //             eduDetailsStatus: false
 
-        //         })
-        //     })
+        await this.props.addEducation(EducationDetails, res=>{
+            console.log(res)
+            if (this.state.eduDetailsStatus === true) {
+                this.setState({
+                    eduDetailsStatus: false
+                })
+            }
+            else {
+                this.setState({
+                    eduDetailsStatus: true
+                })
+            }
+        })
     }
 
     changeEduDetailsStatus = (e) => {
@@ -92,7 +86,10 @@ class EducationDetails extends Component {
     }
 
     render() {
+        console.log("edu details",this.state.getEduDetails)
         let redirectVar = null;
+        // let educationArray = Array.from(this.state.getEduDetails)
+        // console.log("ED ARRAY",educationArray)
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
@@ -104,9 +101,9 @@ class EducationDetails extends Component {
                     <br></br>
                     <b>Education :</b> 
                 <div className="card-body">
-                    {this.state.getEduDetails.map(x => <EditEducation key={x.educationId} item={x}></EditEducation>)}
-                
-                    <button onClick={this.changeEduDetailsStatus} className="btn btn-primary">Add Education</button>
+                    {this.state.getEduDetails.map(x => <EditEducation key={x._id} item={x} action={this.update}></EditEducation>)}
+                    <br></br>
+                    <button onClick={this.changeEduDetailsStatus} style={{ textAlign: "center" }} className="btn btn-primary">Add Education</button>
                 </div>
                 </form>
             </div>
@@ -116,7 +113,7 @@ class EducationDetails extends Component {
         else {
             eduDetails =
 
-                <form onSubmit={this.submitEducationDetails}>
+                <form onSubmit={this.submitEducationDetails} >
                     <br></br>
                     <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeEduDetailsStatus}>X</button>
                     <b>Enter details to add education :</b>
@@ -199,5 +196,11 @@ class EducationDetails extends Component {
         )
     }
 }
+
+const mapStateToProps= state =>{
+    return{
+        education : state.studentProfile.education
+    }
+}
 //export Login Component
-export default EducationDetails;
+export default connect(mapStateToProps,{addEducation}) (EducationDetails);

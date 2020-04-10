@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
-
+import { updateCareer } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
@@ -25,30 +26,6 @@ class CareerObjective extends Component {
 
     }
 
-    componentDidMount = (e) => {
-
-        let getCareerObjective = {
-            studentId: this.state.id,
-        }
-
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        console.log("Inside getCareerObjective");
-        // axios.post('http://localhost:3001/getCareerObjective', getCareerObjective)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             getCareerObjective: acknowledge.data[0].careerObjective,
-        //         })
-        //     }).catch(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             response : acknowledge.data
-        //         })
-        //     })
-    }
-
     changeHandler = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
@@ -56,24 +33,19 @@ class CareerObjective extends Component {
     }
 
     updateCareerObjective = (e) => {
-
-
+        e.preventDefault()
         let updateCareerObjective = {
-            studentId: this.state.id,
+            _id: this.state.id,
             careerObjective: this.state.careerObjective
         }
 
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // console.log("Inside updateCareerObjective");
-        // axios.post('http://localhost:3001/updateCareerObjective', updateCareerObjective)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             response: acknowledge.data
-        //         })
-        //     })
+       this.props.updateCareer(updateCareerObjective,res=>{
+           console.log(res)
+           document.getElementsByName("careerObjective").value = ""
+           this.setState({
+               careerObjStatus : false
+           })
+       })
 
     }
 
@@ -86,10 +58,11 @@ class CareerObjective extends Component {
         if (this.state.careerObjStatus === false) {
             careerObj = <form onSubmit={this.updateCareerObjective}>
                 <div>
+                    <br></br>
                     <b>My Journey :</b>
                     <br></br> <br></br>
                     <div>
-                       {this.state.getCareerObjective}
+                       {this.props.careerObjective}
                     </div>
                     <br></br>
                     What are you passionate about? What are you looking for on Handshake? What are your experiences or skills?
@@ -110,5 +83,11 @@ class CareerObjective extends Component {
         )
     }
 }
+
+const mapStateToProps = state =>{
+    return{
+        careerObjective : state.studentProfile.careerObjective
+    }
+}
 //export Login Component
-export default CareerObjective;
+export default connect(mapStateToProps,{updateCareer}) (CareerObjective);

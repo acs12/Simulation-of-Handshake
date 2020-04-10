@@ -30,7 +30,7 @@ class Profile extends Component {
                         <MDBCol>
                             <StudentProfile />
                         </MDBCol>
-                        {/* <MDBCol>
+                        <MDBCol>
                             <CareerObjective />
                         </MDBCol>
                     </MDBRow>
@@ -53,7 +53,7 @@ class Profile extends Component {
                             <br></br>
                             <ExperienceDetails />
 
-                        </MDBCol> */}
+                        </MDBCol>
                     </MDBRow>
                 </MDBContainer>
             </div>
