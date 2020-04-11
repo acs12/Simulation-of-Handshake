@@ -58,9 +58,9 @@ const studentProfile = (state = initialState, action) => {
 
 
         case ADD_EDUCATION:
-            console.log("AP", action.payload)
+            console.log("AP ADD", action.payload)
             return Object.assign({}, state, {
-                education: action.payload.education,
+                education: action.payload[0].education,
             })
 
         case UPDATE_EDUCATION:
@@ -78,15 +78,30 @@ const studentProfile = (state = initialState, action) => {
         case ADD_EXPERIENCE:
             console.log("AP", action.payload)
             return Object.assign({}, state, {
-                experience: action.payload.data.experience,
-                data: action.payload
+                experience: action.payload.experience,
             })
 
+        case UPDATE_EXPERIENCE:
+            console.log("AP Update Exp", action.payload)
+            return Object.assign({}, state, {
+                education: action.payload.experience,
+            })
+
+        case DELETE_EXPERIENCE:
+            console.log("AP", action.payload)
+            return Object.assign({}, state, {
+                education: action.payload.experience,
+            })
         case ADD_SKILL:
             console.log("AP", action.payload)
             return Object.assign({}, state, {
-                skills: action.payload.data.skills,
-                data: action.payload
+                skills: action.payload.skills,
+            })
+
+        case DELETE_SKILL:
+            console.log("AP", action.payload)
+            return Object.assign({}, state, {
+                skills: action.payload.skills,
             })
 
         default: return state

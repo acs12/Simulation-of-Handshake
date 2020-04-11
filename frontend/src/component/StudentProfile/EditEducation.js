@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios'; 
-import { updateEducation,deleteEducation } from '../../redux'
+import axios from 'axios';
+import { updateEducation, deleteEducation } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
@@ -14,7 +14,7 @@ class EditEducation extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
             existingEducationStatus: false,
             educationId: this.props.item._id,
             collegeName: this.props.item.collegeName,
@@ -52,7 +52,7 @@ class EditEducation extends Component {
             cgpa: this.state.cgpa,
         }
 
-        await this.props.updateEducation(updateExistingEducation, res=>{
+        await this.props.updateEducation(updateExistingEducation, res => {
             console.log(res)
             if (this.state.existingEducationStatus === true) {
                 this.setState({
@@ -65,7 +65,7 @@ class EditEducation extends Component {
                 })
             }
         })
-        
+
 
     }
 
@@ -77,9 +77,9 @@ class EditEducation extends Component {
             id: this.state.educationId,
         }
         //set the with credentials to true
-       await this.props.deleteEducation(deleteEducation,res=>{
-           console.log(res)
-       })
+        await this.props.deleteEducation(deleteEducation, res => {
+            console.log(res)
+        })
 
     }
 
@@ -208,7 +208,7 @@ class EditEducation extends Component {
         }
         return (
             <div>
-                <div key={this.props.item.educationId}></div>
+                <div key={this.props.item._id}></div>
                 {redirectVar}
                 {existEduDetails}
 
@@ -217,4 +217,4 @@ class EditEducation extends Component {
     }
 }
 //export Login Component
-export default connect(null,{updateEducation,deleteEducation})(EditEducation);
+export default connect(null, { updateEducation, deleteEducation })(EditEducation);

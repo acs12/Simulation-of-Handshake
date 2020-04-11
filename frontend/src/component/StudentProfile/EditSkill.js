@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
-
+import { deleteSkill } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 //Define a Login Component
@@ -12,10 +13,10 @@ class EditSkill extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
             existingSkillStatus: false,
-            skillId: this.props.item.skillId,
-            skillName: this.props.item.skillname,
+            skillId: this.props.item._id,
+            skillName: this.props.item.skillName,
             // response: ""
         }
         //Bind the handlers to this class
@@ -31,23 +32,26 @@ class EditSkill extends Component {
         })
     }
 
-    delete = (e) => {
+    delete = async (e) => {
         e.preventDefault();
         let deleteSkill = {
-            studentId: this.state.id,
-            skillId: this.state.skillId,
+            _id: this.state.id,
+            id: this.state.skillId,
         }
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/deleteSkill', deleteSkill)
-        //     .then(acknowledge => {
-        //         this.setState({
-        //             // response: acknowledge.data,
-        //             existingSkillStatus: false
+        await this.props.deleteSkill(deleteSkill, res => {
+            console.log(res)
+            if (this.state.existingSkillStatus === true) {
+                this.setState({
+                    existingSkillStatus: false
+                })
+            }
+            else {
+                this.setState({
+                    existingSkillStatus: true
+                })
+            }
 
-        //         })
-        //     })
+        })
 
     }
 
@@ -77,19 +81,20 @@ class EditSkill extends Component {
         if (this.state.existingSkillStatus === false) {
             console.log("Inside if in change existing skills")
             existSkill = <div>
-                <div>
-                    <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.delete}>Delete</button>
+                <div className="card">
+                    <div className="card-body">
+                        <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.delete}>Delete</button>
+                        {console.log("skill", this.props.item.skillName)}
+                        <h5 className="card-title">{this.props.item.skillName}</h5>
+                    </div>
                 </div>
-                <div>
-                    {console.log("skill", this.props.item.skillname)}
-                    {this.props.item.skillname}
-                </div>
+
                 <br></br>
             </div>
         }
         return (
             <div>
-                <div key={this.props.item.skillId}></div>
+                <div key={this.props.item._id}></div>
                 {redirectVar}
                 {existSkill}
 
@@ -98,4 +103,4 @@ class EditSkill extends Component {
     }
 }
 //export Login Component
-export default EditSkill;
+export default connect(null, { deleteSkill })(EditSkill);

@@ -1,4 +1,4 @@
-import { GET_PROFILE, ADD_EDUCATION, ADD_EXPERIENCE, ADD_SKILL,UPDATE_CONTACT, UPDATE_CAREER, UPDATE_PROFILE, UPDATE_EDUCATION, UPDATE_EXPERIENCE, DELETE_EDUCATION, DELETE_EXPERIENCE, DELETE_SKILL } from '../../types/student/studentProfile'
+import { GET_PROFILE, ADD_EDUCATION, ADD_EXPERIENCE, ADD_SKILL, UPDATE_CONTACT, UPDATE_CAREER, UPDATE_PROFILE, UPDATE_EDUCATION, UPDATE_EXPERIENCE, DELETE_EDUCATION, DELETE_EXPERIENCE, DELETE_SKILL } from '../../types/student/studentProfile'
 import axios from 'axios';
 import URL from '../../../constants.js';
 const jwt_decode = require('jwt-decode')
@@ -134,7 +134,7 @@ export function updateExperience(values, callback) {
                 type: UPDATE_EXPERIENCE,
                 payload: res.data
             });
-
+            callback(res)
         })
     }
 
@@ -155,7 +155,6 @@ export function addEducation(values, callback) {
                 type: ADD_EDUCATION,
                 payload: res.data
             });
-
             callback(res)
         })
     }
@@ -198,7 +197,7 @@ export function addExperience(values, callback) {
                 type: ADD_EXPERIENCE,
                 payload: res.data
             });
-
+            callback(res)
         })
     }
 
@@ -220,7 +219,7 @@ export function deleteExperience(values, callback) {
                 type: DELETE_EXPERIENCE,
                 payload: res.data
             });
-
+            callback(res)
         })
     }
 
@@ -242,7 +241,7 @@ export function addSkill(values, callback) {
                 type: ADD_SKILL,
                 payload: res.data
             });
-
+            callback(res)
         })
     }
 
@@ -263,7 +262,7 @@ export function deleteSkill(values, callback) {
                 type: DELETE_SKILL,
                 payload: res.data
             });
-
+            callback(res)
         })
     }
 

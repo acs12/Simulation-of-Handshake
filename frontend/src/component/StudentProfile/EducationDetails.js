@@ -14,7 +14,7 @@ class EducationDetails extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
             getEduDetails: [],
             eduDetailsStatus: false,
             collegeName: "",
@@ -48,7 +48,7 @@ class EducationDetails extends Component {
     submitEducationDetails = async (e) => {
         e.preventDefault()
         let EducationDetails = {
-            _id : this.state.id,
+            _id: this.state.id,
             collegeName: this.state.collegeName,
             educationLocation: this.state.location,
             degree: this.state.degree,
@@ -57,7 +57,7 @@ class EducationDetails extends Component {
             cgpa: this.state.cgpa,
         }
 
-        await this.props.addEducation(EducationDetails, res=>{
+        await this.props.addEducation(EducationDetails, res => {
             console.log(res)
             if (this.state.eduDetailsStatus === true) {
                 this.setState({
@@ -69,6 +69,7 @@ class EducationDetails extends Component {
                     eduDetailsStatus: true
                 })
             }
+            this.componentDidUpdate(this.props.education)
         })
     }
 
@@ -86,7 +87,7 @@ class EducationDetails extends Component {
     }
 
     render() {
-        console.log("edu details",this.state.getEduDetails)
+        console.log("edu details", this.state.getEduDetails)
         let redirectVar = null;
         // let educationArray = Array.from(this.state.getEduDetails)
         // console.log("ED ARRAY",educationArray)
@@ -97,15 +98,13 @@ class EducationDetails extends Component {
         let eduDetails = null
         if (this.state.eduDetailsStatus === false) {
             eduDetails = <div>
-                <form>
-                    <br></br>
-                    <b>Education :</b> 
-                <div className="card-body">
-                    {this.state.getEduDetails.map(x => <EditEducation key={x._id} item={x} action={this.update}></EditEducation>)}
-                    <br></br>
-                    <button onClick={this.changeEduDetailsStatus} style={{ textAlign: "center" }} className="btn btn-primary">Add Education</button>
-                </div>
-                </form>
+                <br></br>
+                <b>Education :</b>
+                {this.state.getEduDetails.map(x => <EditEducation key={x._id} item={x} action={this.update}></EditEducation>)}
+                <br></br>
+                <button onClick={this.changeEduDetailsStatus} style={{ textAlign: "center" }} className="btn btn-primary">Add Education</button>
+                <br></br>
+                <br></br>
             </div>
         }
 
@@ -197,10 +196,10 @@ class EducationDetails extends Component {
     }
 }
 
-const mapStateToProps= state =>{
-    return{
-        education : state.studentProfile.education
+const mapStateToProps = state => {
+    return {
+        education: state.studentProfile.education
     }
 }
 //export Login Component
-export default connect(mapStateToProps,{addEducation}) (EducationDetails);
+export default connect(mapStateToProps, { addEducation })(EducationDetails);

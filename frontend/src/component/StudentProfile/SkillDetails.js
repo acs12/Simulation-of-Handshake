@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import EditSkill from './EditSkill'
-
+import { addSkill } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
@@ -14,7 +15,7 @@ class SkillDetails extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
             skillStatus: false,
             skills: [],
             skillName: "",
@@ -25,23 +26,12 @@ class SkillDetails extends Component {
 
     }
 
-    componentDidMount = (e) => {
 
-        let getSkills = {
-            studentId: this.state.id,
+    componentDidUpdate(prevProps, prevState) {
+        console.log("SKILLS : componentDidUpdate CALLED")
+        if (prevProps.skills !== this.props.skills) {
+            this.setState({ skills: this.props.skills })
         }
-
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // console.log("Inside get Skills ");
-        // axios.post('http://localhost:3001/getSkill', getSkills)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             skills: this.state.skills.concat(acknowledge.data)
-        //         })
-        //     })
     }
 
     changeHandler = (e) => {
@@ -50,25 +40,27 @@ class SkillDetails extends Component {
         })
     }
 
-    addSkills = (e) => {
+    addSkills = async (e) => {
 
-
+        e.preventDefault()
         let addSkills = {
-            studentId: this.state.id,
+            _id: this.state.id,
             skillName: this.state.skillName
         }
 
-        // //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // console.log("Inside Add Skills");
-        // axios.post('http://localhost:3001/addSkill', addSkills)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             response: acknowledge.data
-        //         })
-        //     })
+        await this.props.addSkill(addSkills, res => {
+            console.log(res)
+            if (this.state.skillStatus === true) {
+                this.setState({
+                    skillStatus: false
+                })
+            }
+            else {
+                this.setState({
+                    skillStatus: true
+                })
+            }
+        })
 
     }
 
@@ -86,6 +78,9 @@ class SkillDetails extends Component {
     }
 
     render() {
+        // this.componentDidUpdate()
+        console.log("Skill details",this.state)
+        console.log("Props Skill",this.props.skills)
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
@@ -93,20 +88,20 @@ class SkillDetails extends Component {
         // let response = this.state.response
         let skill = null
         if (this.state.skillStatus === false) {
-            console.log("Inside if in exp details")
+            console.log("Inside if in skill details")
             skill = <div>
-                <form>
-                    <b>Skill :</b>
-                    <br></br>
-                    <br></br>
-                    {this.state.skills.map(x => <EditSkill key={x.skillId} item={x}></EditSkill>)}
-                    <br></br>
-                    <button onClick={this.changeSkillStatus} className="btn btn-primary">Add Skill</button>
-                </form>
+
+                <b>Skill :</b>
+                <br></br>
+                <br></br>
+                {this.state.skills.map(x => <EditSkill key={x._id} item={x} action={this.update}></EditSkill>)}
+                <br></br>
+                <button onClick={this.changeSkillStatus} className="btn btn-primary">Add Skill</button>
+
             </div>
         }
         else {
-            console.log("Inside if in exp details")
+            console.log("Inside if in skill details")
             skill = <div>
                 <form onSubmit={this.addSkills}>
                     <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeSkillStatus}>X</button>
@@ -138,5 +133,10 @@ class SkillDetails extends Component {
         )
     }
 }
+const mapStateToProps = state => {
+    return {
+        skills: state.studentProfile.skills
+    }
+}
 //export Login Component
-export default SkillDetails;
+export default connect(mapStateToProps, { addSkill })(SkillDetails);

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
+import { addExperience } from '../../redux'
+import { connect } from 'react-redux'
 import EditExperience from './EditExperience';
 
 import { Redirect } from 'react-router';
@@ -30,23 +32,12 @@ class ExperienceDetails extends Component {
         this.changeExpDetailsStatus = this.changeExpDetailsStatus.bind(this)
     }
     //Call the Will Mount to set the auth Flag to false
-    componentDidMount = (e) => {
-        let getExperienceDetails = {
-            studentId: this.state.id
+    componentDidUpdate(prevProps, prevState) {
+        console.log("EXPERIENCE : componentDidUpdate CALLED")
+        if (prevProps.experience !== this.props.experience) {
+            this.setState({ getExpDetails: this.props.experience })
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        // console.log("Inside expereince componenetDidMount")
-        // axios.post('http://localhost:3001/getExperienceDetails', getExperienceDetails)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //         this.setState({
-        //             getExpDetails: this.state.getExpDetails.concat(acknowledge.data)
-        //         })
-        //     })
     }
-
 
     //username change handler to update state variable with the text entered by the user
     changeHandler = (e) => {
@@ -56,27 +47,31 @@ class ExperienceDetails extends Component {
     }
 
     //submit Login handler to send a request to the node backend
-    submitExperienceDetails = (e) => {
+    submitExperienceDetails = async(e) => {
+        e.preventDefault()
         let ExperienceDetails = {
-            studentId: this.state.id,
+            _id: this.state.id,
             companyName: this.state.companyName,
             title: this.state.title,
-            location: this.state.location,
+            experienceLocation: this.state.location,
             startDate: this.state.startDate,
             endDate: this.state.endDate,
             description: this.state.description,
         }
-        // //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/updateExperienceDetails', ExperienceDetails)
-        //     .then(acknowledge => {
-        //         this.setState({
-        //             response: acknowledge.data,
-        //             expDetailsStatus: false
-
-        //         })
-        //     })
+        await this.props.addExperience(ExperienceDetails, res=>{
+            console.log(res)
+            if (this.state.expDetailsStatus === true) {
+                this.setState({
+                    expDetailsStatus: false
+                })
+            }
+            else {
+                this.setState({
+                    expDetailsStatus: true
+                })
+            }
+            this.componentDidUpdate(this.props.experience)
+        })
     }
 
     changeExpDetailsStatus = (e) => {
@@ -93,6 +88,7 @@ class ExperienceDetails extends Component {
     }
 
     render() {
+        console.log("exp details",this.state.getExpDetails)
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
@@ -104,7 +100,7 @@ class ExperienceDetails extends Component {
 
                 <br></br>
                 <b>Experience :</b>
-                {this.state.getExpDetails.map(x => <EditExperience key={x.experienceId} item={x}></EditExperience>)}
+                {this.state.getExpDetails.map(x => <EditExperience key={x._id} item={x} action={this.update}></EditExperience>)}
                 <br></br>
                 <button onClick={this.changeExpDetailsStatus} className="btn btn-primary">Add Experience</button>
                 <br></br>
@@ -200,5 +196,11 @@ class ExperienceDetails extends Component {
         )
     }
 }
+
+const mapStateToProps= state =>{
+    return{
+        experience : state.studentProfile.experience
+    }
+}
 //export Login Component
-export default ExperienceDetails;
+export default connect(mapStateToProps,{addExperience})(ExperienceDetails);

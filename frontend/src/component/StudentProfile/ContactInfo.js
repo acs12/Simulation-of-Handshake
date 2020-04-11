@@ -43,7 +43,7 @@ class ContactInfo extends Component {
             phoneNumber: this.state.phoneNumber,
             studentId: this.state.id
         }
-        this.props.updateContact(updateStudentContactinfo,res =>{
+        this.props.updateContact(updateStudentContactinfo, res => {
             console.log(res)
             if (this.state.studentContactInfoStatus === true) {
                 this.setState({
@@ -83,17 +83,17 @@ class ContactInfo extends Component {
             studentContactInfo = <form >
                 <b>Contact Informtion :</b>
                 <br></br>
-                <br></br>
-                <div>
-                    Email : {this.props.email}
-                </div>
-                <div>
-                    Phone-Number : {this.props.phoneNumber}
-                </div>
-                <br></br>
-                <button className="btn btn-primary" type="button" onClick={this.changeStudentContactInfoStatus}>Edit</button>
+                <div className="card">
+                    <div className="card-body"></div>
 
-            </form>
+                    <h6 className="card-subtitle mb-2 text-muted"> <b>Email : </b>{this.props.email}</h6>
+
+                    <h6 className="card-subtitle mb-2 text-muted"> <b> Phone-Number : </b>{this.props.phoneNumber}</h6>
+                    <br></br>
+
+                </div>
+                <button className="btn btn-primary" type="button" onClick={this.changeStudentContactInfoStatus}>Edit</button>
+            </form >
         }
         else {
 
@@ -123,7 +123,7 @@ class ContactInfo extends Component {
                         type="Number"
                         min="0"
                         max="999999999999"
-                        value = {this.state.phoneNumber}
+                        value={this.state.phoneNumber}
                         className="form-control"
                         name="phoneNumber"
                         placeholder="Enter Phone Number"
@@ -146,9 +146,9 @@ class ContactInfo extends Component {
 
 const mapStateToProps = state => {
     return {
-        email : state.studentProfile.email,
-        phoneNumber : state.studentProfile.phoneNumber
+        email: state.studentProfile.email,
+        phoneNumber: state.studentProfile.phoneNumber
     }
 }
 //export Login Component
-export default connect(mapStateToProps,{updateContact}) (ContactInfo);
+export default connect(mapStateToProps, { updateContact })(ContactInfo);
