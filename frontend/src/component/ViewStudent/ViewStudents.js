@@ -3,7 +3,8 @@ import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import AllStudent from './AllStudent'
-
+import { allStudents } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
@@ -26,18 +27,25 @@ class ViewStudents extends Component {
 
     }
 
-    componentDidMount = (e) => {
+    // componentWillReceiveProps(prevProps, prevState) {
+    //     console.log("ViewStudents : componentDidUpdate CALLED")
+    //     if (prevProps.allStudent !== this.props.allStudent) {
+    //         this.setState({ getStudents: this.props.allStudent })
+    //     }
+    // }
+
+    componentDidMount = async (e) => {
         // e.preventDefault();
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.get('http://localhost:3001/getAllStudents')
-            .then(acknowledge => {
-                console.log("All Students", acknowledge.data)
-                this.setState({
-                    getStudents: this.state.getStudents.concat(acknowledge.data)
-                })
+        await this.props.allStudents(null, res => {
+            console.log(res)
+            this.setState({
+                getStudents: res.data
             })
+        })
+        // this.componentWillReceiveProps()
     }
 
     companySearch = (e) => {
@@ -66,7 +74,10 @@ class ViewStudents extends Component {
             this.setState({
                 filteredSearch: 1,
                 filteredStudents: filteredSearchStudents.filter((s) => {
-                    return (s.name.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) || s.schoolName.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) || s.major.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()))
+                    return (
+                        s.name.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) ||
+                        s.schoolName.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) ||
+                        s.major.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()))
                 }
                 )
             })
@@ -98,16 +109,16 @@ class ViewStudents extends Component {
             </MDBRow>
             </div>
         }
-        else if(type === "company"){
+        else if (type === "company") {
             searchBars = <div><MDBRow>
-            <MDBCol style={{ textAlign: "center" }}>
-                <MDBRow>
-                    <i className="glyphicon glyphicon-search"></i>
-                    <input id="searchStudent" class="form-control" type="text" onChange={this.companySearch} placeholder="Search with Name, College or Skills" />
-                </MDBRow>
-            </MDBCol>
-        </MDBRow>
-        </div>
+                <MDBCol style={{ textAlign: "center" }}>
+                    <MDBRow>
+                        <i className="glyphicon glyphicon-search"></i>
+                        <input id="searchStudent" class="form-control" type="text" onChange={this.companySearch} placeholder="Search with Name, College or Skills" />
+                    </MDBRow>
+                </MDBCol>
+            </MDBRow>
+            </div>
         }
 
         console.log("filtered students", this.state.filteredStudents)
@@ -117,7 +128,7 @@ class ViewStudents extends Component {
             console.log("inside if in filter", this.state.filteredStudents)
             gtStudents = <div>
                 <form style={{ textAlign: "center" }}>
-                    {this.state.filteredStudents.map(x => <AllStudent key={x.studentId} item={x}></AllStudent>)}
+                    {this.state.filteredStudents.map(x => <AllStudent key={x._id} item={x}></AllStudent>)}
                 </form>
             </div>
         }
@@ -125,7 +136,7 @@ class ViewStudents extends Component {
         else {
             gtStudents = <div>
                 <form style={{ textAlign: "center" }}>
-                    {this.state.getStudents.map(x => <AllStudent key={x.studentId} item={x}></AllStudent>)}
+                    {this.state.getStudents.map(x => <AllStudent key={x._id} item={x}></AllStudent>)}
                 </form>
             </div>
         }
@@ -148,5 +159,12 @@ class ViewStudents extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        allStudent: state.student.allStudents
+    }
+}
+
 //export Login Component
-export default ViewStudents;
+export default connect(mapStateToProps, { allStudents })(ViewStudents);

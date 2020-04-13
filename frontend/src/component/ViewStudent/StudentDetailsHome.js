@@ -20,9 +20,9 @@ class StudentDetailsHome extends Component {
             major: this.props.location.state.major,
             profilePicUrl: this.props.location.state.profilePicUrl,
             careerObjective: this.props.location.state.careerObjective,
-            getEduDetails: [],
-            getExpDetails: [],
-            skills: [],
+            getEduDetails: this.props.location.state.education,
+            getExpDetails: this.props.location.state.experience,
+            skills: this.props.location.state.skills,
             resume: "",
             type: "pdf"
         }
@@ -30,72 +30,73 @@ class StudentDetailsHome extends Component {
         this.onError = this.onError.bind(this)
     }
 
-    componentDidMount = async () => {
+    // componentDidMount = async () => {
 
-        let getDetails = {
-            studentId: this.state.studentId
-        }
+    //     let getDetails = {
+    //         studentId: this.state.studentId
+    //     }
 
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
+    //     //set the with credentials to true
+    //     axios.defaults.withCredentials = true;
+    //     //make a post request with the user data
 
-        await axios.post('http://localhost:3001/getStudentDetails', getDetails)
-            .then(acknowledge => {
-                console.log("edu", acknowledge.data)
-                this.setState({
-                    name: acknowledge.data.name,
-                    email : acknowledge.data.email,
-                    schoolName: acknowledge.data.schoolName,
-                    gradDate : acknowledge.data.gradDate,
-                    major: acknowledge.data.major,
-                    profilePicUrl: acknowledge.data.profilePicUrl,
-                    careerObjective : acknowledge.data.careerObjective
-                })
-            })
+    //     await axios.post('http://localhost:3001/getStudentDetails', getDetails)
+    //         .then(acknowledge => {
+    //             console.log("edu", acknowledge.data)
+    //             this.setState({
+    //                 name: acknowledge.data.name,
+    //                 email : acknowledge.data.email,
+    //                 schoolName: acknowledge.data.schoolName,
+    //                 gradDate : acknowledge.data.gradDate,
+    //                 major: acknowledge.data.major,
+    //                 profilePicUrl: acknowledge.data.profilePicUrl,
+    //                 careerObjective : acknowledge.data.careerObjective
+    //             })
+    //         })
 
-        await axios.post('http://localhost:3001/getEducationDetails', getDetails)
-            .then(acknowledge => {
-                console.log("edu", acknowledge.data)
-                this.setState({
-                    getEduDetails: this.state.getEduDetails.concat(acknowledge.data)
-                })
-            })
+    //     await axios.post('http://localhost:3001/getEducationDetails', getDetails)
+    //         .then(acknowledge => {
+    //             console.log("edu", acknowledge.data)
+    //             this.setState({
+    //                 getEduDetails: this.state.getEduDetails.concat(acknowledge.data)
+    //             })
+    //         })
 
-        await axios.post('http://localhost:3001/getExperienceDetails', getDetails)
-            .then(acknowledge => {
-                console.log("exp", acknowledge.data)
-                this.setState({
-                    getExpDetails: this.state.getExpDetails.concat(acknowledge.data)
-                })
-            })
+    //     await axios.post('http://localhost:3001/getExperienceDetails', getDetails)
+    //         .then(acknowledge => {
+    //             console.log("exp", acknowledge.data)
+    //             this.setState({
+    //                 getExpDetails: this.state.getExpDetails.concat(acknowledge.data)
+    //             })
+    //         })
 
-        await axios.post('http://localhost:3001/getSkill', getDetails)
-            .then(acknowledge => {
-                console.log("Skill", acknowledge.data)
-                this.setState({
-                    skills: this.state.skills.concat(acknowledge.data)
-                })
-            })
+    //     await axios.post('http://localhost:3001/getSkill', getDetails)
+    //         .then(acknowledge => {
+    //             console.log("Skill", acknowledge.data)
+    //             this.setState({
+    //                 skills: this.state.skills.concat(acknowledge.data)
+    //             })
+    //         })
 
-        await axios.post('http://localhost:3001/getResume', getDetails)
-            .then(acknowledge => {
-                console.log("Resume", acknowledge.data)
-                this.setState({
-                    resume: acknowledge.data[0].resumeUrl
-                })
-            }).catch(error => {
-                this.setState({
-                    resume: "null"
-                })
-            })
-    }
+    //     await axios.post('http://localhost:3001/getResume', getDetails)
+    //         .then(acknowledge => {
+    //             console.log("Resume", acknowledge.data)
+    //             this.setState({
+    //                 resume: acknowledge.data[0].resumeUrl
+    //             })
+    //         }).catch(error => {
+    //             this.setState({
+    //                 resume: "null"
+    //             })
+    //         })
+    // }
 
     onError = () => {
         console.log("error")
     }
 
     render() {
+        console.log("StudentDetailsHomeState",this.state)
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
@@ -200,7 +201,7 @@ class StudentDetailsHome extends Component {
                                     <div>
                                         <div className="card" >
                                             <div className="card-body" >
-                                                <h6 className="card-subtitle mb-2 text-muted">{x.skillname}</h6>
+                                                <h6 className="card-subtitle mb-2 text-muted">{x.skillName}</h6>
                                             </div>
                                         </div>
                                     </div>

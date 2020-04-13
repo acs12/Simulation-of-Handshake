@@ -27,11 +27,13 @@ export function getJobs(values, callback) {
 }
 
 export function applyToJob(values, callback) {
-    // console.log(values);
+    console.log(values);
 
     axios.defaults.withCredentials = true;
     const formData = new FormData();
     formData.append('myImage', values.resumeUrl);
+    formData.append("studentId", values.studentId);
+    formData.append("_id", values._id);
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
@@ -76,7 +78,7 @@ export function appliedJobs(values, callback) {
 }
 
 
-export function changeFilter(values) {
+export function changeFilter(values,callback) {
     // console.log(values);
 
     return (dispatch) => {
@@ -84,5 +86,6 @@ export function changeFilter(values) {
             type: CHANGE_FILTER,
             payload: values
         });
+        callback("success")
     }
 }

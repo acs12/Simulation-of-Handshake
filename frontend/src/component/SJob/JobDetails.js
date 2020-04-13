@@ -19,6 +19,7 @@ class JobDetails extends Component {
             id: localStorage.getItem("id"),
             jobDetailsStatus: false,
             toggle: false,
+            company: this.props.item.companyId,
             name: this.props.item.companyId.name,
             jobId: this.props.item._id,
             postedDate: this.props.item.postedDate,
@@ -35,71 +36,19 @@ class JobDetails extends Component {
 
     }
 
-    // componentDidMount = () => {
-    //     let pDate = String(this.props.item.postedDate)
-    //     let dDate = String(this.props.item.deadlineDate)
-    //     pDate = pDate.slice(0, 10)
-    //     dDate = dDate.slice(0, 10)
-    //     this.setState({
-    //         postedDate: pDate,
-    //         deadlineDate: dDate
-    //     })
-    // }
-
-    // submitHandler = (e) =>{
-    //     let data = {
-    //         studentId: this.state.id
-    //     }
-    //     //set the with credentials to true
-    //     axios.defaults.withCredentials = true;
-    //     //make a post request with the user data
-    //     this.props.getJobs(getAllJobs, res => {
-
-    //         console.log('Response signup user: ', res.data)
-    //         this.setState({
-    //             getJobs: this.props.data,
-    //             filteredJobs: this.props.data
-    //         })
-    //         //localStorage.setItem("token")
-
-    //     })
-    // }
-
-    apply = (e) => {
+    apply = async (e) => {
         e.preventDefault()
         let apply = {
             studentId: this.state.id,
             _id: this.state.jobId,
-            resumeUrl: this.state.resume
+            resumeUrl: this.state.resumeUrl
         }
-        //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // const formData = new FormData();
-        // formData.append('resumeUrl', this.state.resumeUrl);
-        // formData.append("studentId", this.state.id)
-        // formData.append("_id", this.state.jobId)
-        // const config = {
-        //     headers: {
-        //         'content-type': 'multipart/form-data'
-        //     }
-        // };
-        // console.log("form data", formData)
-        // axios.post(`${URL}/applyToJob`, formData, config)
-        //     .then((res) => {
-        //         // console.log("In signup user response:" + JSON.stringify(res));
-                
-        //         console.log(res)
-        //     }).catch(function(){
-        //         console.log("failure")
-        //     })
+        // set the with credentials to true
+        axios.defaults.withCredentials = true;
         // make a post request with the user data
-        // this.props.applyToJob(apply, res => {
-
-        //     console.log('Response : ', res.data)
-        //     //localStorage.setItem("token")
-
-        // })
-        applyToJob(apply)
+        await this.props.applyToJob(apply, res => {
+            console.log('Response : ', res.data)
+        })
     }
 
     changeHandler = (e) => {
@@ -107,7 +56,7 @@ class JobDetails extends Component {
         this.setState({
             resumeUrl: e.target.files[0]
         })
-        console.log("Resume", this.state.resume)
+        console.log("Resume", this.state.resumeUrl)
     }
 
     changeDisplay = (e) => {
@@ -154,60 +103,57 @@ class JobDetails extends Component {
             particularJobs =
                 <MDBContainer style={{ textAlign: "left" }}>
                     <MDBCol md="4">
-                        <form>
-                            <br></br>
-                            <div>
-                                <div className="card-body">
-                                    <h2 className="card-title">{this.props.item.title}</h2>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.companyId.name}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.location}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.category}</h4>
-                                </div>
+
+                        <br></br>
+                        <div>
+                            <div className="card-body">
+                                <h2 className="card-title">{this.props.item.title}</h2>
+                                <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Category : {this.props.item.category}</h4>
                             </div>
-                        </form>
+                        </div>
+
                     </MDBCol>
                     <MDBCol md="8">
-                        <form>
-                            <div>
-                                <div className="card-body">
-                                    <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeJobDetailsStatus}>X</button>
-                                    <div className="card-title">
-                                        <Link to={{
-                                            pathname: './CompanyDetails',
-                                            state: { name: this.state.name }
-                                        }}>
-                                            <h2>{this.props.item.name}</h2></Link>
-                                    </div>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.title}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Category : {this.props.item.category}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Salary : {this.props.item.salary}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Posted On : {this.state.postedDate}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Deadline Date : {this.state.deadlineDate}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Job Description : {this.props.item.description}</h4>
-                                    <button type="button" style={this.state.toggle ? { display: "none", float: "right" } : { display: "block" }} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
-                                    <div className="card-subtitle mb-2 text-muted" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }}>
-                                        <form action={this.apply} method="POST" encType='multipart/form-data'>
-                                            <div className="form-group">
-                                                <b>Select resume to apply :</b>
-                                                <input
-                                                    type="file"
-                                                    name="resumeUrl"
-                                                    className="form-control"
-                                                    onChange={this.changeHandler}
-                                                    required
-                                                />
-                                                <input style={{ display: "none" }} name="studentId" value={this.state.id} />
-                                                <input style={{ display: "none" }} name="_id" value={this.state.jobId} />
-                                            </div>
-                                            <button type="submit" className="btn btn-primary" style={{ float: "left" }} >Upload</button>
-                                            <button type="button" className="btn btn-danger" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }} onClick={this.changeDisplay} >Cancel</button>
-                                        </form>
+                        <div>
+                            <div className="card-body">
+                                <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeJobDetailsStatus}>X</button>
+                                <div className="card-title">
+                                    <Link to={{
+                                        pathname: './CompanyDetails',
+                                        state: { name: this.props.item.companyId }
+                                    }}>
+                                        <h2>{this.state.name}</h2></Link>
+                                </div>
+                                <h4 className="card-subtitle mb-2 text-muted">{this.props.item.title}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Category : {this.props.item.category}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Salary : {this.props.item.salary}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Posted On : {this.state.postedDate}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Deadline Date : {this.state.deadlineDate}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Job Description : {this.props.item.description}</h4>
+                                <button type="button" style={this.state.toggle ? { display: "none", float: "right" } : { display: "block" }} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
+                                <div className="card-subtitle mb-2 text-muted" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }}>
 
+                                    <div className="form-group">
+                                        <b>Select resume to apply :</b>
+                                        <input
+                                            type="file"
+                                            name="resumeUrl"
+                                            className="form-control"
+                                            onChange={this.changeHandler}
+                                            required
+                                        />
+                                        <input style={{ display: "none" }} name="studentId" value={this.state.id} />
+                                        <input style={{ display: "none" }} name="_id" value={this.state.jobId} />
                                     </div>
+                                    <button type="submit" onClick={this.apply} className="btn btn-primary" style={{ float: "left" }} >Upload</button>
+                                    <button type="button" className="btn btn-danger" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }} onClick={this.changeDisplay} >Cancel</button>
+
+
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </MDBCol>
                 </MDBContainer>
 
@@ -224,9 +170,9 @@ class JobDetails extends Component {
                                 <br></br>
                                 <div className="card-body">
                                     <h2 className="card-title">{this.props.item.title}</h2>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.name}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.location}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">{this.props.item.category}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Company : {this.props.item.companyId.name}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Lovation : {this.props.item.location}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Category : {this.props.item.category}</h4>
                                     <button className="btn btn-primary" onClick={this.changeJobDetailsStatus}>View</button>
                                 </div>
                                 <br></br>
@@ -250,4 +196,4 @@ class JobDetails extends Component {
 
 
 //export Login Component
-export default connect(null,{applyToJob}) (JobDetails);
+export default connect(null, { applyToJob })(JobDetails);

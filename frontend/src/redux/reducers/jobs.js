@@ -22,7 +22,9 @@ const studentJobs = (state = initialState, action) => {
         case APPLY_TO_JOB:
             console.log("AP", action.payload)
             return Object.assign({}, state, {
-                data: action.payload
+                data: action.payload,
+                filteredJobs : action.payload,
+                getJobs: action.payload
             })
 
         case APPLIED_JOBS:

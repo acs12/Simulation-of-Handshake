@@ -23,13 +23,24 @@ function handle_request(msg, callback) {
                 _id: msg.studentId
             }, {
                 $set: {
-                    resumeUrl: msg.resumeUrl
+                    resumeUrl: msg.myImage
                 }
             })
                 .exec()
                 .then(result => {
-                    console.log("second",result)
-                    callback(null,result)
+                    Job.find(
+                        {
+                            application : {$nin: [msg.studentId]}
+                        }
+                    ).populate("companyId")
+                        .then(result => {
+                            console.log("result",result)
+                            callback(null, result)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            callback(err, null)
+                        })
                 })
                 .catch(err=>{
                     console.log(err)

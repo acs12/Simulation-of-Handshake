@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer, MDBCol } from "mdbreact";
 import axios from 'axios';
-
+import { applyToEvent } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 class EventDetails extends Component {
@@ -12,13 +13,13 @@ class EventDetails extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
             eventDetailsStatus: false,
             toggle: false,
-            eligible : this.props.item.eligibility,
-            cname: this.props.item.cname,
-            companyId : this.props.item.companyId,
-            eventId: this.props.item.eventId,
+            eligible: this.props.item.eligibility,
+            cname: this.props.item.companyId.name,
+            companyId: this.props.item.companyId,
+            eventId: this.props.item._id,
             response: "",
             resume: "",
         }
@@ -29,38 +30,34 @@ class EventDetails extends Component {
         this.registerEvent = this.registerEvent.bind(this)
     }
 
-    registerEvent = (e) => {
+    registerEvent = async (e) => {
+        e.preventDefault()
         let registerEvent = {
             studentId: this.state.id,
-            eventId : this.state.eventId,
-            companyId : this.state.companyId
+            _id: this.state.eventId
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/registerEvent', registerEvent)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-            })
+        await this.props.applyToEvent(registerEvent, res => {
+            console.log(res.data)
+        })
     }
 
     changeHandler = (e) => {
         let enteredData = this.refs.major.value.toLowerCase()
         console.log("entered data", enteredData)
         let eligible = this.state.eligible.toLowerCase()
-        console.log("eligible",eligible)
+        console.log("eligible", eligible)
         let x = (enteredData.replace(/\s+/g, '').includes(eligible.replace(/\s+/g, '')))
-        console.log("x",x)
-        if(eligible === "all"){
+        console.log("x", x)
+        if (eligible === "all") {
             this.registerEvent(e)
         }
-        else if(x === true){
+        else if (x === true) {
             this.registerEvent(e)
         }
-        else{
+        else {
             e.preventDefault()
             this.setState({
-                response : alert("Only " + this.state.eligible + " students can register for this event")
+                response: alert("Only " + this.state.eligible + " students can register for this event")
             })
         }
     }
@@ -68,15 +65,15 @@ class EventDetails extends Component {
     changeDisplay = (e) => {
         if (this.state.toggle === false) {
             this.refs.ResumeButtonDisplay.style.display = "block"
-                this.setState({
-                    toggle: true
-                })
+            this.setState({
+                toggle: true
+            })
         }
         else {
             this.refs.ResumeButtonDisplay.style.display = "none"
-                this.setState({
-                    toggle: false
-                })
+            this.setState({
+                toggle: false
+            })
         }
     }
 
@@ -104,14 +101,14 @@ class EventDetails extends Component {
 
 
             particularEvents =
-                <MDBContainer style={{textAlign:"left"}}>
+                <MDBContainer style={{ textAlign: "left" }}>
                     <MDBCol md="4">
                         <form>
                             <br></br>
                             <div>
                                 <div className="card-body">
                                     <h2 className="card-title">{this.props.item.name}</h2>
-                                    <h4 className="card-subtitle mb-2 text-muted">Date : {String(this.props.item.date).slice(0,10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Date : {String(this.props.item.date).slice(0, 10)}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Time : {this.props.item.time}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
                                 </div>
@@ -124,14 +121,14 @@ class EventDetails extends Component {
                                 <div className="card-body">
                                     <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeEventDetailsStatus}>X</button>
                                     <div className="card-title">
-                                        <h2>{this.props.item.cname}</h2>
+                                        <h2>{this.props.item.companyId.name}</h2>
                                     </div>
                                     <h4 className="card-title">{this.props.item.name}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Date : {String(this.props.item.date).slice(0,10)}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Time : {this.props.item.time}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Date : {String(this.props.item.date).slice(0, 10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Time : {String(this.props.item.time).slice(0, 10)}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Description : {this.props.item.description}</h4>
-                                    <button type="button" refs="buttonToggle" style={{ display: "block", float: "right"}} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
+                                    <button type="button" refs="buttonToggle" style={{ display: "block", float: "right" }} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
                                     <div className="card-subtitle mb-2 text-muted" ref="ResumeButtonDisplay" style={{ display: "none" }}>
                                         <form onSubmit={this.changeHandler}>
                                             <div className="form-group">
@@ -168,7 +165,7 @@ class EventDetails extends Component {
                                 <br></br>
                                 <div className="card-body">
                                     <h2 className="card-title">{this.props.item.name}</h2>
-                                    <h4 className="card-subtitle mb-2 text-muted">Date : {String(this.props.item.date).slice(0,10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Date : {String(this.props.item.date).slice(0, 10)}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Time : {this.props.item.time}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
                                     <button className="btn btn-primary" onClick={this.changeEventDetailsStatus}>View</button>
@@ -190,4 +187,5 @@ class EventDetails extends Component {
         )
     }
 }
-export default EventDetails;
+
+export default connect(null, { applyToEvent })(EventDetails);

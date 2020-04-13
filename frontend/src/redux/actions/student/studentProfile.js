@@ -56,12 +56,29 @@ export function updateContact(values, callback) {
 }
 
 export function updateProfile(values, callback) {
-    // console.log(values);
+    console.log("Values",values);
+    const formData = new FormData();
+    formData.append('profilePicUrl', values.profilePicUrl);
+    formData.append("_id", values._id);
+    formData.append("name", values.name);
+    formData.append('dateOfBirth', values.dateOfBirth);
+    formData.append('address', values.address);
+    formData.append('city', values.city);
+    formData.append('state', values.state);
+    formData.append('country', values.country);
+    formData.append('gradDate', values.gradDate);
+    formData.append('major', values.major);
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    };
+    console.log("form data", formData)
 
     axios.defaults.withCredentials = true;
 
     const request = axios
-        .post(`${URL}/updateProfile`, values);
+        .post(`${URL}/updateProfile`, formData,config);
 
     return (dispatch) => {
         request.then((res) => {
@@ -70,6 +87,7 @@ export function updateProfile(values, callback) {
                 type: UPDATE_PROFILE,
                 payload: res.data
             });
+            callback(res)
 
         })
     }

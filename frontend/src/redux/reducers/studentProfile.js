@@ -5,6 +5,7 @@ import { GET_PROFILE, ADD_EDUCATION, ADD_EXPERIENCE, ADD_SKILL, UPDATE_CONTACT, 
 const initialState = {
     studentId: "",
     name: "",
+    dateOfBirth : "",
     schoolName: "",
     address: "",
     city: "",
@@ -15,8 +16,11 @@ const initialState = {
     experience: [],
     skills: [],
     careerObjective: "",
+    resumeUrl: "",
+    profilePicUrl : "",
     email: "",
     phoneNumber: "",
+    gradDate : "",
     data: []
 }
 
@@ -39,9 +43,26 @@ const studentProfile = (state = initialState, action) => {
                 skills: action.payload.skills,
                 education: action.payload.education,
                 experience: action.payload.experience,
+                resumeUrl: action.payload.resumeUrl,
+                profilePicUrl : action.payload.profilePicUrl,
+                gradDate : action.payload.gradDate,
+                dateOfBirth : action.payload.dateOfBirth,
                 data: action.payload
             })
 
+        case UPDATE_PROFILE:
+            console.log("AP", action.payload)
+            return Object.assign({}, state, {
+                name: action.payload.name,
+                address: action.payload.address,
+                city: action.payload.city,
+                state: action.payload.state,
+                country: action.payload.country,
+                major: action.payload.major,
+                profilePicUrl: action.payload.profilePicUrl,
+                gradDate : action.payload.gradDate,
+                dateOfBirth : action.payload.dateOfBirth
+            })
         case UPDATE_CONTACT:
             console.log("AP", action.payload)
             return Object.assign({}, state, {
@@ -84,13 +105,13 @@ const studentProfile = (state = initialState, action) => {
         case UPDATE_EXPERIENCE:
             console.log("AP Update Exp", action.payload)
             return Object.assign({}, state, {
-                education: action.payload.experience,
+                experience: action.payload.experience,
             })
 
         case DELETE_EXPERIENCE:
             console.log("AP", action.payload)
             return Object.assign({}, state, {
-                education: action.payload.experience,
+                experience: action.payload.experience,
             })
         case ADD_SKILL:
             console.log("AP", action.payload)

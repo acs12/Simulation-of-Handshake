@@ -1,9 +1,10 @@
 import { STUDENT_SIGNUP } from '../types/student/student'
-import {STUDENT_LOGIN} from '../types/student/student'
+import {STUDENT_LOGIN, ALL_STUDENTS} from '../types/student/student'
 
 
 
 const initialState = {
+    allStudents : [],
     isLoggedIn : null,
     studentId : "",
     schoolName:"",
@@ -36,6 +37,12 @@ const studentSignup = (state = initialState, action) => {
             data : action.payload
         })
         
+        case ALL_STUDENTS: 
+        console.log("AP",action.payload)
+        return Object.assign({},state,{
+            allStudents : action.payload
+        })
+
         default : return state
     }
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { appliedEvents } from '../../redux'
+import { connect } from 'react-redux'
 import NavbarEvent from '../LandingPage/NavbarEvent';
 
 //Define a Login Component
@@ -26,16 +28,13 @@ class RegisteredEvent extends Component {
             studentId: this.state.id
         }
         console.log("Inside Registered events")
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/getREvent', getREvent)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    getREvent: this.state.getREvent.concat(acknowledge.data)
-                })
+        this.props.appliedEvents(getREvent,res=>{
+            console.log(res.data)
+            this.setState({
+                getREvent : res.data
             })
+        })
+       
     }
 
 
@@ -54,7 +53,7 @@ class RegisteredEvent extends Component {
                                 <br></br>
                                 <div className="card-body">
                                     <h2 className="card-title">{x.name}</h2>
-                                    <h4 className="card-title">Company: {x.cname}</h4>
+                                    <h4 className="card-title">Company: {x.companyId.name}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Description : {x.description}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Date : {String(x.date).slice(0,10)}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Time : {x.time}</h4>
@@ -84,4 +83,4 @@ class RegisteredEvent extends Component {
     }
 }
 //export Login Component
-export default RegisteredEvent;
+export default connect(null,{appliedEvents})(RegisteredEvent);

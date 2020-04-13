@@ -10,15 +10,10 @@ function handle_request(msg, callback) {
     console.log(ID)
     Event.find(
         {
-            application : { $in : [ID] }
-        },{companyId :1,
-        name : 1,
-        date: 1,
-        time : 1,
-        description : 1,
-        location : 1,
-        eligibility : 1}
-    ).exec()
+            application : { $in : [msg.studentId] }
+
+        }
+    ).populate("companyId")
         .then(result => {
             console.log(result)
             callback(null, result)

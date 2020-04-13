@@ -3,7 +3,7 @@ import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import JobDetails from './JobDetails'
-import { getJobs,changeFilter } from '../../redux'
+import { getJobs, changeFilter } from '../../redux'
 import { connect } from 'react-redux'
 import NavbarJob from "../LandingPage/NavbarJob";
 
@@ -18,7 +18,7 @@ class StudentJob extends Component {
             id: localStorage.getItem("id"),
             getJobsStatus: false,
             getJobs: [],
-            filteredJobs:[],
+            filteredJobs: [],
             appliedFilters: [],
             fullTimeStatus: false,
             partTimeStatus: false,
@@ -32,7 +32,17 @@ class StudentJob extends Component {
         this.jobSearch = this.jobSearch.bind(this)
     }
 
-    componentDidMount = (e) => {
+    componentDidUpdate(prevProps, prevState) {
+        console.log("StudentJob : componentDidUpdate CALLED")
+        if (prevProps.filteredJobs !== this.props.filteredJobs) {
+            this.setState({
+                filteredJobs: this.props.filteredJobs,
+                getJobs: this.props.getJobs
+            })
+        }
+    }
+
+    componentDidMount = () => {
         // e.preventDefault();
         let getAllJobs = {
             studentId: this.state.id
@@ -40,15 +50,15 @@ class StudentJob extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        this.props.getJobs(getAllJobs,res =>{
-            console.log(typeof(this.state.getJobs))
+        this.props.getJobs(getAllJobs, res => {
+            console.log(typeof (this.state.getJobs))
             this.setState({
-                getJobs: this.props.data,
-                filteredJobs : this.props.data
+                getJobs: this.props.getJobs,
+                filteredJobs: this.props.filteredJobs
             })
-            console.log("Data",this.props.data)
+            console.log("Data", this.props.data)
         })
-        
+
     }
 
 
@@ -59,7 +69,8 @@ class StudentJob extends Component {
             onCampusStatus: false,
             internshipStatus: false,
             appliedFilters: [],
-            filteredJobs: this.state.getJobs
+            getJobs: this.props.data,
+            filteredJobs: this.props.data
         })
     }
 
@@ -97,7 +108,7 @@ class StudentJob extends Component {
     }
 
 
-    SelectedFilterArray = () => {
+    SelectedFilterArray = async () => {
         var filters = []
         if (this.state.fullTimeStatus) {
             filters.push("Full-Time");
@@ -115,33 +126,42 @@ class StudentJob extends Component {
 
         let tempJobs;
         if (filters.length > 0) {
-            tempJobs = this.state.getJobs.filter((job) => {
+            tempJobs = this.props.data.filter((job) => {
                 return (filters.includes(job.category))
             }
             )
+            console.log("TempJobs",tempJobs)
         }
         else {
-            tempJobs = this.state.getJobs;
+            tempJobs = this.props.data;
         }
         this.setState({
             appliedFilters: filters,
+        });
+
+        await this.props.changeFilter(tempJobs, res => {
+            console.log(res)
+            // console.log(this.props)
         })
-
-        changeFilter(tempJobs)
-
-
-        return tempJobs;
-
+        this.componentDidUpdate(this.props.filteredJobs)
     }
 
     jobSearch = (e) => {
-        let filteredSearchJobs = this.SelectedFilterArray();
+        let filteredSearchJobs = this.props.filteredJobs;
         if (e.target.value) {
             this.setState({
                 filteredJobs: filteredSearchJobs.filter((job) => {
-                    return (job.title.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) || job.name.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) || job.location.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()))
+                    return (
+                    job.title.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) ||
+                    job.companyId.name.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) || 
+                    job.location.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()))
                 }
                 )
+            })
+        }
+        else{
+            this.setState({
+                filteredJobs : this.props.filteredJobs
             })
         }
     }
@@ -149,7 +169,7 @@ class StudentJob extends Component {
     render() {
         let clear = null
         var gtJobs = null
-        console.log("GJ",this.state.getJobs)
+        console.log("GJ", this.state.getJobs)
         console.log("FJ", this.state.filteredJobs)
         if (this.state.appliedFilters.length > 0) {
             clear = <button onClick={() => { this.filterClear() }} className="btn">Clear All</button>
@@ -173,7 +193,7 @@ class StudentJob extends Component {
 
         return (
             <div>
-                <NavbarJob/>
+                <NavbarJob />
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol style={{ textAlign: "center" }}>
@@ -209,12 +229,12 @@ class StudentJob extends Component {
 }
 
 const mapStateToProps = state => {
-    return{
-        data : state.jobs.data,
-        getjobs : state.jobs.getJobs,
-        filteredJobs : state.jobs.filteredJobs
+    return {
+        data: state.jobs.data,
+        getjobs: state.jobs.getJobs,
+        filteredJobs: state.jobs.filteredJobs
     }
 }
 
 //export Login Component
-export default connect(mapStateToProps,{getJobs,changeFilter})(StudentJob);
+export default connect(mapStateToProps, { getJobs, changeFilter })(StudentJob);

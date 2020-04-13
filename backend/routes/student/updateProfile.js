@@ -1,13 +1,33 @@
 const express = require('express');
+var app = express();
 const router = express.Router();
 var kafka = require('../../kafka/client');
+const multer = require('multer');
+var path = require('path');
 
-// const mongoose = require("mongoose")
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+});
 
-const Student = require("../../models/students")
+const upload = multer({
+    storage: storage,
+})
+app.use('../../uploads', express.static(path.join(__dirname, '/uploads')));
 
-router.post('/', (req, res, next) => {
 
+router.post('/',upload.single('profilePicUrl'), (req, res, next) => {
+    console.log("Inside upload profile for student post request");
+    console.log("Req body", req.body)
+    var host = req.hostname;
+    console.log("Hostname", host)
+    console.log("File", req.file)
+    var filepath = req.protocol + "://" + host + ':3001/' + req.file.path;
+    req.body.profilePicUrl = filepath
     console.log("Req Body", req.body)
     kafka.make_request('UpdateStudentProfile', req.body, function (err, results) {
         console.log('in result');

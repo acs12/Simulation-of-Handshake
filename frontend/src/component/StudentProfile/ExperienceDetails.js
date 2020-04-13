@@ -33,7 +33,7 @@ class ExperienceDetails extends Component {
     }
     //Call the Will Mount to set the auth Flag to false
     componentDidUpdate(prevProps, prevState) {
-        console.log("EXPERIENCE : componentDidUpdate CALLED")
+        console.log("EXPERIENCE : componentwillrecieveprops CALLED")
         if (prevProps.experience !== this.props.experience) {
             this.setState({ getExpDetails: this.props.experience })
         }

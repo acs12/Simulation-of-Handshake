@@ -1,5 +1,5 @@
 import { STUDENT_SIGNUP } from '../../types/student/student'
-import { STUDENT_LOGIN } from '../../types/student/student'
+import { STUDENT_LOGIN, ALL_STUDENTS } from '../../types/student/student'
 import axios from 'axios';
 import URL from '../../../constants.js';
 const jwt_decode = require('jwt-decode')
@@ -41,6 +41,29 @@ export function studentLogin(values, callback) {
            
             dispatch({
                 type: STUDENT_LOGIN,
+                payload: res.data
+            });
+            callback(res)
+        })
+    }
+
+}
+
+
+export function allStudents(values, callback) {
+    // console.log(values);
+
+    axios.defaults.withCredentials = true;
+
+    const request = axios
+        .get(`${URL}/getStudents`);
+
+    return (dispatch) => {
+        request.then((res) => {
+            // console.log("In signup user response:" + JSON.stringify(res));
+
+            dispatch({
+                type: ALL_STUDENTS,
                 payload: res.data
             });
             callback(res)

@@ -166,7 +166,7 @@ class StudentApplication extends Component {
                 <MDBContainer >
                     <MDBRow style={{textAlign:"center"}}>
                         <MDBCol style={{textAlign:"center"}} md="5">
-                            <div class="btn-group" role="group" style={{ alignItems: "center" }} >
+                            <div className="btn-group" role="group" style={{ alignItems: "center" }} >
                                 <button type="button" ref="PD" className="btn btn-secondary" name="fullTime" onClick={this.changePendingStatus}>Pending</button>
                                 <button type="button" ref="RV" className="btn btn-secondary" name="partTime" onClick={this.changeReviewedStatus}>Reviewed</button>
                                 <button type="button" ref="DC" className="btn btn-secondary" name="internship" onClick={this.changeDeclinedStatus}>Declined</button>

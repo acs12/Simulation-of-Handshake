@@ -12,62 +12,49 @@ class CompanyDetails extends Component {
         //Call the constrictor of Super class i.e The Component
         super(props);
         //maintain the state required for this component
-        this.state = {
-            getCmpDetails: [],
-            name: this.props.location.state
-        }
+
         //Bind the handlers to this class
     }
     //Call the Will Mount to set the auth Flag to false
-    componentDidMount = (e) => {
-        console.log("Inside company details", this.state.name)
-        let getCompanyDetails = {
-            name: this.state.name.name
-        }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/getCompanyDetails', getCompanyDetails)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    getCmpDetails: this.state.getCmpDetails.concat(acknowledge.data)
-                })
-            })
-    }
+    // componentDidMount = (e) => {
+    //     console.log("Inside company details", this.state.name)
+    //     // let getCompanyDetails = {
+    //     name: this.state.name.name
+    // }
+    // //set the with credentials to true
+    // axios.defaults.withCredentials = true;
+    // //make a post request with the user data
+    // axios.post('http://localhost:3001/getCompanyDetails', getCompanyDetails)
+    //     .then(acknowledge => {
+    //         console.log(acknowledge.data)
+    //         this.setState({
+    //             getCmpDetails: this.state.getCmpDetails.concat(acknowledge.data)
+    //         })
+    //     })
+    // }
 
 
 
     render() {
-        console.log("getCmpDetails", this.state.getCmpDetails)
+        console.log("getCmpDetails", this.props.location.state.name)
         return (
             <div>
-                <MDBContainer>
-                    <MDBCol md="3">
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
 
-                    </MDBCol>
-                    <MDBCol md="6">
-                        <form style={{ textAlign: "left" }}>
-                            <br></br>
-                            {this.state.getCmpDetails.map(x => {
-                                return (
-                                    <div className="card-body">
-                                        <h3 className="card-title">{x.name}</h3>
-                                        <h4 className="card-subtitle mb-2 text-muted">Email : {x.email}</h4>
-                                        <h4 className="card-subtitle mb-2 text-muted">Location : {x.location}</h4>
-                                        <h4 className="card-subtitle mb-2 text-muted">Description : {x.description}</h4>
-                                        <h4 className="card-subtitle mb-2 text-muted">Contact : {x.phoneNumber}</h4>
-                                    </div>
-                                )
 
-                            })}
-                        </form>
-                    </MDBCol>
-                    <MDBCol md="3">
+                <div className="card" style={{ textAlign: "center" }}>
+                    <div className="card-body">
+                        <h2 className="card-title">{this.props.location.state.name.name}</h2>
+                        <h5 className="card-subtitle mb-2 text-muted">Email : {this.props.location.state.name.email}</h5>
+                        <h5 className="card-subtitle mb-2 text-muted">Location : {this.props.location.state.name.location}</h5>
+                        <h5 className="card-subtitle mb-2 text-muted">Description : {this.props.location.state.name.description}</h5>
+                        <h5 className="card-subtitle mb-2 text-muted">Contact : {this.props.location.state.name.phoneNumber}</h5>
+                    </div>
+                </div>
 
-                    </MDBCol>
-
-                </MDBContainer>
 
             </div>
         )
