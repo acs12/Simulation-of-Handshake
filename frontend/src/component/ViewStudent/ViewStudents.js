@@ -19,6 +19,8 @@ class ViewStudents extends Component {
             getStudents: [],
             filteredStudents: [],
             filteredSearch: 0,
+            currentPage: 1,
+            itemsPerPage: 2
         }
         //Bind the handlers to this class
         // this.changeMajorStatus = this.changeMajorStatus.bind(this)
@@ -46,6 +48,13 @@ class ViewStudents extends Component {
             })
         })
         // this.componentWillReceiveProps()
+    }
+
+    handleClick(e) {
+        console.log(e)
+        this.setState({
+            currentPage: Number(e)
+        });
     }
 
     companySearch = (e) => {
@@ -92,6 +101,15 @@ class ViewStudents extends Component {
 
 
     render() {
+        const currentPage = this.state.currentPage;
+        const itemsPerPage = this.state.itemsPerPage
+
+        const indexOfLastTodo = currentPage * itemsPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
+        let renderPageNumbers = null;
+
+        console.log("IOL", indexOfLastTodo)
+        console.log("IOF", indexOfFirstTodo)
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
@@ -125,20 +143,53 @@ class ViewStudents extends Component {
         let gtStudents = null
 
         if (this.state.filteredSearch === 1) {
+            const currentItems = this.state.filteredStudents.slice(indexOfFirstTodo, indexOfLastTodo);
+            console.log("currentItems", currentItems)
             console.log("inside if in filter", this.state.filteredStudents)
             gtStudents = <div>
                 <form style={{ textAlign: "center" }}>
-                    {this.state.filteredStudents.map(x => <AllStudent key={x._id} item={x}></AllStudent>)}
+                    {currentItems.map(x => <AllStudent key={x._id} item={x}></AllStudent>)}
                 </form>
             </div>
+
+            const pageNumbers = [];
+
+            for (let i = 1; i <= Math.ceil(this.state.filteredSearch.length / itemsPerPage); i++) {
+                pageNumbers.push(i);
+            }
+
+
+            renderPageNumbers = (
+                <nav aria-label="Page navigation example" class="pagebar">
+                    <ul class="pagination">
+                        {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                    </ul>
+                </nav>
+            );
         }
 
         else {
+            const currentItems = this.state.getStudents.slice(indexOfFirstTodo, indexOfLastTodo);
+            console.log("currentItems", currentItems)
             gtStudents = <div>
                 <form style={{ textAlign: "center" }}>
-                    {this.state.getStudents.map(x => <AllStudent key={x._id} item={x}></AllStudent>)}
+                    {currentItems.map(x => <AllStudent key={x._id} item={x}></AllStudent>)}
                 </form>
             </div>
+
+            const pageNumbers = [];
+            for (let i = 1; i <= Math.ceil(this.state.getStudents.length / itemsPerPage); i++) {
+                pageNumbers.push(i);
+            }
+
+
+            renderPageNumbers = (
+                <nav aria-label="Page navigation example" class="pagebar">
+                    <ul class="pagination">
+                        {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                    </ul>
+                </nav>
+            );
         }
 
 
@@ -152,6 +203,12 @@ class ViewStudents extends Component {
                     <MDBRow style={{ textAlign: "center" }}>
                         <MDBCol>
                             {gtStudents}
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            {renderPageNumbers}
+
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>

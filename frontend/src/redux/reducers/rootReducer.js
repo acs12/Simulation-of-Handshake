@@ -1,15 +1,24 @@
 import { combineReducers} from "redux";
-import student from './student';
+import studentSignup from './student';
 import jobs from './jobs'
 import studentProfile from './studentProfile'
 import events from './events'
 
+import companySignup from './company'
+import companyJob from './companyJob'
+import companyEvents from './compayEvent'
+
 
 const rootReducer = combineReducers({
-    student: student,
+
+    student: studentSignup,
     jobs : jobs,
     events : events,
-    studentProfile : studentProfile
+    studentProfile : studentProfile,
+
+    company : companySignup,
+    companyJobs : companyJob,
+    companyEvents : companyEvents
 })
 
 

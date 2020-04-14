@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 import {studentSignup} from '../../redux'

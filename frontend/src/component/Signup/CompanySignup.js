@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import { companySignup } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 
@@ -36,7 +37,7 @@ class CompanySignup extends Component {
     }
 
     //submit Login handler to send a request to the node backend
-    submitCompanySignup = (e) => {
+    submitCompanySignup = async (e) => {
         // var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
@@ -47,31 +48,20 @@ class CompanySignup extends Component {
             location: this.state.location,
             password: this.state.password,
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/companySignup', companySignup)
-            .then(acknowledge => {
+        await this.props.companySignup(companySignup, res => {
+            console.log('Response signup company: ', res.data)
+            if (res.data === "Success") {
                 this.setState({
                     response: <div className="alert alert-success" role="alert">Account Created. Go to Login Page</div>
                 })
-            }).catch((error) => {
-                if (error.data === "401") {
-                    this.setState({
-                        response: <div className="alert alert-danger" role="alert">Some Error Occured. Try Again in Sometime.</div>
-                    })
-                }
-                else if (error.data === "403") {
-                    this.setState({
-                        response: <div className="alert alert-danger" role="alert">ID already exist. Go to SignIn Page</div>
-                    })
-                }
-                else{
-                    this.setState({
-                        response: <div className="alert alert-danger" role="alert">Error.</div>
-                    })
-                }
-            })
+                //localStorage.setItem("token")
+            } else {
+                this.setState({
+                    response: <div className="alert alert-danger" role="alert">Error</div>
+                })
+            }
+        })
     }
 
     render() {
@@ -164,4 +154,4 @@ class CompanySignup extends Component {
     }
 }
 //export Login Component
-export default CompanySignup;
+export default connect(null,{companySignup})(CompanySignup);

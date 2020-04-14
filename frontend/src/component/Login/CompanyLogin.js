@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import {  companyLogin } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 
@@ -16,7 +17,7 @@ class CompanyLogin extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            companyId : "",
+            companyId: "",
             email: "",
             password: "",
             response: ""
@@ -34,47 +35,36 @@ class CompanyLogin extends Component {
     }
 
     //submit Login handler to send a request to the node backend
-    submitCompanyLogin = (e) => {
+    submitCompanyLogin = async (e) => {
         // var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
-        const companyLogin = {
+        const data = {
             email: this.state.email,
             password: this.state.password
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/companyLogin', companyLogin)
-            .then(acknowledge => {
+        await this.props.companyLogin(data, res=>{
+            if (res.status === 200) {
+                console.log('Inside response', res.data)
+                localStorage.setItem("token", res.data.token)
+                localStorage.setItem("id", res.data.data._id)
+                localStorage.setItem("type", "company")
                 this.setState({
-                    companyId: acknowledge.data[0].companyId
+                    response: <div className="alert alert-success" role="alert">Success</div>
                 })
-            }).catch((error) => {
-                if (error.data === "401") {
-                    this.setState({
-                        response: <div className="alert alert-danger" role="alert">ID not registered. Go to Signup Page.</div>
-                    })
-                }
-                else if(error.data === "403") {
-                    this.setState({
-                        response: <div className="alert alert-danger" role="alert">Invalid Credentials.</div>
-                    })
-                }
-                else{
-                    this.setState({
-                        response: <div className="alert alert-danger" role="alert">Error.</div>
-                    })
-                }
-            })
+            } else {
+                this.setState({
+                    response: <div className="alert alert-danger" role="alert">Error</div>
+                })
+            }
+        })
     }
 
     render() {
         let response = this.state.response
         let redirectVar = null;
-        if (!localStorage.getItem("token")) {
-            localStorage.setItem("id" ,this.state.companyId)
-            localStorage.setItem("type","company")
+        if (localStorage.getItem("token")) {
+            console.log("inside get token")
             redirectVar = <Redirect to="/CompanyJob/CViewJob" />
         }
         return (
@@ -146,4 +136,4 @@ class CompanyLogin extends Component {
     }
 }
 //export Login Component
-export default CompanyLogin;
+export default connect(null, {companyLogin})(CompanyLogin);

@@ -110,6 +110,8 @@ class JobDetails extends Component {
                                 <h2 className="card-title">{this.props.item.title}</h2>
                                 <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
                                 <h4 className="card-subtitle mb-2 text-muted">Category : {this.props.item.category}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Deadline : {String(this.props.item.deadlineDate).slice(0,10)}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Posted On : {String(this.props.item.postedDate).slice(0,10)}</h4>
                             </div>
                         </div>
 
@@ -129,8 +131,8 @@ class JobDetails extends Component {
                                 <h4 className="card-subtitle mb-2 text-muted">Category : {this.props.item.category}</h4>
                                 <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
                                 <h4 className="card-subtitle mb-2 text-muted">Salary : {this.props.item.salary}</h4>
-                                <h4 className="card-subtitle mb-2 text-muted">Posted On : {this.state.postedDate}</h4>
-                                <h4 className="card-subtitle mb-2 text-muted">Deadline Date : {this.state.deadlineDate}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Posted On : {String(this.state.postedDate).slice(0,10)}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">Deadline Date : {String(this.state.deadlineDate).slice(0,10)}</h4>
                                 <h4 className="card-subtitle mb-2 text-muted">Job Description : {this.props.item.description}</h4>
                                 <button type="button" style={this.state.toggle ? { display: "none", float: "right" } : { display: "block" }} className="btn btn-success" onClick={this.changeDisplay} >Apply</button>
                                 <div className="card-subtitle mb-2 text-muted" style={this.state.toggle ? { display: "block", float: "right" } : { display: "none" }}>
@@ -171,8 +173,10 @@ class JobDetails extends Component {
                                 <div className="card-body">
                                     <h2 className="card-title">{this.props.item.title}</h2>
                                     <h4 className="card-subtitle mb-2 text-muted">Company : {this.props.item.companyId.name}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Lovation : {this.props.item.location}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Category : {this.props.item.category}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Deadline : {String(this.props.item.deadlineDate).slice(0,10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Posted On : {String(this.props.item.postedDate).slice(0,10)}</h4>
                                     <button className="btn btn-primary" onClick={this.changeJobDetailsStatus}>View</button>
                                 </div>
                                 <br></br>

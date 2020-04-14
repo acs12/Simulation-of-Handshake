@@ -13,7 +13,7 @@ router.post('/', (req, res, next) => {
         if (err || results == "Account Exists") {
             if (results == "Account Exists") {
                 console.log("Inside err");
-                res.status(401).send("Account Exists");
+                res.send("Account Exists");
             }
             else {
                 console.log("Inside err");

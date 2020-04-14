@@ -4,6 +4,9 @@ import axios from 'axios';
 import { MDBContainer, MDBCol } from "mdbreact";
 import CompanyEventBar from '../LandingPage/CompanyEventBar'
 import { Redirect } from 'react-router';
+import { postEvents } from '../../redux'
+import { connect } from 'react-redux'
+
 
 
 
@@ -33,7 +36,8 @@ class PostEvent extends Component {
         })
     }
 
-    AddEvent = (e) => {
+    AddEvent = async (e) => {
+        e.preventDefault()
         console.log(this.state)
         let AddEvent = {
             companyId: localStorage.getItem("id"),
@@ -44,23 +48,20 @@ class PostEvent extends Component {
             description: this.state.description,
             eligibility: this.state.eligibility,
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        console.log("Inside AddEvent");
-        axios.post('http://localhost:3001/AddEvent', AddEvent)
-            .then(acknowledge => {
-                console.log(acknowledge)
+        await this.props.postEvents(AddEvent, res => {
+            console.log(res)
+            if (res.status === 200) {
+                this.setState({
+                    response: <div className="alert alert-success" role="alert">Successfully Added</div>
+                })
+            }
+            else {
+                this.setState({
+                    response: <div className="alert alert-danger" role="alert">Error</div>
+                })
+            }
 
-                this.setState({
-                    response: <div className="alert alert-success" role="alert">Event Added Succesfully</div>
-                })
-            }).catch(error => {
-                console.log(error)
-                this.setState({
-                    response: <div className="alert alert-danger" role="alert">Error Occured. Try Again in Sometime.</div>
-                })
-            })
+        })
     }
 
 
@@ -168,4 +169,4 @@ class PostEvent extends Component {
         )
     }
 }
-export default PostEvent;
+export default connect(null,{postEvents})(PostEvent);

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBCol } from "mdbreact";
+import { updateCompanyProfile, getCompanyProfile } from '../../redux'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
@@ -21,33 +23,31 @@ class CompanyProfile extends Component {
             phoneNumber: "",
             email: "",
             response: "",
-            id : localStorage.getItem("id")
+            id: localStorage.getItem("id")
 
         }
         //Bind the handlers to this class
         this.changeHandler = this.changeHandler.bind(this)
         this.changeCompanyDetailsStatus = this.changeCompanyDetailsStatus.bind(this)
+        this.updateCompanyDetails = this.updateCompanyDetails.bind(this)
     }
 
-    componentDidMount = (e) => {
-        
+    componentDidMount = async (e) => {
+
         let getCompanyDetails = {
             companyId: this.state.id
         }
-        axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3001/getCompanyDetailsById', getCompanyDetails)
-            .then(acknowledge => {
-                console.log("Company details", acknowledge.data)
-                this.setState({
-                    name: acknowledge.data.name,
-                    email: acknowledge.data.email,
-                    location: acknowledge.data.location,
-                    profilePicUrl: acknowledge.data.profilePicUrl,
-                    phoneNumber: acknowledge.data.phoneNumber,
-                    description: acknowledge.data.description,
-
-                })
+        await this.props.getCompanyProfile(getCompanyDetails, res => {
+            console.log(res.data)
+            this.setState({
+                profilePicUrl: res.data[0].profilePicUrl,
+                name: res.data[0].name,
+                description: res.data[0].description,
+                location: res.data[0].location,
+                email: res.data[0].email,
+                phoneNumber: res.data[0].phoneNumber
             })
+        })
     }
 
     changeHandler = (e) => {
@@ -77,12 +77,41 @@ class CompanyProfile extends Component {
         }
     }
 
+    updateCompanyDetails = async (e) => {
+        e.preventDefault()
+        console.log("Inside Update company details", this.state.profilePicUrl)
+        let data = {
+            _id: this.state.id,
+            profilePicUrl: this.state.profilePicUrl,
+            name: this.state.name,
+            location: this.state.location,
+            description: this.state.description,
+            email: this.state.email,
+            phoneNumber: this.state.phoneNumber,
+
+        }
+        await this.props.updateCompanyProfile(data, res => {
+            console.log(res)
+            if (this.state.companyDetailsStatus === true) {
+                this.setState({
+                    companyDetailsStatus: false
+                })
+            }
+            else {
+                this.setState({
+                    companyDetailsStatus: true
+                })
+            }
+        })
+
+    }
+
     render() {
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/CompanyLogin" />
         }
-        console.log("Profile pic url", this.state.profilePicUrl)
+        console.log("Profile pic url", this.state)
         let companyDetails = null;
         if (this.state.companyDetailsStatus === false) {
             companyDetails = <form >
@@ -90,28 +119,28 @@ class CompanyProfile extends Component {
                 <br></br>
                 <div>
                     <div style={{ textAlign: "left" }}>
-                        <img style={{ width: "15%", height: "5%" }} className="img-circle" src={this.state.profilePicUrl} alt=""></img>
+                        <img style={{ width: "15%", height: "15%" }} className="img-circle" src={this.props.profilePicUrl} alt=""></img>
                     </div>
                     <br></br>
                     <div className="form-control-plaintext">
-                        
-                        <b><h3>{this.state.name}</h3></b>
+
+                        <b><h3>{this.props.name}</h3></b>
                     </div>
                     <div className="form-control-plaintext">
                         <b>Description : </b>
-                        {this.state.description}
+                        {this.props.description}
                     </div>
                     <div className="form-control-plaintext">
                         <b>Location : </b>
-                        {this.state.location}
+                        {this.props.location}
                     </div>
                     <div className="form-control-plaintext">
                         <b>Email : </b>
-                        {this.state.email}
+                        {this.props.email}
                     </div>
                     <div className="form-control-plaintext">
                         <b>Phone-Number : </b>
-                        {this.state.phoneNumber}
+                        {this.props.phoneNumber}
                     </div><br></br>
                     <button className="btn btn-primary" type="button" onClick={this.changeCompanyDetailsStatus}>Edit</button>
 
@@ -123,7 +152,7 @@ class CompanyProfile extends Component {
             companyDetails =
                 <div>
 
-                    <form action="/updateCompanyDetails" method="POST" encType='multipart/form-data'>
+                    <form>
 
                         <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeCompanyDetailsStatus}>X</button>
                         <b>Update Basic Details:</b>
@@ -163,7 +192,7 @@ class CompanyProfile extends Component {
                         </div>
 
                         <div className="form-group">
-                            Description : 
+                            Description :
                             <input
                                 onChange={this.changeHandler}
                                 type="text"
@@ -176,7 +205,7 @@ class CompanyProfile extends Component {
                         </div>
 
                         <div className="form-group">
-                            Location : 
+                            Location :
                             <input
                                 onChange={this.changeHandler}
                                 type="text"
@@ -188,7 +217,7 @@ class CompanyProfile extends Component {
                         </div>
 
                         <div className="form-group">
-                            Email : 
+                            Email :
                             <input
                                 onChange={this.changeHandler}
                                 type="email"
@@ -206,15 +235,15 @@ class CompanyProfile extends Component {
                                 type="number"
                                 className="form-control"
                                 name="phoneNumber"
-                                min = "0"
-                                max = "999999999999"
+                                min="0"
+                                max="999999999999"
                                 value={this.state.phoneNumber}
                                 placeholder="Enter Phone Number"
                             />
                         </div>
 
                         <br></br>
-                        <button className="btn btn-primary" type="submit">Update</button>
+                        <button className="btn btn-primary" onClick={this.updateCompanyDetails} type="submit">Update</button>
                         <br></br><br></br>
 
                     </form>
@@ -239,4 +268,15 @@ class CompanyProfile extends Component {
         )
     }
 }
-export default CompanyProfile;
+
+const mapStateToprops = state => {
+    return {
+        profilePicUrl: state.company.profilePicUrl,
+        name: state.company.name,
+        description: state.company.description,
+        location: state.company.location,
+        email: state.company.email,
+        phoneNumber: state.company.phoneNumber
+    }
+}
+export default connect(mapStateToprops, { updateCompanyProfile, getCompanyProfile })(CompanyProfile);

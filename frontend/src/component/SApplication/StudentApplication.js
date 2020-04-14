@@ -14,13 +14,15 @@ class StudentApplication extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-            id : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
             getAppsStatus: false,
             getApps: [],
             filteredApplicaion: [],
             pendingStatus: 0,
             reviewedStatus: 0,
-            declinedStatus: 0
+            declinedStatus: 0,
+            currentPage: 1,
+            itemsPerPage: 2
         }
         //Bind the handlers to this class
         this.changePendingStatus = this.changePendingStatus.bind(this)
@@ -41,12 +43,19 @@ class StudentApplication extends Component {
 
             console.log('Response signup user: ', res.data)
             this.setState({
-                getApps : res.data,
-               filteredApplicaion : res.data
+                getApps: res.data,
+                filteredApplicaion: res.data
             })
             //localStorage.setItem("token")
 
         })
+    }
+
+    handleClick(e) {
+        console.log(e)
+        this.setState({
+            currentPage: Number(e)
+        });
     }
 
     changePendingStatus = (e) => {
@@ -109,19 +118,29 @@ class StudentApplication extends Component {
 
 
     render() {
+        const currentPage = this.state.currentPage;
+        const itemsPerPage = this.state.itemsPerPage
+        let renderPageNumbers = null;
+
+        const indexOfLastTodo = currentPage * itemsPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
+        console.log("IOL", indexOfLastTodo)
+        console.log("IOF", indexOfFirstTodo)
         let gtApps = null
-        console.log("Filtered applicatiob",this.state.filteredApplicaion)
-        if(this.state.getApps.length === 0){
+        console.log("Filtered application", this.state.filteredApplicaion)
+        if (this.state.getApps.length === 0) {
             gtApps = <form style={{ textAlign: "center" }}>
-            <br></br>
-            <h4>No Applications Done.</h4>
-        </form>
+                <br></br>
+                <h4>No Applications Done.</h4>
+            </form>
         }
         else if (this.state.pendingStatus === 1 || this.state.reviewedStatus === 1 || this.state.declinedStatus === 1) {
+            const currentItems = this.state.filteredApplicaion.slice(indexOfFirstTodo, indexOfLastTodo);
+            console.log("currentItems", currentItems)
             console.log("inside if in filter", this.state.filteredApplicaion)
             gtApps = <div>
                 <form style={{ textAlign: "left" }}>
-                    {this.state.filteredApplicaion.map(x => {
+                    {currentItems.map(x => {
                         return (
                             <div>
                                 <br></br>
@@ -129,7 +148,7 @@ class StudentApplication extends Component {
                                     <h2 className="card-title">{x.title}</h2>
                                     <h4 className="card-subtitle mb-2 text-muted">Company: {x.companyId.name}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Status : Pending</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0,10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0, 10)}</h4>
                                 </div>
                                 <br></br>
                             </div>
@@ -137,12 +156,30 @@ class StudentApplication extends Component {
                     })}
                 </form>
             </div>
+
+            const pageNumbers = [];
+
+            for (let i = 1; i <= Math.ceil(this.state.filteredApplicaion.length / itemsPerPage); i++) {
+                pageNumbers.push(i);
+            }
+
+
+            renderPageNumbers = (
+                <nav aria-label="Page navigation example" class="pagebar">
+                    <ul class="pagination">
+                        {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                    </ul>
+                </nav>
+            );
+
         }
 
         else {
+            const currentItems = this.state.getApps.slice(indexOfFirstTodo, indexOfLastTodo);
+            console.log("currentItems", currentItems)
             gtApps = <div>
                 <form style={{ textAlign: "left" }}>
-                    {this.state.getApps.map(x => {
+                    {currentItems.map(x => {
                         return (
                             <div>
                                 <br></br>
@@ -150,7 +187,7 @@ class StudentApplication extends Component {
                                     <h2 className="card-title">{x.title}</h2>
                                     <h4 className="card-subtitle mb-2 text-muted">Company: {x.companyId.name}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Status : Pending</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0,10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0, 10)}</h4>
                                 </div>
                                 <br></br>
                             </div>
@@ -159,13 +196,31 @@ class StudentApplication extends Component {
                 </form>
 
             </div>
+
+            const pageNumbers = [];
+
+            for (let i = 1; i <= Math.ceil(this.state.getApps.length / itemsPerPage); i++) {
+                pageNumbers.push(i);
+            }
+
+            renderPageNumbers = (
+                <nav aria-label="Page navigation example" class="pagebar">
+                    <ul class="pagination">
+                        {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                    </ul>
+                </nav>
+            );
+
         }
+
+
+
         return (
             <div>
                 <NavbarJob />
                 <MDBContainer >
-                    <MDBRow style={{textAlign:"center"}}>
-                        <MDBCol style={{textAlign:"center"}} md="5">
+                    <MDBRow style={{ textAlign: "center" }}>
+                        <MDBCol style={{ textAlign: "center" }} md="5">
                             <div className="btn-group" role="group" style={{ alignItems: "center" }} >
                                 <button type="button" ref="PD" className="btn btn-secondary" name="fullTime" onClick={this.changePendingStatus}>Pending</button>
                                 <button type="button" ref="RV" className="btn btn-secondary" name="partTime" onClick={this.changeReviewedStatus}>Reviewed</button>
@@ -173,9 +228,14 @@ class StudentApplication extends Component {
                             </div>
                         </MDBCol>
                     </MDBRow>
-                    <MDBRow style={{textAlign:"left"}}>
-                        <MDBCol style={{textAlign:"left"}} md="5">
+                    <MDBRow style={{ textAlign: "left" }}>
+                        <MDBCol style={{ textAlign: "left" }} md="5">
                             {gtApps}
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            {renderPageNumbers}
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
@@ -185,4 +245,4 @@ class StudentApplication extends Component {
     }
 }
 
-export default connect(null,{appliedJobs})(StudentApplication);
+export default connect(null, { appliedJobs })(StudentApplication);

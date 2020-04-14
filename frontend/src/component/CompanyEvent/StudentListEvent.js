@@ -10,37 +10,33 @@ class StudentListEvent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            companyId: this.props.location.state.companyId,
-            eventId: this.props.location.state.eventId,
             name: this.props.location.state.name,
-            studentList: [],
-
+            studentList: this.props.location.state.student,
+            currentPage: 1,
+            itemsPerPage: 2
         }
 
     }
 
-    componentDidMount = async () => {
-
-        let registeredStudents = {
-            companyId: this.state.companyId,
-            eventId: this.state.eventId,
-        }
-
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3001/registeredStudents', registeredStudents)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    studentList: this.state.studentList.concat(acknowledge.data),
-                })
-            })
+    handleClick(e) {
+        console.log(e)
+        this.setState({
+            currentPage: Number(e)
+        });
     }
 
 
     render() {
+        const currentPage = this.state.currentPage;
+        const itemsPerPage = this.state.itemsPerPage
+        let renderPageNumbers = null;
+
+        const indexOfLastTodo = currentPage * itemsPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
+        console.log("IOL", indexOfLastTodo)
+        console.log("IOF", indexOfFirstTodo)
         let list = []
-        if (this.state.studentList.length === 0) {
+        if (this.props.location.state.student.length === 0) {
             list = <MDBContainer>
                 <MDBCol style={{ textAlign: "center" }}>
                     <div className="card-body">
@@ -52,7 +48,7 @@ class StudentListEvent extends Component {
                             </Link>
                         </div>
                         <div className="card-title" >
-                            <h2>{this.state.name}</h2>
+                            <h2>{this.props.location.state.name}</h2>
                         </div>
                         <br></br>
                         <br></br>
@@ -62,6 +58,8 @@ class StudentListEvent extends Component {
             </MDBContainer>
         }
         else {
+            const currentItems = this.props.location.state.student.slice(indexOfFirstTodo, indexOfLastTodo);
+            console.log("currentItems", currentItems)
             list = <MDBContainer>
                 <MDBCol style={{ textAlign: "center" }}>
                     <div className="card-body">
@@ -73,40 +71,69 @@ class StudentListEvent extends Component {
                             </Link>
                         </div>
                         <div className="card-title" >
-                            <h2>{this.state.name}</h2>
+                            <h2>{this.props.location.state.name}</h2>
                         </div>
                         <br></br>
-                        {this.state.studentList.map(x => {
+                        {currentItems.map(x => {
                             return (
-                                <MDBRow>
+                                <MDBCol>
                                     <div>
                                         <div className="card-subtitle mb-2 text-muted">
                                             <div style={{ textAlign: "center" }}>
-                                                <img style={{ width: "10%", height: "5%" }} className="img-circle" src={x.profilePicUrl} alt=""></img>
+                                                <img style={{ width: "15%", height: "15%" }} className="img-circle" src={x.profilePicUrl} alt=""></img>
                                             </div>
                                         </div>
                                         <div>
                                             <Link to={{
                                                 pathname: '../ViewStudent/StudentDetailsHome',
-                                                state: { studentId: x.studentId }
+                                                state: {
+                                                    studentId: x._id,
+                                                    name: x.name,
+                                                    email: x.email,
+                                                    schoolName: x.schoolName,
+                                                    gradDate: x.gradDate,
+                                                    major: x.major,
+                                                    profilePicUrl: x.profilePicUrl,
+                                                    careerObjective: x.careerObjective,
+                                                    skills: x.skills,
+                                                    education: x.education,
+                                                    experience: x.experience,
+                                                    resumeUrl: x.resumeUrl
+                                                }
                                             }}>
                                                 <h4 className="card-subtitle mb-2 text-muted">Name : {x.name}</h4></Link>
                                         </div>
                                     </div>
                                     <br></br> <br></br>
-                                </MDBRow>
+                                </MDBCol>
                             )
                         })}
                     </div>
                 </MDBCol>
             </MDBContainer>
         }
+
+        const pageNumbers = [];
+
+        for (let i = 1; i <= Math.ceil(this.props.location.state.student.length / itemsPerPage); i++) {
+            pageNumbers.push(i);
+        }
+
+
+        renderPageNumbers = (
+            <nav aria-label="Page navigation example" class="pagebar">
+                <ul class="pagination">
+                    {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                </ul>
+            </nav>
+        );
+
         return (
 
             <div>
                 <CompanyEventBar />
                 {list}
-
+                {renderPageNumbers}
             </div>
         )
     }

@@ -3,6 +3,8 @@ import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import {  getEventsById } from '../../redux'
+import { connect } from 'react-redux'
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import CompanyEventBar from '../LandingPage/CompanyEventBar'
 
@@ -14,7 +16,9 @@ class CViewEvent extends Component {
         //maintain the state required for this component
         this.state = {
             eventsByCompany: [],
-            id: localStorage.getItem("id")
+            id: localStorage.getItem("id"),
+            currentPage: 1,
+            itemsPerPage: 2
         }
     }
 
@@ -22,19 +26,31 @@ class CViewEvent extends Component {
         let getEventsByCompany = {
             companyId: this.state.id
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3001/getEventsByCompany', getEventsByCompany)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    eventsByCompany: this.state.eventsByCompany.concat(acknowledge.data)
-                })
+        this.props.getEventsById(getEventsByCompany,res=>{
+            console.log(res.data)
+            this.setState({
+                eventsByCompany : res.data
             })
+        })
+    }
+
+    handleClick(e) {
+        console.log(e)
+        this.setState({
+            currentPage: Number(e)
+        });
     }
 
 
     render() {
+        const currentPage = this.state.currentPage;
+        const itemsPerPage = this.state.itemsPerPage
+        let renderPageNumbers = null;
+
+        const indexOfLastTodo = currentPage * itemsPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
+        console.log("IOL", indexOfLastTodo)
+        console.log("IOF", indexOfFirstTodo)
         let events = null
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
@@ -46,14 +62,15 @@ class CViewEvent extends Component {
             </div>
         }
         else {
+            const currentItems = this.state.eventsByCompany.slice(indexOfFirstTodo, indexOfLastTodo);
+            console.log("currentItems", currentItems)
             events = <div>
                 <MDBContainer>
                     <MDBCol style={{ textAlign: "left" }}>
-                        {this.state.eventsByCompany.map(x => {
+                        {currentItems.map(x => {
                             let data = {
-                                companyId: x.companyId,
-                                eventId: x.eventId,
-                                name: x.name
+                                name : x.name,
+                                student : x.application
                             }
                             return (
                                 <MDBRow>
@@ -80,14 +97,30 @@ class CViewEvent extends Component {
 
             </div >
         }
+        
+        const pageNumbers = [];
+
+        for (let i = 1; i <= Math.ceil(this.state.eventsByCompany.length / itemsPerPage); i++) {
+            pageNumbers.push(i);
+        }
+
+
+        renderPageNumbers = (
+            <nav aria-label="Page navigation example" class="pagebar">
+                <ul class="pagination">
+                    {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                </ul>
+            </nav>
+        );
 
         return (
             <div>
                 {redirectVar}
                 <CompanyEventBar />
                 {events}
+                {renderPageNumbers}
             </div>
         )
     }
 }
-export default CViewEvent;
+export default connect(null,{getEventsById})(CViewEvent);

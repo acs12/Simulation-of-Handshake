@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { MDBContainer, MDBCol } from "mdbreact";
+import { postJobs } from '../../redux'
+import { connect } from 'react-redux'
 import CompanyJobBar from '../LandingPage/CompanyJobBar'
 import { Redirect } from 'react-router';
 
@@ -34,7 +36,7 @@ class PostJob extends Component {
         })
     }
 
-    AddJob = (e) => {
+    AddJob = async (e) => {
         console.log(this.state)
         e.preventDefault();
         let AddJob = {
@@ -46,22 +48,21 @@ class PostJob extends Component {
             description: this.state.description,
             category: this.state.category,
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        console.log("Inside AddJob");
-        axios.post('http://localhost:3001/AddJob', AddJob)
-            .then(acknowledge => {
-                console.log(acknowledge)
 
+        await this.props.postJobs(AddJob, res => {
+            console.log(res)
+            if (res.status === 200) {
                 this.setState({
-                    response: <div className="alert alert-success" role="alert">Job Added Succesfully</div>
+                    response: <div className="alert alert-success" role="alert">Successfully Added</div>
                 })
-            }).catch(error => {
-                console.log(error)
+            }
+            else {
                 this.setState({
-                    response: <div className="alert alert-danger" role="alert">Error Occured. Try Again in Sometime.</div>
+                    response: <div className="alert alert-danger" role="alert">Error</div>
                 })
-            })
+            }
+
+        })
     }
 
 
@@ -180,4 +181,4 @@ class PostJob extends Component {
         )
     }
 }
-export default PostJob;
+export default connect(null, { postJobs })(PostJob);

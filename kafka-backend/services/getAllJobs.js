@@ -8,11 +8,12 @@ var ObjectId = mongoose.Types.ObjectId;
 function handle_request(msg, callback) {
     console.log("message", msg)
 
+
     Job.find(
         {
             application : {$nin: [msg.studentId]}
         }
-    ).populate("companyId")
+    ).populate("companyId").sort(msg.sort).exec()
         .then(result => {
             console.log("result",result)
             callback(null, result)

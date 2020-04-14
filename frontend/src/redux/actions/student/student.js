@@ -33,7 +33,7 @@ export function studentLogin(values, callback) {
     axios.defaults.withCredentials = true;
 
     const request = axios
-        .post(`${URL}/studentLogin`, values);
+        .post(`${URL}/StudentLogin`, values);
 
     return (dispatch) => {
         request.then((res) => {

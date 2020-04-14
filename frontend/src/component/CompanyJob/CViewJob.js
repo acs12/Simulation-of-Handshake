@@ -3,6 +3,8 @@ import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import {  getJobsById } from '../../redux'
+import { connect } from 'react-redux'
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import CompanyJobBar from '../LandingPage/CompanyJobBar'
 
@@ -15,7 +17,8 @@ class CViewJob extends Component {
         this.state = {
             id: localStorage.getItem("id"),
             jobsByCompany: [],
-           
+            currentPage: 1,
+            itemsPerPage: 2
         }
     }
 
@@ -23,19 +26,33 @@ class CViewJob extends Component {
         let getJobsByCompany = {
             companyId: this.state.id
         }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3001/getJobsByCompany', getJobsByCompany)
-            .then(acknowledge => {
-                console.log(acknowledge.data)
-                this.setState({
-                    jobsByCompany: this.state.jobsByCompany.concat(acknowledge.data)
-                })
+        this.props.getJobsById(getJobsByCompany,res=>{
+            console.log(res.data)
+            this.setState({
+                jobsByCompany : res.data
             })
+        })
+      
+    }
+
+    handleClick(e) {
+        console.log(e)
+        this.setState({
+            currentPage: Number(e)
+        });
     }
 
 
     render() {
+        const currentPage = this.state.currentPage;
+        const itemsPerPage = this.state.itemsPerPage
+
+        const indexOfLastTodo = currentPage * itemsPerPage;
+        const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
+        let renderPageNumbers = null;
+
+        console.log("IOL", indexOfLastTodo)
+        console.log("IOF", indexOfFirstTodo)
         let jobs = null
         let redirectVar = null;
         if (!localStorage.getItem("token")) {
@@ -47,14 +64,15 @@ class CViewJob extends Component {
             </div>
         }
         else {
+            const currentItems = this.state.jobsByCompany.slice(indexOfFirstTodo, indexOfLastTodo);
+            console.log("currentItems", currentItems)
             jobs = <div>
                 <MDBContainer>
                     <MDBCol style={{ textAlign: "left" }}>
-                        {this.state.jobsByCompany.map(x => {
+                        {currentItems.map(x => {
                             let data = {
-                                companyId: x.companyId,
-                                jobId: x.jobId,
-                                title: x.title
+                                title : x.title,
+                                student : x.application
                             }
                             return (
                                 <MDBRow>
@@ -85,13 +103,35 @@ class CViewJob extends Component {
             </div >
         }
 
+        const pageNumbers = [];
+
+        for (let i = 1; i <= Math.ceil(this.state.jobsByCompany.length / itemsPerPage); i++) {
+            pageNumbers.push(i);
+        }
+
+
+        renderPageNumbers = (
+            <nav aria-label="Page navigation example" class="pagebar">
+                <ul class="pagination">
+                    {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                </ul>
+            </nav>
+        );
+
         return (
             <div>
                 {redirectVar}
                 <CompanyJobBar />
                 {jobs}
+                {renderPageNumbers}
             </div>
         )
     }
 }
-export default CViewJob;
+
+const mapStateToProps = state =>{
+    return{
+        data : state.companyJob.data
+    }
+}
+export default connect(null,{getJobsById})(CViewJob);

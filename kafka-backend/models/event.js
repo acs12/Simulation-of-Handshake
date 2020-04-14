@@ -7,7 +7,7 @@ const eventSchema = mongoose.Schema({
     companyId : {type : ObjectId, ref : "Company" },
     name : {type : String, required : true},
     date: Date,
-    time : Date,
+    time : String,
     description : String,
     location : String,
     eligibility : String,

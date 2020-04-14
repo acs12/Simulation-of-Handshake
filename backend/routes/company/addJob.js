@@ -7,10 +7,12 @@ var kafka = require('../../kafka/client');
 const Student = require("../../models/students")
 
 router.post('/', (req, res, next) => {
-
+    console.log('in result');
+    req.body.postedDate = Date.now()
+    console.log("Posted Date",req.body.postedDate)
     console.log("Req Body", req.body)
     kafka.make_request('AddJob', req.body, function (err, results) {
-        console.log('in result');
+        
         console.log(results);
         if (err) {
             console.log("Inside err");
