@@ -82,6 +82,11 @@ const getJobsById = require("./routes/company/getJobsById")
 const updateCompanyProfile = require("./routes/company/updateCompanyProfile")
 const jobApplication = require("./routes/company/jobApplication")
 const eventApplication = require("./routes/company/eventApplication")
+const jobStatusUpdate = require("./routes/company/updateJobStatus")
+
+//message
+
+const newMessage = require('./routes/message/newMessage')
 
 
 const storage = multer.diskStorage({
@@ -166,9 +171,6 @@ app.use("/getAllJobs",getAllJobs)
 app.use("/companyDetails",companyDetails)
 
 
-
-
-
 //company
 app.use("/company",company)
 app.use("/Clogin",companyLogin)
@@ -183,6 +185,12 @@ app.use("/getJobsById",getJobsById)
 
 app.use("/jobApplication",jobApplication)
 app.use("/eventApplication",eventApplication)
+
+app.use("/jobStatusUpdate",jobStatusUpdate)
+
+
+//message
+app.use("/CompanyMessagePost",newMessage)
 
 
 

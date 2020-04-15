@@ -27,6 +27,8 @@ router.post('/',  upload.single('myImage'),(req, res, next) => {
     console.log("File", req.file)
     var filepath = req.protocol + "://" + host + ':3001/' + req.file.path;
     req.body.myImage = filepath
+    req.body.status = " Pending"
+    req.body.applicationDate = Date.now()
     console.log("Req Body", req.body)
     kafka.make_request('ApplyToJob', req.body, function (err, results) {
         console.log('in result');

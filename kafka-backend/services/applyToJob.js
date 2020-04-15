@@ -11,14 +11,18 @@ function handle_request(msg, callback) {
     Job.update(
         { _id: msg._id },
         {
-            $addToSet: {
-                application : msg.studentId
+            $push: {
+                application: {
+                    studentId: msg.studentId,
+                    status: msg.status,
+                    applicationDate : msg.applicationDate
+                }
             }
         }
     )
         .exec()
         .then(result => {
-            console.log("first",result)
+            console.log("first", result)
             Student.update({
                 _id: msg.studentId
             }, {
@@ -30,11 +34,11 @@ function handle_request(msg, callback) {
                 .then(result => {
                     Job.find(
                         {
-                            application : {$nin: [msg.studentId]}
+                            "application.studentId": { $nin: [msg.studentId] }
                         }
                     ).populate("companyId")
                         .then(result => {
-                            console.log("result",result)
+                            console.log("result", result)
                             callback(null, result)
                         })
                         .catch(err => {
@@ -42,9 +46,9 @@ function handle_request(msg, callback) {
                             callback(err, null)
                         })
                 })
-                .catch(err=>{
+                .catch(err => {
                     console.log(err)
-                    callback(err,null)
+                    callback(err, null)
                 })
         })
         .catch(err => {

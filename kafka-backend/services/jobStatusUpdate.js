@@ -2,19 +2,26 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const Job = require("../models/job")
+const Student = require("../models/students")
 var ObjectId = mongoose.Types.ObjectId;
 
 
 function handle_request(msg, callback) {
     console.log("message", msg)
-
-    Job.find({
-        _id: msg._id
+    Job.update(
+        { _id: msg._id },
+        {
+            $set: {
+                "application.$[app].status": msg.status,
+            }
+        }, {
+        arrayFilters: [{ "app._id": msg.appId }],
     }
-    ).populate('application.studentId')
+    )
+        .exec()
         .then(result => {
-            console.log(result)
-            callback(null, result)
+            console.log("first", result)
+            callback(null, "success")
         })
         .catch(err => {
             console.log(err)

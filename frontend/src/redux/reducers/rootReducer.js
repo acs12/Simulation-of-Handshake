@@ -7,6 +7,7 @@ import events from './events'
 import companySignup from './company'
 import companyJob from './companyJob'
 import companyEvents from './compayEvent'
+import messages from './message'
 
 
 const rootReducer = combineReducers({
@@ -18,7 +19,9 @@ const rootReducer = combineReducers({
 
     company : companySignup,
     companyJobs : companyJob,
-    companyEvents : companyEvents
+    companyEvents : companyEvents,
+
+    messages : messages
 })
 
 

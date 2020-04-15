@@ -41,10 +41,9 @@ class StudentApplication extends Component {
         //make a post request with the user data
         this.props.appliedJobs(getAllApplication, res => {
 
-            console.log('Response signup user: ', res.data)
+            console.log('Response: ', res.data)
             this.setState({
                 getApps: res.data,
-                filteredApplicaion: res.data
             })
             //localStorage.setItem("token")
 
@@ -59,61 +58,64 @@ class StudentApplication extends Component {
     }
 
     changePendingStatus = (e) => {
-        if (this.state.pendingStatus === 0) {
-            this.refs.PD.className = "btn btn-info"
-            this.setState({
-                pendingStatus: 1,
-                filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.status === "Pending"))
-            })
-            console.log("if", this.state.filteredApplicaion)
-        }
-        else {
-            this.refs.PD.className = "btn btn-secondary"
-            this.setState({
-                pendingStatus: 0,
-                filteredApplicaion: this.state.filteredApplicaion.filter(x => x.status !== "Pending")
-            })
-            console.log("else", this.state.filteredApplicaion)
-        }
+        // if (this.state.pendingStatus === 0) {
+        //     this.refs.PD.className = "btn btn-info"
+        //     this.setState({
+        //         pendingStatus: 1,
+        //         filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.application.status === "Pending"))
+        //     })
+        //     console.log("if", this.state.filteredApplicaion)
+        // }
+        // else {
+        //     this.refs.PD.className = "btn btn-secondary"
+        //     this.setState({
+        //         pendingStatus: 0,
+        //         filteredApplicaion: this.state.filteredApplicaion.filter(x => x.application.status !== "Pending")
+        //     })
+        //     console.log("else", this.state.filteredApplicaion)
+        // }
     }
 
     changeReviewedStatus = (e) => {
-        if (this.state.reviewedStatus === 0) {
-            this.refs.RV.className = "btn btn-info"
-            this.setState({
-                reviewedStatus: 1,
-                filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.status === "Reviewed"))
-            })
-            console.log("if", this.state.filteredApplicaion)
-        }
-        else {
-            this.refs.RV.className = "btn btn-secondary"
-            this.setState({
-                reviewedStatus: 0,
-                filteredApplicaion: this.state.filteredApplicaion.filter(x => x.status !== "Reviewed")
-            })
-            console.log("else", this.state.filteredApplicaion)
-        }
+        // if (this.state.reviewedStatus === 0) {
+        //     this.refs.RV.className = "btn btn-info"
+        //     let z = []
+        //     console.log("getApps State", this.state.getApps)
+        //     this.setState
+        //         ({
+        //             reviewedStatus: 1,
+        //             filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.application.status === "Reviewed"))
+        //         })
+        //     console.log("if", this.state.filteredApplicaion)
+        // }
+        // else {
+        //     this.refs.RV.className = "btn btn-secondary"
+        //     this.setState({
+        //         reviewedStatus: 0,
+        //         filteredApplicaion: this.state.filteredApplicaion.filter(x => x.application.status !== "Reviewed")
+        //     })
+        //     console.log("else", this.state.filteredApplicaion)
+        // }
     }
 
 
     changeDeclinedStatus = (e) => {
-        if (this.state.declinedStatus === 0) {
-            this.refs.DC.className = "btn btn-info"
-            this.setState({
-                declinedStatus: 1,
-                filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.status === "Declined"))
-            })
-            console.log("if", this.state.filteredApplicaion)
-        }
-        else {
-            this.refs.DC.className = "btn btn-secondary"
-            this.setState({
-                declinedStatus: 0,
-                filteredApplicaion: this.state.filteredApplicaion.filter(x => x.status !== "Declined")
-            })
-            console.log("else", this.state.filteredApplicaion)
-        }
+        // if (this.state.declinedStatus === 0) {
+        //     this.refs.DC.className = "btn btn-info"
+        //     this.setState({
+        //         declinedStatus: 1,
+        //         filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.application.status === "Declined"))
+        //     })
+        //     console.log("if", this.state.filteredApplicaion)
+        // }
+        // else {
+        //     this.refs.DC.className = "btn btn-secondary"
+        //     this.setState({
+        //         declinedStatus: 0,
+        //         filteredApplicaion: this.state.filteredApplicaion.filter(x => x.application.status !== "Declined")
+        //     })
+        //     console.log("else", this.state.filteredApplicaion)
+        // }
     }
 
 
@@ -147,8 +149,8 @@ class StudentApplication extends Component {
                                 <div className="card-body">
                                     <h2 className="card-title">{x.title}</h2>
                                     <h4 className="card-subtitle mb-2 text-muted">Company: {x.companyId.name}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Status : Pending</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0, 10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Status : {x.application[0].status}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.application[0].applicationDate).slice(0, 10)}</h4>
                                 </div>
                                 <br></br>
                             </div>
@@ -186,8 +188,8 @@ class StudentApplication extends Component {
                                 <div className="card-body">
                                     <h2 className="card-title">{x.title}</h2>
                                     <h4 className="card-subtitle mb-2 text-muted">Company: {x.companyId.name}</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Status : Pending</h4>
-                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.postedDate).slice(0, 10)}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Status : {x.application[0].status}</h4>
+                                    <h4 className="card-subtitle mb-2 text-muted">Application Date : {String(x.application[0].applicationDate).slice(0, 10)}</h4>
                                 </div>
                                 <br></br>
                             </div>

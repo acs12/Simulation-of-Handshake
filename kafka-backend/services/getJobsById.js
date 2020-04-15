@@ -12,7 +12,7 @@ function handle_request(msg, callback) {
         {
             companyId :msg.companyId
         }
-    ).populate('application')
+    ).populate('application.studentId')
         .then(result => {
             console.log(result)
             callback(null, result)

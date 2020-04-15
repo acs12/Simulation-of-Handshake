@@ -11,7 +11,7 @@ function handle_request(msg, callback) {
 
     Job.find(
         {
-            application : {$nin: [msg.studentId]}
+            "application.studentId" : {$nin: [msg.studentId]}
         }
     ).populate("companyId").sort(msg.sort).exec()
         .then(result => {

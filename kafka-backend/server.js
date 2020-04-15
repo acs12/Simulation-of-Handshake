@@ -48,6 +48,10 @@ var getJobsById = require('./services/getJobsById')
 var getEventsById = require('./services/getEventsById')
 var jobApplication = require('./services/jobApplication')
 var eventApplication = require('./services/eventApplication')
+var jobStatusUpdate = require('./services/jobStatusUpdate')
+
+//company
+var NewMessage = require('./services/newMessagePost')
 
 
 
@@ -132,7 +136,12 @@ handleTopicRequest("GetEventsById",getEventsById)
 handleTopicRequest("JobApplication",jobApplication)
 handleTopicRequest("EventApplication",eventApplication)
 
+handleTopicRequest("UpdateJobStatus",jobStatusUpdate)
+
 
 //common
 handleTopicRequest("GetStudents",getStudents)
 handleTopicRequest("GetStudentsById",getStudentsById)
+
+//message
+handleTopicRequest("NewMessage",NewMessage)

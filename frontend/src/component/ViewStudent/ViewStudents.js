@@ -17,6 +17,7 @@ class ViewStudents extends Component {
         //maintain the state required for this component
         this.state = {
             getStudents: [],
+            skillsData: [],
             filteredStudents: [],
             filteredSearch: 0,
             currentPage: 1,
@@ -28,13 +29,6 @@ class ViewStudents extends Component {
         this.companySearch = this.companySearch.bind(this)
 
     }
-
-    // componentWillReceiveProps(prevProps, prevState) {
-    //     console.log("ViewStudents : componentDidUpdate CALLED")
-    //     if (prevProps.allStudent !== this.props.allStudent) {
-    //         this.setState({ getStudents: this.props.allStudent })
-    //     }
-    // }
 
     componentDidMount = async (e) => {
         // e.preventDefault();
@@ -64,7 +58,24 @@ class ViewStudents extends Component {
             this.setState({
                 filteredSearch: 1,
                 filteredStudents: filteredSearchStudents.filter((s) => {
-                    return (s.name.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) || s.schoolName.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) || s.skillname.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()))
+                    console.log("Skill", s.skills)
+                    let skillsArray = ""
+                    for (let i = 0; i < s.skills.length; i++) {
+                        let oneSkill = s.skills[i].skillName
+                        console.log(s.skills[i].skillName)
+                        if (i == s.skills.length - 1) {
+                            skillsArray = skillsArray.concat(oneSkill)
+                            console.log("For", skillsArray)
+                        }
+                        else {
+                            skillsArray = skillsArray.concat(oneSkill + ",")
+                            console.log("For", skillsArray)
+                        }
+                    }
+                    return (
+                        s.name.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) ||
+                        s.schoolName.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()) ||
+                        skillsArray.replace(/\s+/g, '').toLowerCase().includes(e.target.value.replace(/\s+/g, '').toLowerCase()))
                 }
                 )
             })
@@ -107,6 +118,7 @@ class ViewStudents extends Component {
         const indexOfLastTodo = currentPage * itemsPerPage;
         const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;
         let renderPageNumbers = null;
+        const pageNumbers = [];
 
         console.log("IOL", indexOfLastTodo)
         console.log("IOF", indexOfFirstTodo)
@@ -152,20 +164,10 @@ class ViewStudents extends Component {
                 </form>
             </div>
 
-            const pageNumbers = [];
-
             for (let i = 1; i <= Math.ceil(this.state.filteredSearch.length / itemsPerPage); i++) {
                 pageNumbers.push(i);
             }
 
-
-            renderPageNumbers = (
-                <nav aria-label="Page navigation example" class="pagebar">
-                    <ul class="pagination">
-                        {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
-                    </ul>
-                </nav>
-            );
         }
 
         else {
@@ -177,20 +179,20 @@ class ViewStudents extends Component {
                 </form>
             </div>
 
-            const pageNumbers = [];
+
             for (let i = 1; i <= Math.ceil(this.state.getStudents.length / itemsPerPage); i++) {
                 pageNumbers.push(i);
             }
 
-
-            renderPageNumbers = (
-                <nav aria-label="Page navigation example" class="pagebar">
-                    <ul class="pagination">
-                        {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
-                    </ul>
-                </nav>
-            );
         }
+
+        renderPageNumbers = (
+            <nav aria-label="Page navigation example" class="pagebar">
+                <ul class="pagination">
+                    {pageNumbers.map((i) => <li class="page-item"><a key={i} id={i} onClick={() => { this.handleClick(i) }} class="page-link" href="#">{i}</a></li>)}
+                </ul>
+            </nav>
+        );
 
 
 
@@ -208,7 +210,6 @@ class ViewStudents extends Component {
                     <MDBRow>
                         <MDBCol>
                             {renderPageNumbers}
-
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>

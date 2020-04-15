@@ -1,9 +1,10 @@
-import { GET_JOBS__BY_ID, POST_JOBS } from '../types/company/companyJob'
+import { GET_JOBS__BY_ID, POST_JOBS,UPDATE_JOB_STATUS } from '../types/company/companyJob'
 
 
 
 const initialState = {
-    data: []
+    data: [],
+    status : ""
 }
 
 const companyJob = (state = initialState, action) => {
@@ -20,6 +21,13 @@ const companyJob = (state = initialState, action) => {
             return Object.assign({}, state, {
                 ...state,
                 data: action.payload
+            })
+
+        case UPDATE_JOB_STATUS : 
+            console.log("AP",action.payload)
+            return Object.assign({},state,{
+                ...state,
+                status : action.payload
             })
 
         default: return state

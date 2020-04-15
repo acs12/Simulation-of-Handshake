@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import axios from 'axios';
+import {updateJobStatus} from '../../redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import CompanyJobBar from '../LandingPage/CompanyJobBar'
 
@@ -15,27 +17,22 @@ class StudentList extends Component {
             studentList: this.props.location.state.students,
             currentPage: 1,
             itemsPerPage: 2
-
         }
         this.changeStatusHandler = this.changeStatusHandler.bind(this)
     }
 
 
-    changeStatusHandler = (id, x) => {
+    changeStatusHandler = async (id, status) => {
         let jobStatusUpdate = {
-            studentId: id,
-            status: x,
-            jobId: this.state.jobId,
-            companyId: this.state.companyId
+            appId: id,
+            status: status,
+            _id: this.props.location.state.x._id,
         }
-        // console.log("inside update status in student list")
-        // //set the with credentials to true
-        // axios.defaults.withCredentials = true;
-        // //make a post request with the user data
-        // axios.post('http://localhost:3001/jobStatusUpdate', jobStatusUpdate)
-        //     .then(acknowledge => {
-        //         console.log(acknowledge.data)
-        //     })
+        console.log("whole",this.props.location.state.x)
+        console.log("state",jobStatusUpdate)
+        await this.props.updateJobStatus(jobStatusUpdate,res=>{
+            console.log(res)
+        })
     }
 
     
@@ -99,34 +96,34 @@ class StudentList extends Component {
                                     <div>
                                         <div className="card-subtitle mb-2 text-muted">
                                             <div style={{ textAlign: "center" }}>
-                                                <img style={{ width: "15%", height: "15%" }} className="img-circle" src={x.profilePicUrl} alt=""></img>
+                                                <img style={{ width: "15%", height: "15%" }} className="img-circle" src={x.studentId.profilePicUrl} alt=""></img>
                                             </div>
                                         </div>
                                         <div style={{ textAlign: "center" }}>
                                             <Link to={{
                                                 pathname: '../ViewStudent/StudentDetailsHome',
                                                 state: {
-                                                    studentId: x._id,
-                                                    name: x.name,
-                                                    email: x.email,
-                                                    schoolName: x.schoolName,
-                                                    gradDate: x.gradDate,
-                                                    major: x.major,
-                                                    profilePicUrl: x.profilePicUrl,
-                                                    careerObjective: x.careerObjective,
-                                                    skills: x.skills,
-                                                    education: x.education,
-                                                    experience: x.experience,
-                                                    resumeUrl : x.resumeUrl
+                                                    studentId: x.studentId._id,
+                                                    name: x.studentId.name,
+                                                    email: x.studentId.email,
+                                                    schoolName: x.studentId.schoolName,
+                                                    gradDate: x.studentId.gradDate,
+                                                    major: x.studentId.major,
+                                                    profilePicUrl: x.studentId.profilePicUrl,
+                                                    careerObjective: x.studentId.careerObjective,
+                                                    skills: x.studentId.skills,
+                                                    education: x.studentId.education,
+                                                    experience: x.studentId.experience,
+                                                    resumeUrl : x.studentId.resumeUrl
                                                 }
                                             }}>
-                                                <h4 className="card-subtitle mb-2 text-muted">Name : {x.name}</h4></Link>
+                                                <h4 className="card-subtitle mb-2 text-muted">Name : {x.studentId.name}</h4></Link>
                                         </div>
                                         <h5>Update Job Status : </h5>
                                         <div class="btn-group" role="group" style={{ alignItems: "center" }} >
-                                            <button onClick={() => { this.changeStatusHandler(x.studentId, "Pending") }}>Pending </button>
-                                            <button onClick={() => { this.changeStatusHandler(x.studentId, "Reviewed") }}>Reviewed </button>
-                                            <button onClick={() => { this.changeStatusHandler(x.studentId, "Declined") }}>Declined</button>
+                                            <button onClick={() => { this.changeStatusHandler(x._id, "Pending") }}>Pending </button>
+                                            <button onClick={() => { this.changeStatusHandler(x._id, "Reviewed") }}>Reviewed </button>
+                                            <button onClick={() => { this.changeStatusHandler(x._id, "Declined") }}>Declined</button>
                                         </div>
                                     </div>
                                     <br></br> <br></br>
@@ -163,4 +160,4 @@ class StudentList extends Component {
         )
     }
 }
-export default StudentList;
+export default connect(null,{updateJobStatus})(StudentList);

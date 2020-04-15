@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer, MDBCol } from "mdbreact";
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { applyToEvent } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
@@ -121,7 +121,11 @@ class EventDetails extends Component {
                                 <div className="card-body">
                                     <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeEventDetailsStatus}>X</button>
                                     <div className="card-title">
-                                        <h2>{this.props.item.companyId.name}</h2>
+                                        <Link to={{
+                                            pathname: '../SJob/CompanyDetails',
+                                            state: { name: this.props.item.companyId }
+                                        }}>
+                                            <h2>{this.props.item.companyId.name}</h2></Link>
                                     </div>
                                     <h4 className="card-title">{this.props.item.name}</h4>
                                     <h4 className="card-subtitle mb-2 text-muted">Location : {this.props.item.location}</h4>

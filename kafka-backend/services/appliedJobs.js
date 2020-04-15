@@ -9,7 +9,7 @@ function handle_request(msg, callback) {
     console.log("message", msg)
     Job.find(
         {
-            application : { $in : [msg.studentId] }
+            "application.studentId" : { $in : [msg.studentId] }
 
         }
     ).populate("companyId")

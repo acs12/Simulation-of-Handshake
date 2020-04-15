@@ -30,6 +30,8 @@ import CViewEvent from './CompanyEvent/CViewEvent'
 import StudentListEvent from './CompanyEvent/StudentListEvent'
 import PostEvent from './CompanyEvent/PostEvent'
 import CompanyProfile from './Company/CompanyProfile'
+//
+import Message from './Message/companyMessage'
 
 
 
@@ -70,6 +72,8 @@ class Main extends Component {
                     <Route exact path="/CompanyEvent/StudentListEvent" component={StudentListEvent} />
                     <Route exact path="/CompanyEvent/PostEvent" component={PostEvent} />
                     <Route exact path="/Company/CompanyProfile" component={CompanyProfile} />
+                    {/*Render Different Component based on Route*/}
+                    <Route exact path="/Message/companyMessage" component={Message}/>
 
 
 

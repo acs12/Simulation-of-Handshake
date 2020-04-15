@@ -71,6 +71,7 @@ class CViewJob extends Component {
                     <MDBCol style={{ textAlign: "left" }}>
                         {currentItems.map(x => {
                             let data = {
+                                x : x,
                                 title : x.title,
                                 student : x.application
                             }

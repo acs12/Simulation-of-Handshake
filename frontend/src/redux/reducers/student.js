@@ -14,7 +14,8 @@ const initialState = {
     careerObjective:"",
     email : "",
     phoneNumber:"",
-    data : []
+    data : [],
+    skillsUpdate : []
 }
 
 const studentSignup = (state = initialState, action) => {
@@ -40,7 +41,8 @@ const studentSignup = (state = initialState, action) => {
         case ALL_STUDENTS: 
         console.log("AP",action.payload)
         return Object.assign({},state,{
-            allStudents : action.payload
+            allStudents : action.payload,
+            skillsUpdate : action.payload
         })
 
         default : return state
