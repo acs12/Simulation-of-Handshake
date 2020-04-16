@@ -52,6 +52,7 @@ export function companyLogin(values, callback) {
 
 export function updateCompanyProfile(values, callback) {
     console.log("Values",values);
+    let x = localStorage.getItem("token")
     const formData = new FormData();
     formData.append('profilePicUrl', values.profilePicUrl);
     formData.append("_id", values._id);
@@ -91,6 +92,7 @@ export function getCompanyProfile(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/companyDetails`, values);

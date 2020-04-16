@@ -8,6 +8,7 @@ export function getEventsById(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/getEventsById`, values);
@@ -31,6 +32,7 @@ export function postEvents(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/addEvent`, values);

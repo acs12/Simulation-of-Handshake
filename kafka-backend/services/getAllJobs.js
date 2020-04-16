@@ -7,8 +7,6 @@ var ObjectId = mongoose.Types.ObjectId;
 
 function handle_request(msg, callback) {
     console.log("message", msg)
-
-
     Job.find(
         {
             "application.studentId" : {$nin: [msg.studentId]}

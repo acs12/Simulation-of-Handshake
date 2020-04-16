@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
 var kafka = require('../../kafka/client');
+const {auth,checkAuthCompany} =require('../../config/passport') 
+auth()
 
-// const mongoose = require("mongoose")
-
-const Student = require("../../models/students")
-
-router.post('/', (req, res, next) => {
+router.post('/',checkAuthCompany, (req, res, next) => {
 
     console.log("Req Body", req.body)
     kafka.make_request('AddEvent', req.body, function (err, results) {

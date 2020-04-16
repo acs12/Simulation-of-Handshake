@@ -3,11 +3,14 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const Student =  require('../../models/students');
 var jwt = require('jsonwebtoken');
-var passport = require('passport');
+const secret = require('../../config/settings')
+const {auth} = require('../../config/passport')
+// var passport = require('passport');
 var config = require('../../config/settings');
-require('../../config/passport')(passport);
 var kafka = require('../../kafka/client');
 
+auth()
+// require('../../config/passport')(passport);
 
 router.post('/',(req,res,next) => {
     
@@ -28,6 +31,7 @@ router.post('/',(req,res,next) => {
           res.status(500).send("Error");
         }
       }else{
+          auth()
           console.log("Inside else");
           console.log(results);
           req.session.name = results.result;   

@@ -5,8 +5,9 @@ var kafka = require('../../kafka/client');
 // const mongoose = require("mongoose")
 
 const Student = require("../../models/students")
-
-router.post('/addExperience', (req, res, next) => {
+const {auth,checkAuth} =require('../../config/passport') 
+auth()
+router.post('/addExperience', checkAuth, (req, res, next) => {
 
     console.log("Req Body", req.body)
     kafka.make_request('PostAddExperience', req.body, function (err, results) {
@@ -23,7 +24,7 @@ router.post('/addExperience', (req, res, next) => {
     });
 })
 
-router.post('/deleteExperience', (req, res, next) => {
+router.post('/deleteExperience',checkAuth, (req, res, next) => {
 
     console.log("Req Body", req.body)
     kafka.make_request('DeleteExperience', req.body, function (err, results) {
@@ -41,7 +42,7 @@ router.post('/deleteExperience', (req, res, next) => {
 })
 
 
-router.post('/updateExperience', (req, res, next) => {
+router.post('/updateExperience',checkAuth, (req, res, next) => {
 
     console.log("Req Body", req.body)
     kafka.make_request('UpdateExperienceDetails', req.body, function (err, results) {

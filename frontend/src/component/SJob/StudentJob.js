@@ -276,16 +276,17 @@ class StudentJob extends Component {
                     </MDBRow>
                     <MDBRow>
                         <MDBCol style={{ textAlign: "center" }}>
-                            <div>
+                            <div className="btn-group">
+                                <br></br>
                                 <br></br>
                                 <select name="sort" className="btn-group" onChange={this.sort} defaultValue="">
                                     <option value=""></option>
-                                    <option value="postedDate"> Posting Date - Increasing</option>
-                                    <option value="-postedDate"> Posting Date - Decreasing</option>
-                                    <option value="deadlineDate"> Deadline - Increasing</option>
-                                    <option value="-deadlineDate"> Deadline - Decreasing</option>
-                                    <option value="location"> Location - A -> Z</option>
-                                    <option value="-location"> Location - Z -> A</option>
+                                    <option className="btn btn-outline" value="postedDate"> Posting Date - Increasing</option>
+                                    <option className="btn btn-outline" value="-postedDate"> Posting Date - Decreasing</option>
+                                    <option className="btn btn-outline" value="deadlineDate"> Deadline - Increasing</option>
+                                    <option className="btn btn-outline" value="-deadlineDate"> Deadline - Decreasing</option>
+                                    <option className="btn btn-outline" value="location"> Location - A -> Z</option>
+                                    <option className="btn btn-outline" value="-location"> Location - Z -> A</option>
                                 </select>
                             </div>
                         </MDBCol>

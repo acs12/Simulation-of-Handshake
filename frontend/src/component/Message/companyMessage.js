@@ -5,6 +5,7 @@ import { Redirect } from 'react-router';
 import Display from './display'
 import { allStudents } from '../../redux'
 import { connect } from 'react-redux'
+import MessageBar from '../LandingPage/messageBar'
 
 //Define a Login Component
 class Message extends Component {
@@ -21,7 +22,6 @@ class Message extends Component {
         }
 
         this.changeDisplay = this.changeDisplay.bind(this)
-        this.chat = this.chat.bind(this)
 
     }
 
@@ -32,21 +32,6 @@ class Message extends Component {
                 getStudents: res.data
             })
         })
-    }
-
-    chat = async () => {
-        // e.preventDefault()
-        // let data = {
-        //     chatId: this.state.chatId,
-        //     from: this.state.id,
-        //     to: id,
-        //     text: ""
-
-        // }
-        // await this.props.chat(data , res =>{
-        //     console.log(res)
-        // })
-
     }
 
     changeDisplay = (e) => {
@@ -65,18 +50,25 @@ class Message extends Component {
     }
 
     render() {
+        let chat = null
         let redirectVar = null
+        let bar = null
         // console.log("_id", this.state.jobId)
         console.log("Students", this.state.getStudents)
+        if (localStorage.getItem("type") === "student") {
+            bar = <MessageBar></MessageBar>
+        }
 
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
 
-        let chat = <div>{this.state.getStudents.map(x => <Display key={x._id} item={x}></Display>)}</div>
+        chat = <div>{this.state.getStudents.map(x => <Display key={x._id} item={x}></Display>)}</div>
+
 
         return (
             <div>
+                {bar}
                 {redirectVar}
                 {chat}
             </div>
@@ -86,4 +78,4 @@ class Message extends Component {
 
 
 //export Login Component
-export default connect(null,{allStudents})(Message);
+export default connect(null, { allStudents })(Message);

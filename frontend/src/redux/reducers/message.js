@@ -1,9 +1,10 @@
-import { COMPANY_SEND_MSG } from '../types/message/companyMessage'
+import { COMPANY_SEND_MSG, MESSAGE_FROM_COMPANY } from '../types/message/companyMessage'
 
 
 
 const initialState = {
-    data: []
+    data: [],
+    companyData : []
 }
 
 const messages = (state = initialState, action) => {
@@ -13,6 +14,13 @@ const messages = (state = initialState, action) => {
             return {
                 ...state,
                 data: action.payload
+            }
+
+        case MESSAGE_FROM_COMPANY:
+            console.log("AP", action.payload)
+            return {
+                ...state,
+                companyData: action.payload
             }
 
         default: return state

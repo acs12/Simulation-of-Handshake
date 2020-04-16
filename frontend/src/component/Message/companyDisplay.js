@@ -7,7 +7,7 @@ import { companySendsMessage } from '../../redux'
 import { connect } from 'react-redux'
 
 
-class Display extends Component {
+class CompanyDisplay extends Component {
     //call the constructor method
     constructor(props) {
         //Call the constrictor of Super class i.e The Component
@@ -54,13 +54,12 @@ class Display extends Component {
         if (this.state.toggle === false) {
             let data = {
                 _id: this.state.id,
-                id: id,
-                type: localStorage.getItem("type")
+                id: id
             }
             console.log("data to send", data)
             await this.props.companySendsMessage(data, res => {
-                console.log("res",res)
                 if (TypeError) {
+                    console.log("res",res)
                     this.setState({
                         data: res.data[0].chat,
                         toggle: true
@@ -103,21 +102,21 @@ class Display extends Component {
         //     chatWindow ==
         // }
 
-        if (this.state.toggle === false && this.props.item._id !== this.state.id) {
+        if (this.state.toggle === false) {
             console.log("inside if in job details", this.state.name)
             chatWindow = <div>
                 < MDBContainer >
                     <div className="card">
                         <div className="card-subtitle mb-2 text-muted">
                             <div style={{ textAlign: "left" }}>
-                                <img style={{ width: "10%", height: "10%" }} className="img-circle" src={this.props.item.profilePicUrl} alt=""></img>
+                                <img style={{ width: "10%", height: "10%" }} className="img-circle" src={this.props.item.user1.profilePicUrl} alt=""></img>
                             </div>
                             <div className="card-title">
                                 <h2>{this.props.item.name}</h2>
                             </div>
-                            <h4 className="card-subtitle mb-2 text-muted">School : {this.props.item.schoolName}</h4>
+                            <h4 className="card-subtitle mb-2 text-muted">School : {this.props.item.user1.location}</h4>
                             <br></br>
-                            <button type="submit" className="btn btn-primary" onClick={() => { this.changeDisplay(this.props.item._id) }}>Chat</button>
+                            <button type="submit" className="btn btn-primary" onClick={() => { this.changeDisplay(this.props.item.user1._id) }}>Chat</button>
                             <br></br>
                             <br></br>
 
@@ -129,19 +128,19 @@ class Display extends Component {
         }
 
 
-        else if (this.state.toggle === true && this.props.item._id !== this.state.id) {
+        else if (this.state.toggle === true) {
             chatWindow = <div>
                 < MDBContainer >
                     <div className="card">
                         <MDBCol style={{ textAlign: "left" }}>
                             <div className="card-subtitle mb-2 text-muted">
                                 <div style={{ textAlign: "left" }}>
-                                    <img style={{ width: "8%", height: "8%" }} className="img-circle" src={this.props.item.profilePicUrl} alt=""></img>
+                                    <img style={{ width: "8%", height: "8%" }} className="img-circle" src={this.props.item.user1.profilePicUrl} alt=""></img>
                                 </div>
                                 <div className="card-title">
-                                    <h2>{this.props.item.name}</h2>
+                                    <h2>{this.props.item.user1.name}</h2>
                                 </div>
-                                <h4 className="card-subtitle mb-2 text-muted">School : {this.props.item.schoolName}</h4>
+                                <h4 className="card-subtitle mb-2 text-muted">School : {this.props.item.user1.location}</h4>
                                 <br></br>
                             </div>
                         </MDBCol>
@@ -154,7 +153,7 @@ class Display extends Component {
                                     {chats}
                                     <textarea onChange={this.changHandler} placeholder="Enter Message"></textarea>
                                     <br></br>
-                                    <button className="btn btn-success" onClick={() => { this.chat(this.props.item._id) }}>Send</button>
+                                    <button className="btn btn-success" onClick={() => { this.chat(this.props.item.user1._id) }}>Send</button>
                                 </div>
                             </div>
                             <br></br>
@@ -179,4 +178,4 @@ class Display extends Component {
 
 
 //export Login Component
-export default connect(null, { companySendsMessage })(Display);
+export default connect(null, { companySendsMessage })(CompanyDisplay);

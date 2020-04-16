@@ -2,7 +2,7 @@ const Company = require("../models/company")
 var jwt = require('jsonwebtoken');
 var config = require('../config/settings');
 var passport = require('passport');
-require('../config/passport')(passport);
+// require('../config/passport')(passport);
 const bcrypt = require("bcrypt");
 
 

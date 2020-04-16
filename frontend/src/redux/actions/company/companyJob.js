@@ -8,6 +8,7 @@ export function getJobsById(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/getJobsById`, values);
@@ -31,6 +32,7 @@ export function postJobs(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/addJob`, values);
@@ -53,6 +55,7 @@ export function updateJobStatus(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/jobStatusUpdate`, values);

@@ -9,6 +9,13 @@ var path = require('path');
 const bcrypt = require("bcrypt");
 var cookieParser = require('cookie-parser');
 var cors = require('cors');
+// const passport = require('passport');
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// require('./config/passport')(passport);
+// const checkAuth = require('./config/passport')
 // app.set('view engine', 'ejs');
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
@@ -87,6 +94,7 @@ const jobStatusUpdate = require("./routes/company/updateJobStatus")
 //message
 
 const newMessage = require('./routes/message/newMessage')
+const messageFromCompany = require('./routes/message/messageFromCompany')
 
 
 const storage = multer.diskStorage({
@@ -191,6 +199,8 @@ app.use("/jobStatusUpdate",jobStatusUpdate)
 
 //message
 app.use("/CompanyMessagePost",newMessage)
+app.use("/MessageFromCompany",messageFromCompany)
+
 
 
 

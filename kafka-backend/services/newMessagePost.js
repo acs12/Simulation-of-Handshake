@@ -125,6 +125,7 @@ function handle_request(msg, callback) {
                 const message = new Message({
                     user1: msg._id,
                     user2: msg.id,
+                    type : msg.type,
                     chat: {
                         from: msg._id,
                         to: msg.id,

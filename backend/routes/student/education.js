@@ -3,10 +3,11 @@ const router = express.Router();
 var kafka = require('../../kafka/client');
 
 // const mongoose = require("mongoose")
+const {auth,checkAuth} =require('../../config/passport') 
 
 const Student = require("../../models/students")
-
-router.post('/addEducation', (req, res, next) => {
+auth()
+router.post('/addEducation',checkAuth, (req, res, next) => {
 
     console.log("Req Body", req.body)
     kafka.make_request('PostAddEducation', req.body, function (err, results) {
@@ -23,7 +24,7 @@ router.post('/addEducation', (req, res, next) => {
     });
 })
 
-router.post('/deleteEducation', (req, res, next) => {
+router.post('/deleteEducation', checkAuth,(req, res, next) => {
 
     console.log(typeof(req.body))
     console.log("Req Body", req.body)
@@ -42,7 +43,7 @@ router.post('/deleteEducation', (req, res, next) => {
 })
 
 
-router.post('/updateEducation', (req, res, next) => {
+router.post('/updateEducation',checkAuth, (req, res, next) => {
 
     console.log("Req Body", req.body)
     kafka.make_request('UpdateEducationDetails', req.body, function (err, results) {

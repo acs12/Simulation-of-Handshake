@@ -52,6 +52,7 @@ var jobStatusUpdate = require('./services/jobStatusUpdate')
 
 //company
 var NewMessage = require('./services/newMessagePost')
+var MessageFromCompany = require('./services/getCompanyMessages')
 
 
 
@@ -145,3 +146,5 @@ handleTopicRequest("GetStudentsById",getStudentsById)
 
 //message
 handleTopicRequest("NewMessage",NewMessage)
+handleTopicRequest("MessageFromCompany",MessageFromCompany)
+

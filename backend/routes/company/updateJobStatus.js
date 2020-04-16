@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 var kafka = require('../../kafka/client');
-
-router.post('/', (req, res, next) => {
+const {auth,checkAuthCompany} =require('../../config/passport') 
+auth()
+router.post('/', checkAuthCompany,(req, res, next) => {
 
     console.log("Req Body", req.body)
     kafka.make_request('UpdateJobStatus', req.body, function (err, results) {

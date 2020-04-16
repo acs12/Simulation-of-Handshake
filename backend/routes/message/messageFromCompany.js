@@ -1,16 +1,15 @@
 const express = require('express');
 const router = express.Router();
 var kafka = require('../../kafka/client');
-const {auth,checkAuthCompany} =require('../../config/passport') 
-auth()
+
 // const mongoose = require("mongoose")
 
 const Student = require("../../models/students")
 
-router.post('/',checkAuthCompany, (req, res, next) => {
+router.post('/', (req, res, next) => {
 
     console.log("Req Body", req.body)
-    kafka.make_request('GetJobsById', req.body, function (err, results) {
+    kafka.make_request('MessageFromCompany', req.body, function (err, results) {
         console.log('in result');
         console.log(results);
         if (err) {

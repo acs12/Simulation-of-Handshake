@@ -31,7 +31,7 @@ export function studentLogin(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
-
+    // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     const request = axios
         .post(`${URL}/StudentLogin`, values);
 
@@ -54,7 +54,7 @@ export function allStudents(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
-
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     const request = axios
         .get(`${URL}/getStudents`);
 

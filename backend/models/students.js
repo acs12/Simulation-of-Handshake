@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const studentSchema = mongoose.Schema({
     // _id: mongoose.Schema.Types.ObjectId,
@@ -17,9 +17,13 @@ const studentSchema = mongoose.Schema({
     profilePicUrl: String,
     careerObjective : String,
     password : {type : String, required : true},
-    skills : [String],
+    resumeUrl : String,
+    skills : [{
+        id:ObjectId,
+        skillName: String
+    }],
     education : [{
-        _id : mongoose.Schema.Types.ObjectId,
+        id :  ObjectId,
         collegeName : String,
         educationLocation : String,
         degree : String,
@@ -28,7 +32,7 @@ const studentSchema = mongoose.Schema({
         cgpa : String
     }],
     experience : [{
-        _id : mongoose.Schema.Types.ObjectId,
+        id : ObjectId,
         companyName : String,
         companyLocation : String,
         title : String,

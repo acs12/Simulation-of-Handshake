@@ -63,7 +63,7 @@ class Navbar extends Component {
                                 <Link to="../StudentProfile/Profile">Profile</Link>
                             </MDBCol>
                             <MDBCol >
-                                <Link to="../Message/studentMessage">Message</Link>
+                                <Link to="../Message">Message</Link>
                             </MDBCol>
                             <MDBCol>
                                 <div className="nav navbar-nav navbar-right">
@@ -101,7 +101,7 @@ class Navbar extends Component {
                             <Link to="../Company/CompanyProfile">Profile</Link>
                         </MDBCol>
                         <MDBCol >
-                            <Link to="../Message/companyMessage">Message</Link>
+                            <Link to="../Message">Message</Link>
                         </MDBCol>
 
                         <MDBCol >

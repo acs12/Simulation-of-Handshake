@@ -4,9 +4,10 @@ const mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
 var config = require('../../config/settings');
-require('../../config/passport')(passport);
+// require('../../config/passport')(passport);
 var kafka = require('../../kafka/client');
-
+const {auth,checkAuthCompany} =require('../../config/passport') 
+auth()
 
 router.post('/', (req, res, next) => {
 

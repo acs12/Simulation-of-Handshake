@@ -7,4 +7,4 @@ export{companyLogin,companySignup,updateCompanyProfile,getCompanyProfile} from '
 export{getJobsById,postJobs,updateJobStatus} from './actions/company/companyJob'
 export{getEventsById,postEvents} from './actions/company/companyEvent'
 
-export{companySendsMessage} from './actions/message/companyMessage'
+export{companySendsMessage,messageFromCompany} from './actions/message/companyMessage'

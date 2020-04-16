@@ -10,6 +10,7 @@ export function getProfile(values, callback) {
     axios.defaults.withCredentials = true;
     console.log("inside get profile api action")
     console.log(values)
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
     const request = axios
         .post(`${URL}/getStudents`, values);
 
@@ -37,6 +38,7 @@ export function updateContact(values, callback) {
     console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/updateStudentContactDetails`, values);
@@ -98,6 +100,7 @@ export function updateCareer(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/updateCareerObjective`, values);
@@ -119,6 +122,7 @@ export function updateEducation(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/education/updateEducation`, values);
@@ -141,6 +145,7 @@ export function updateExperience(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/experience/updateExperience`, values);
@@ -162,6 +167,7 @@ export function addEducation(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/education/addEducation`, values);
@@ -183,6 +189,7 @@ export function deleteEducation(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/education/deleteEducation`, values);
@@ -204,6 +211,7 @@ export function addExperience(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/experience/addExperience`, values);
@@ -226,6 +234,7 @@ export function deleteExperience(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/experience/deleteExperience`, values);
@@ -248,6 +257,7 @@ export function addSkill(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/skill/addSkill`, values);
@@ -269,6 +279,7 @@ export function deleteSkill(values, callback) {
     // console.log(values);
 
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
     const request = axios
         .post(`${URL}/skill/deleteSkill`, values);

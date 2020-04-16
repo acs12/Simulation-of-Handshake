@@ -57,65 +57,103 @@ class StudentApplication extends Component {
         });
     }
 
-    changePendingStatus = (e) => {
-        // if (this.state.pendingStatus === 0) {
-        //     this.refs.PD.className = "btn btn-info"
-        //     this.setState({
-        //         pendingStatus: 1,
-        //         filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.application.status === "Pending"))
-        //     })
-        //     console.log("if", this.state.filteredApplicaion)
-        // }
-        // else {
-        //     this.refs.PD.className = "btn btn-secondary"
-        //     this.setState({
-        //         pendingStatus: 0,
-        //         filteredApplicaion: this.state.filteredApplicaion.filter(x => x.application.status !== "Pending")
-        //     })
-        //     console.log("else", this.state.filteredApplicaion)
-        // }
+    changePendingStatus = async(e) => {
+        e.preventDefault()
+        if (this.state.pendingStatus === 0) {
+            this.refs.PD.className = "btn btn-info"
+            
+            let getAllApplication = {
+                status : " Pending",
+                studentId: this.state.id
+            }
+            console.log("Inside student application")
+            //set the with credentials to true
+            axios.defaults.withCredentials = true;
+            //make a post request with the user data
+            await this.props.appliedJobs(getAllApplication, res => {
+    
+                console.log('Response: ', res.data)
+                this.setState({
+                    pendingStatus : 1,
+                    filteredApplicaion: res.data,
+                })
+                //localStorage.setItem("token")
+    
+            })
+        }
+        else {
+            this.refs.PD.className = "btn btn-secondary"
+            await this.setState({
+                pendingStatus: 0,
+            })
+            this.componentDidMount(e)
+        }
     }
 
-    changeReviewedStatus = (e) => {
-        // if (this.state.reviewedStatus === 0) {
-        //     this.refs.RV.className = "btn btn-info"
-        //     let z = []
-        //     console.log("getApps State", this.state.getApps)
-        //     this.setState
-        //         ({
-        //             reviewedStatus: 1,
-        //             filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.application.status === "Reviewed"))
-        //         })
-        //     console.log("if", this.state.filteredApplicaion)
-        // }
-        // else {
-        //     this.refs.RV.className = "btn btn-secondary"
-        //     this.setState({
-        //         reviewedStatus: 0,
-        //         filteredApplicaion: this.state.filteredApplicaion.filter(x => x.application.status !== "Reviewed")
-        //     })
-        //     console.log("else", this.state.filteredApplicaion)
-        // }
+    changeReviewedStatus = async(e) => {
+        if (this.state.reviewedStatus === 0) {
+            this.refs.RV.className = "btn btn-info"
+            
+            let getAllApplication = {
+                status : "Reviewed",
+                studentId: this.state.id
+            }
+            console.log("Inside student application")
+            //set the with credentials to true
+            axios.defaults.withCredentials = true;
+            //make a post request with the user data
+            await this.props.appliedJobs(getAllApplication, res => {
+    
+                console.log('Response: ', res.data)
+                this.setState({
+                    reviewedStatus : 1,
+                    filteredApplicaion: res.data,
+                })
+                //localStorage.setItem("token")
+    
+            })
+        }
+        else {
+            this.refs.RV.className = "btn btn-secondary"
+            await this.setState({
+                reviewedStatus: 0,
+            })
+            this.componentDidMount(e)
+        }
     }
 
 
-    changeDeclinedStatus = (e) => {
-        // if (this.state.declinedStatus === 0) {
-        //     this.refs.DC.className = "btn btn-info"
-        //     this.setState({
-        //         declinedStatus: 1,
-        //         filteredApplicaion: this.state.filteredApplicaion.concat(this.state.getApps.filter(x => x.application.status === "Declined"))
-        //     })
-        //     console.log("if", this.state.filteredApplicaion)
-        // }
-        // else {
-        //     this.refs.DC.className = "btn btn-secondary"
-        //     this.setState({
-        //         declinedStatus: 0,
-        //         filteredApplicaion: this.state.filteredApplicaion.filter(x => x.application.status !== "Declined")
-        //     })
-        //     console.log("else", this.state.filteredApplicaion)
-        // }
+    changeDeclinedStatus =async (e) => {
+      e.preventDefault()
+      if (this.state.declinedStatus === 0) {
+        this.refs.DC.className = "btn btn-info"
+        
+        let getAllApplication = {
+            status : "Declined",
+            studentId: this.state.id
+        }
+        console.log("Inside student application")
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        await this.props.appliedJobs(getAllApplication, res => {
+
+            console.log('Response: ', res.data)
+            this.setState({
+                declinedStatus : 1,
+                filteredApplicaion: res.data,
+            })
+            //localStorage.setItem("token")
+
+        })
+    }
+    else {
+        this.refs.DC.className = "btn btn-secondary"
+        await this.setState({
+            declinedStatus: 0,
+        })
+        this.componentDidMount(e)
+    }
     }
 
 

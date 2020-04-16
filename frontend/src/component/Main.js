@@ -32,6 +32,8 @@ import PostEvent from './CompanyEvent/PostEvent'
 import CompanyProfile from './Company/CompanyProfile'
 //
 import Message from './Message/companyMessage'
+import MessageFromCompany from './Message/messageFromCompany'
+import messageFromCompany from './Message/messageFromCompany';
 
 
 
@@ -73,7 +75,9 @@ class Main extends Component {
                     <Route exact path="/CompanyEvent/PostEvent" component={PostEvent} />
                     <Route exact path="/Company/CompanyProfile" component={CompanyProfile} />
                     {/*Render Different Component based on Route*/}
-                    <Route exact path="/Message/companyMessage" component={Message}/>
+                    <Route exact path="/Message" component={Message}/>
+                    <Route exact path="/Message/Company" component={messageFromCompany}/>
+
 
 
 
