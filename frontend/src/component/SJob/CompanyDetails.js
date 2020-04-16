@@ -24,7 +24,7 @@ class CompanyDetails extends Component {
     // //set the with credentials to true
     // axios.defaults.withCredentials = true;
     // //make a post request with the user data
-    // axios.post('http://localhost:3001/getCompanyDetails', getCompanyDetails)
+    // axios.post('http://18.208.110.252:3001/getCompanyDetails', getCompanyDetails)
     //     .then(acknowledge => {
     //         console.log(acknowledge.data)
     //         this.setState({
