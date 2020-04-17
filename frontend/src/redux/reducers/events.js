@@ -1,4 +1,4 @@
-import { GET_EVENTS, APPLY_TO_EVENT, APPLIED_EVENTS, CHANGE_EVENT_FILTER } from '../types/student/event'
+import { GET_EVENTS, APPLY_TO_EVENT, APPLIED_EVENTS } from '../types/student/event'
 
 
 
@@ -24,8 +24,7 @@ const events = (state = initialState, action) => {
             return Object.assign({}, state, {
                 data: action.payload,
                 filteredEvents : action.payload,
-                getEvents: action.payload,
-                data : action.payload
+                getEvents: action.payload
             })
 
         case APPLIED_EVENTS:

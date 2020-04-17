@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import { MDBContainer, MDBCol } from "mdbreact";
-import { Redirect } from 'react-router';
+import { MDBContainer } from "mdbreact";
 // import { companySendsMessage } from '../../redux'
 // import { connect } from 'react-redux'
 
@@ -17,47 +16,7 @@ class PreviousChat extends Component {
 
         }
 
-        // this.changeDisplay = this.changeDisplay.bind(this)
-        // this.changHandler = this.changHandler.bind(this)
-        // this.chat = this.chat.bind(this)
-
     }
-
-    // changHandler = (e) =>{
-    //     this.setState({
-    //         text : e.target.value
-    //     })
-    // }
-    // chat = async (id) => {
-    //     // e.preventDefault()
-    //     let data = {
-    //         _id: this.state.id,
-    //         id: id,
-    //         text: this.state.text
-
-    //     }
-    //     console.log("data to send",data)
-    //     await this.props.companySendsMessage(data , res =>{
-    //         console.log(res)
-    //     })
-    //     console.log("data to send",data)
-
-    // }
-
-    // changeDisplay = (e) => {
-    //     if (this.state.toggle === false) {
-
-    //         this.setState({
-    //             toggle: true
-    //         })
-    //     }
-    //     else {
-
-    //         this.setState({
-    //             toggle: false
-    //         })
-    //     }
-    // }
 
     render() {
         let chatHistory = null

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import axios from 'axios';
+import { MDBContainer, MDBCol } from "mdbreact";
 import { Link } from 'react-router-dom';
 import CompanyEventBar from '../LandingPage/CompanyEventBar'
 

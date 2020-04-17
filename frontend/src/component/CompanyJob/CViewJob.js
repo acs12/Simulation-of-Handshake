@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import {  getJobsById } from '../../redux'
@@ -130,9 +129,5 @@ class CViewJob extends Component {
     }
 }
 
-const mapStateToProps = state =>{
-    return{
-        data : state.companyJob.data
-    }
-}
+
 export default connect(null,{getJobsById})(CViewJob);

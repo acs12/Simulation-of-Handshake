@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import { MDBContainer, MDBCol } from "mdbreact";
 import { Redirect } from 'react-router';
 import Display from './display'
 import { allStudents } from '../../redux'
