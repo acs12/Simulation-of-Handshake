@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb+srv://admin:admin@cluster0-mgk28.mongodb.net/test?retryWrites=true&w=majority', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  poolSize : 500,
+  bufferMaxEntries : 0
 });
 
 
