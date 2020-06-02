@@ -1,6 +1,6 @@
 # Simulation of Handshake Using React-Redux-Node-Kafka-MongoDB
 
-Handshake-Redux-Dummy is the simulation of the website named Handshake. All the services offered by the Handshake for student and company is acieved in thie project.
+Handshake-Redux-Dummy is the simulation of the website named Handshake. All the services offered by the Handshake for student and company is achieved in this project. Apache Kafka is used as a messaging service and to make the system distributed.
 
 ## Getting Started
 
