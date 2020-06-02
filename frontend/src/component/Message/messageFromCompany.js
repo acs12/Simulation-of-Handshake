@@ -6,7 +6,7 @@ import { messageFromCompany } from '../../redux'
 import { connect } from 'react-redux'
 import MessageBar from '../LandingPage/messageBar'
 
-//Define a Login Component
+//Define a Component
 class MessageFromCompany extends Component {
     //call the constructor method
     constructor(props) {
@@ -19,9 +19,6 @@ class MessageFromCompany extends Component {
             getCompany: [],
             chatId: ""
         }
-
-        // this.changeDisplay = this.changeDisplay.bind(this)
-
     }
 
     componentDidMount = async () => {
@@ -36,26 +33,10 @@ class MessageFromCompany extends Component {
         })
     }
 
-    // changeDisplay = (e) => {
-    //     if (this.state.toggle === false) {
-
-    //         this.setState({
-    //             toggle: true
-    //         })
-    //     }
-    //     else {
-
-    //         this.setState({
-    //             toggle: false
-    //         })
-    //     }
-    // }
-
     render() {
         console.log(this.state)
         let chat = null
         let redirectVar = null
-        // console.log("_id", this.state.jobId)
         console.log("Company", this.state.getCompany)
 
         if (!localStorage.getItem("token")) {
@@ -83,5 +64,5 @@ class MessageFromCompany extends Component {
 }
 
 
-//export Login Component
+//export Component
 export default connect(null, { messageFromCompany })(MessageFromCompany);

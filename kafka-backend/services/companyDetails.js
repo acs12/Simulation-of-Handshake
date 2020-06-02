@@ -1,9 +1,4 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const router = express.Router();
 const Company = require("../models/company")
-var ObjectId = mongoose.Types.ObjectId;
-
 
 function handle_request(msg, callback) {
     console.log("message", msg)

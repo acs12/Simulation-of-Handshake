@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import CompanyJobBar from '../LandingPage/CompanyJobBar'
 
-
 class StudentList extends Component {
 
     constructor(props) {

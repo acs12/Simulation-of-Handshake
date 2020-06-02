@@ -1,7 +1,5 @@
 import { GET_EVENTS__BY_ID, POST_EVENT } from '../types/company/companyEvent'
 
-
-
 const initialState = {
     data: []
 }

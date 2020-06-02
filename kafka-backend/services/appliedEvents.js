@@ -1,8 +1,4 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const router = express.Router();
 const Event = require("../models/event")
-
 
 function handle_request(msg, callback) {
     console.log("message", msg)

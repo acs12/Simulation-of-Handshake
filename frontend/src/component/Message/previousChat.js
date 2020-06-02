@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer } from "mdbreact";
-// import { companySendsMessage } from '../../redux'
-// import { connect } from 'react-redux'
-
 
 class PreviousChat extends Component {
     //call the constructor method
@@ -13,9 +10,7 @@ class PreviousChat extends Component {
         //maintain the state required for this component
         this.state = {
             id: localStorage.getItem("id"),
-
         }
-
     }
 
     render() {
@@ -49,6 +44,5 @@ class PreviousChat extends Component {
     }
 }
 
-
-//export Login Component
+//export Component
 export default PreviousChat;

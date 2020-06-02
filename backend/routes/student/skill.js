@@ -2,13 +2,9 @@ const express = require('express');
 const router = express.Router();
 var kafka = require('../../kafka/client');
 const {auth,checkAuth} =require('../../config/passport') 
-
-// const mongoose = require("mongoose")
-
-const Student = require("../../models/students")
 auth()
-router.post('/addSkill',checkAuth, (req, res, next) => {
 
+router.post('/addSkill',checkAuth, (req, res, next) => {
     console.log("Req Body", req.body)
     kafka.make_request('PostAddSkill', req.body, function (err, results) {
         console.log('in result');
@@ -25,7 +21,6 @@ router.post('/addSkill',checkAuth, (req, res, next) => {
 })
 
 router.post('/deleteSkill', checkAuth,(req, res, next) => {
-
     console.log("Req Body", req.body)
     kafka.make_request('DeleteSkill', req.body, function (err, results) {
         console.log('in result');

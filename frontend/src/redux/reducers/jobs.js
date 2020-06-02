@@ -1,7 +1,5 @@
 import { GET_JOBS, APPLY_TO_JOB, APPLIED_JOBS, CHANGE_FILTER } from '../types/student/jobs'
 
-
-
 const initialState = {
     getJobs: [],
     filteredJobs: [],

@@ -3,9 +3,6 @@ const router = express.Router();
 var kafka = require('../../kafka/client');
 const {auth,checkAuthCompany} =require('../../config/passport') 
 auth()
-// const mongoose = require("mongoose")
-
-const Student = require("../../models/students")
 
 router.post('/',checkAuthCompany, (req, res, next) => {
 

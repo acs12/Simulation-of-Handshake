@@ -1,7 +1,5 @@
 import { COMPANY_LOGIN, COMPANY_SIGNUP, COMPANY_PROFILE, GET_COMPANY_PROFILE } from '../types/company/company'
 
-
-
 const initialState = {
     companyId: "",
     name: "",

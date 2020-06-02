@@ -4,11 +4,10 @@ import { MDBContainer, MDBCol } from "mdbreact";
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import URL from '../../constants'
-import { getJobs, applyToJob } from '../../redux'
+import { applyToJob } from '../../redux'
 import { connect } from 'react-redux'
 
-//Define a Login Component
+//Define a Component
 class JobDetails extends Component {
     //call the constructor method
     constructor(props) {
@@ -61,13 +60,11 @@ class JobDetails extends Component {
 
     changeDisplay = (e) => {
         if (this.state.toggle === false) {
-
             this.setState({
                 toggle: true
             })
         }
         else {
-
             this.setState({
                 toggle: false
             })
@@ -98,7 +95,6 @@ class JobDetails extends Component {
         }
         if (this.state.jobDetailsStatus === true) {
             console.log("inside if in job details", this.state.name)
-
 
             particularJobs =
                 <MDBContainer style={{ textAlign: "left" }}>
@@ -199,5 +195,5 @@ class JobDetails extends Component {
 }
 
 
-//export Login Component
+//export Component
 export default connect(null, { applyToJob })(JobDetails);

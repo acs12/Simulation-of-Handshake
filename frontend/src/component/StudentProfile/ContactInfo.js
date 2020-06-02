@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { updateContact } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
-
-
-//Define a Login Component
+//Define a Component
 class ContactInfo extends Component {
     //call the constructor method
     constructor(props) {
@@ -150,5 +147,5 @@ const mapStateToProps = state => {
         phoneNumber: state.studentProfile.phoneNumber
     }
 }
-//export Login Component
+//export Component
 export default connect(mapStateToProps, { updateContact })(ContactInfo);

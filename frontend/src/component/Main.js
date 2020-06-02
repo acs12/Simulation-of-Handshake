@@ -20,7 +20,7 @@ import EventDetails from './SEvents/EventDetails';
 import NavbarEvent from './LandingPage/NavbarEvent';
 import StudentEvent from './SEvents/StudentEvent';
 import RegisteredEvent from './SEvents/RegisteredEvent';
-//
+
 import CompanyJobBar from './LandingPage/CompanyJobBar'
 import CViewJob from './CompanyJob/CViewJob'
 import StudentList from './CompanyJob/StudentList'
@@ -30,13 +30,9 @@ import CViewEvent from './CompanyEvent/CViewEvent'
 import StudentListEvent from './CompanyEvent/StudentListEvent'
 import PostEvent from './CompanyEvent/PostEvent'
 import CompanyProfile from './Company/CompanyProfile'
-//
+
 import Message from './Message/companyMessage'
 import MessageFromCompany from './Message/messageFromCompany'
-
-
-
-
 
 //Create a Main Component
 class Main extends Component {
@@ -76,10 +72,6 @@ class Main extends Component {
                     {/*Render Different Component based on Route*/}
                     <Route exact path="/Message" component={Message}/>
                     <Route exact path="/Message/Company" component={MessageFromCompany}/>
-
-
-
-
                     <Route path="/home" component={Home} />
             </div>
         )

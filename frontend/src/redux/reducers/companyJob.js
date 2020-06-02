@@ -1,7 +1,5 @@
 import { GET_JOBS__BY_ID, POST_JOBS,UPDATE_JOB_STATUS } from '../types/company/companyJob'
 
-
-
 const initialState = {
     data: [],
     status : ""

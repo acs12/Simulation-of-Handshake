@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import { getEvents } from '../../redux'
 import { connect } from 'react-redux'
 import NavbarEvent from '../LandingPage/NavbarEvent';
 import EventDetails from './EventDetails'
 
-//Define a Login Component
+//Define a Component
 class StudentEvent extends Component {
     //call the constructor method
     constructor(props) {
@@ -133,5 +132,5 @@ const mapStateToProps = state =>{
         data : state.events.data
     }
 }
-//export Login Component
+//export Component
 export default connect(mapStateToProps, { getEvents })(StudentEvent);

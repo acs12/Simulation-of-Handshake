@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { updateCareer } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
-//Define a Login Component
+//Define a Component
 class CareerObjective extends Component {
     //call the constructor method
     constructor(props) {
@@ -89,5 +88,5 @@ const mapStateToProps = state =>{
         careerObjective : state.studentProfile.careerObjective
     }
 }
-//export Login Component
+//export Component
 export default connect(mapStateToProps,{updateCareer}) (CareerObjective);

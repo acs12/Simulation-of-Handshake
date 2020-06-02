@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import EditSkill from './EditSkill'
 import { addSkill } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
 
-//Define a Login Component
+//Define a Component
 class SkillDetails extends Component {
     //call the constructor method
     constructor(props) {
@@ -19,7 +18,6 @@ class SkillDetails extends Component {
             skillStatus: false,
             skills: [],
             skillName: "",
-            // response: ""
         }
         //Bind the handlers to this class
         this.addSkills = this.addSkills.bind(this)
@@ -78,15 +76,11 @@ class SkillDetails extends Component {
     }
 
     render() {
-        // this.componentDidUpdate()
-        console.log("Skill details",this.state)
-        console.log("Props Skill",this.props.skills)
         let redirectVar = null;
+        let skill = null
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
-        // let response = this.state.response
-        let skill = null
         if (this.state.skillStatus === false) {
             console.log("Inside if in skill details")
             skill = <div>
@@ -138,5 +132,5 @@ const mapStateToProps = state => {
         skills: state.studentProfile.skills
     }
 }
-//export Login Component
+//export Component
 export default connect(mapStateToProps, { addSkill })(SkillDetails);

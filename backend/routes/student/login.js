@@ -1,16 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const mongoose = require('mongoose');
-const Student =  require('../../models/students');
-var jwt = require('jsonwebtoken');
-const secret = require('../../config/settings')
 const {auth} = require('../../config/passport')
-// var passport = require('passport');
-var config = require('../../config/settings');
 var kafka = require('../../kafka/client');
-
 auth()
-// require('../../config/passport')(passport);
 
 router.post('/',(req,res,next) => {
     

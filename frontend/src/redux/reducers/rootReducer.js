@@ -3,7 +3,6 @@ import studentSignup from './student';
 import jobs from './jobs'
 import studentProfile from './studentProfile'
 import events from './events'
-
 import companySignup from './company'
 import companyJob from './companyJob'
 import companyEvents from './compayEvent'

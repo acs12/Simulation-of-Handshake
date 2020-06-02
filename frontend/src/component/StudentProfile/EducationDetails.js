@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { addEducation } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 import EditEducation from './EditEducation';
 
-//Define a Login Component
+//Define a Component
 class EducationDetails extends Component {
     //call the constructor method
     constructor(props) {
@@ -23,7 +22,6 @@ class EducationDetails extends Component {
             major: "",
             yearOfPassing: "",
             cgpa: "",
-            // response: ""
         }
         //Bind the handlers to this class
         this.changeHandler = this.changeHandler.bind(this);
@@ -89,8 +87,6 @@ class EducationDetails extends Component {
     render() {
         console.log("edu details", this.state.getEduDetails)
         let redirectVar = null;
-        // let educationArray = Array.from(this.state.getEduDetails)
-        // console.log("ED ARRAY",educationArray)
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
@@ -201,5 +197,5 @@ const mapStateToProps = state => {
         education: state.studentProfile.education
     }
 }
-//export Login Component
+//export Component
 export default connect(mapStateToProps, { addEducation })(EducationDetails);

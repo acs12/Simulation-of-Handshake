@@ -1,21 +1,14 @@
 import { COMPANY_SIGNUP,COMPANY_LOGIN,COMPANY_PROFILE,GET_COMPANY_PROFILE } from '../../types/company/company'
 import axios from 'axios';
 import URL from '../../../constants.js';
-const jwt_decode = require('jwt-decode')
-
 
 export function companySignup(values, callback) {
-    // console.log(values);
-
     axios.defaults.withCredentials = true;
-
     const request = axios
         .post(`${URL}/company`, values);
 
     return (dispatch) => {
         request.then((res) => {
-            // console.log("In signup user response:" + JSON.stringify(res));
-
             dispatch({
                 type: COMPANY_SIGNUP,
                 payload: res.data
@@ -28,17 +21,12 @@ export function companySignup(values, callback) {
 }
 
 export function companyLogin(values, callback) {
-    // console.log(values);
-
     axios.defaults.withCredentials = true;
-
     const request = axios
         .post(`${URL}/Clogin`, values);
 
     return (dispatch) => {
         request.then((res) => {
-            // console.log("In signup user response:" + JSON.stringify(res));
-           
             dispatch({
                 type: COMPANY_LOGIN,
                 payload: res.data
@@ -75,7 +63,6 @@ export function updateCompanyProfile(values, callback) {
 
     return (dispatch) => {
         request.then((res) => {
-            // console.log("In signup user response:" + JSON.stringify(res));
             dispatch({
                 type: COMPANY_PROFILE,
                 payload: res.data
@@ -89,18 +76,13 @@ export function updateCompanyProfile(values, callback) {
 
 
 export function getCompanyProfile(values, callback) {
-    // console.log(values);
-
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
-
     const request = axios
         .post(`${URL}/companyDetails`, values);
 
     return (dispatch) => {
         request.then((res) => {
-            // console.log("In signup user response:" + JSON.stringify(res));
-           
             dispatch({
                 type: GET_COMPANY_PROFILE,
                 payload: res.data

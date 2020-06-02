@@ -31,7 +31,6 @@ class StudentApplication extends Component {
     }
 
     componentDidMount = (e) => {
-        // e.preventDefault();
         let getAllApplication = {
             studentId: this.state.id
         }
@@ -45,8 +44,6 @@ class StudentApplication extends Component {
             this.setState({
                 getApps: res.data,
             })
-            //localStorage.setItem("token")
-
         })
     }
 
@@ -76,9 +73,7 @@ class StudentApplication extends Component {
                 this.setState({
                     pendingStatus : 1,
                     filteredApplicaion: res.data,
-                })
-                //localStorage.setItem("token")
-    
+                })    
             })
         }
         else {
@@ -108,9 +103,7 @@ class StudentApplication extends Component {
                 this.setState({
                     reviewedStatus : 1,
                     filteredApplicaion: res.data,
-                })
-                //localStorage.setItem("token")
-    
+                })    
             })
         }
         else {
@@ -143,8 +136,6 @@ class StudentApplication extends Component {
                 declinedStatus : 1,
                 filteredApplicaion: res.data,
             })
-            //localStorage.setItem("token")
-
         })
     }
     else {

@@ -1,7 +1,5 @@
 import { GET_EVENTS, APPLY_TO_EVENT, APPLIED_EVENTS } from '../types/student/event'
 
-
-
 const initialState = {
     getEvents: [],
     filteredEvents: [],

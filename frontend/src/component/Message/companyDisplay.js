@@ -32,7 +32,6 @@ class CompanyDisplay extends Component {
         })
     }
     chat = async (id) => {
-        // e.preventDefault()
         let data = {
             _id: this.state.id,
             id: id,
@@ -86,21 +85,14 @@ class CompanyDisplay extends Component {
     render() {
         let redirectVar = null
         let chatWindow = null
-        console.log("_id", this.state.jobId)
-        console.log("Students", this.state.getStudents)
-        console.log("chat", this.state.data)
-
+        let chats = null
         if (!localStorage.getItem("token")) {
             redirectVar = <Redirect to="/StudentLogin" />
         }
-        let chats = null
+        
         if (this.state.data !== undefined) {
             chats = this.state.data.map(x => <PreviosChat key={x._id} item={x}></PreviosChat>)
         }
-
-        // if(this.props.item._id === this.state.id){
-        //     chatWindow ==
-        // }
 
         if (this.state.toggle === false) {
             console.log("inside if in job details", this.state.name)
@@ -126,7 +118,6 @@ class CompanyDisplay extends Component {
             </div >
 
         }
-
 
         else if (this.state.toggle === true) {
             chatWindow = <div>
@@ -177,5 +168,5 @@ class CompanyDisplay extends Component {
 }
 
 
-//export Login Component
+//export Component
 export default connect(null, { companySendsMessage })(CompanyDisplay);

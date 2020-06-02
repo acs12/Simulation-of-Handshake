@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { getProfile, updateProfile } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
-
-
-//Define a Login Component
+//Define a Component
 class StudentProfile extends Component {
     //call the constructor method
     constructor(props) {
@@ -31,14 +28,12 @@ class StudentProfile extends Component {
         }
         //Bind the handlers to this class
         this.changeHandler = this.changeHandler.bind(this)
-        // this.changeHandlerImg = this.changeHandlerImg.bind(this)
         this.changeStudentDetailsStatus = this.changeStudentDetailsStatus.bind(this)
         this.updateStudentDetails = this.updateStudentDetails.bind(this)
     }
 
     componentDidMount = (e) => {
         console.log("Inside Student Profile")
-        // e.preventDefault();
         let getStudentDetails = {
             studentId: localStorage.getItem("id")
         }
@@ -137,22 +132,10 @@ class StudentProfile extends Component {
 
             studentDetails =
                 <div>
-
-
                     <button type="button" className="btn btn-danger" style={{ float: "right" }} onClick={this.changeStudentDetailsStatus}>X</button>
                     <b>Update Basic Details:</b>
                     <br></br>
-                    <br></br>
-                    {/* <div className="form-group" style={{ display: "none" }}>
-                            <input
-                                onChange={this.changeHandler}
-                                type="number"
-                                className="form-control"
-                                name="studentId"
-                                value={localStorage.getItem("id")}
-                            />
-                        </div> */}
-
+                   
                     <div className="form-group">
                         Profile Picture :
                             <input
@@ -281,5 +264,5 @@ const mapStateToProps = state => {
     }
 }
 
-//export Login Component
+//export Component
 export default connect(mapStateToProps, { getProfile, updateProfile })(StudentProfile);

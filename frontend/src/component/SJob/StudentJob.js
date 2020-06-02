@@ -7,7 +7,7 @@ import { getJobs, changeFilter } from '../../redux'
 import { connect } from 'react-redux'
 import NavbarJob from "../LandingPage/NavbarJob";
 
-//Define a Login Component
+//Define a Component
 class StudentJob extends Component {
     //call the constructor method
     constructor(props) {
@@ -68,7 +68,6 @@ class StudentJob extends Component {
         })
     }
     componentDidMount = (e) => {
-        // e.preventDefault();
         console.log(this.state.sort)
         let getAllJobs = {
             studentId: this.state.id,
@@ -173,7 +172,6 @@ class StudentJob extends Component {
 
         await this.props.changeFilter(tempJobs, res => {
             console.log(res)
-            // console.log(this.props)
         })
         this.componentDidUpdate(this.props.filteredJobs)
     }
@@ -294,7 +292,6 @@ class StudentJob extends Component {
                     <br></br>
                     <MDBRow style={{ textAlign: "center" }} md="5">
                         <MDBCol>
-                            {/* <button type="button" className={'btn btn-outline-colored'} name="onCampus" onClick={this.sort}>Location Sort</button> */}
                             {gtJobs}
                         </MDBCol>
                     </MDBRow>
@@ -317,5 +314,5 @@ const mapStateToProps = state => {
     }
 }
 
-//export Login Component
+//export Component
 export default connect(mapStateToProps, { getJobs, changeFilter })(StudentJob);

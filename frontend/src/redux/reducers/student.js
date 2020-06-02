@@ -1,8 +1,6 @@
 import { STUDENT_SIGNUP } from '../types/student/student'
 import {STUDENT_LOGIN, ALL_STUDENTS} from '../types/student/student'
 
-
-
 const initialState = {
     allStudents : [],
     isLoggedIn : null,

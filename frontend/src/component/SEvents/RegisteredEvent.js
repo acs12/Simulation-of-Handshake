@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import { appliedEvents } from '../../redux'
 import { connect } from 'react-redux'
 import NavbarEvent from '../LandingPage/NavbarEvent';
 
-//Define a Login Component
+//Define a Component
 class RegisteredEvent extends Component {
     //call the constructor method
     constructor(props) {
@@ -18,12 +17,9 @@ class RegisteredEvent extends Component {
             getREvent: [],
 
         }
-        //Bind the handlers to this class
-
     }
 
     componentDidMount = (e) => {
-        // e.preventDefault();
         let getREvent = {
             studentId: this.state.id
         }
@@ -82,5 +78,5 @@ class RegisteredEvent extends Component {
         )
     }
 }
-//export Login Component
+//export Component
 export default connect(null,{appliedEvents})(RegisteredEvent);

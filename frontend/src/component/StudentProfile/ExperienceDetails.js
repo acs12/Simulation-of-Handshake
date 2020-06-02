@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { addExperience } from '../../redux'
 import { connect } from 'react-redux'
 import EditExperience from './EditExperience';
 
 import { Redirect } from 'react-router';
-//Define a Login Component
+//Define a Component
 class ExperienceDetails extends Component {
     //call the constructor method
     constructor(props) {
@@ -31,6 +30,7 @@ class ExperienceDetails extends Component {
         this.submitExperienceDetails = this.submitExperienceDetails.bind(this);
         this.changeExpDetailsStatus = this.changeExpDetailsStatus.bind(this)
     }
+    
     //Call the Will Mount to set the auth Flag to false
     componentDidUpdate(prevProps, prevState) {
         console.log("EXPERIENCE : componentwillrecieveprops CALLED")
@@ -202,5 +202,5 @@ const mapStateToProps= state =>{
         experience : state.studentProfile.experience
     }
 }
-//export Login Component
+//export Component
 export default connect(mapStateToProps,{addExperience})(ExperienceDetails);

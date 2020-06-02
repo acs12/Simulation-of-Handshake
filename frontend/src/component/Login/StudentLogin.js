@@ -7,11 +7,7 @@ import { MDBContainer, MDBCol } from "mdbreact";
 import { studentLogin } from '../../redux'
 import { connect } from 'react-redux'
 
-
-
-
-
-//Define a Login Component
+//Define a Component
 class StudentLogin extends Component {
     //call the constructor method
     constructor(props) {
@@ -156,7 +152,5 @@ class StudentLogin extends Component {
     }
 }
 
-
-
-//export Login Component
+//export Component
 export default connect(null, { studentLogin })(StudentLogin);

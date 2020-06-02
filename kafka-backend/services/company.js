@@ -1,10 +1,5 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const router = express.Router();
 const Company = require("../models/company")
 const bcrypt = require("bcrypt");
-
-
 
 function handle_request(msg, callback) {
   console.log("message", msg)

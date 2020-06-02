@@ -7,8 +7,7 @@ import { MDBContainer, MDBCol } from "mdbreact";
 import {studentSignup} from '../../redux'
 import {connect} from 'react-redux'
 
-
-//Define a Login Component
+//Define a Component
 class StudentSignup extends Component {
     //call the constructor method 
     constructor(props) {
@@ -16,8 +15,6 @@ class StudentSignup extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-
-
             name: "",
             email: "",
             schoolName: "",
@@ -38,11 +35,9 @@ class StudentSignup extends Component {
 
     //submit Login handler to send a request to the node backend
     submitStudentSignup = (e) => {
-        // var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         const data = {
-
             name: this.state.name,
             email: this.state.email,
             schoolName: this.state.schoolName,
@@ -57,7 +52,6 @@ class StudentSignup extends Component {
               this.setState({
                 response: <div className="alert alert-success" role="alert">Account Created Go To Sign In Page </div>
             })
-              //localStorage.setItem("token")
             } else {
                 this.setState({
                     response: <div className="alert alert-danger" role="alert">Error</div>
@@ -167,10 +161,5 @@ const mapStateToProps = state => {
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return{
-//         studentSignup : () => dispatch(studentSignup())
-//     }
-// }
-//export Login Component
+//export Component
 export default connect(mapStateToProps,{studentSignup})(StudentSignup);

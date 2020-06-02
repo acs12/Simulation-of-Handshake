@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 
-
-
-
-//Define a Login Component
+//Define a Component
 class CompanyDetails extends Component {
     //call the constructor method
    
@@ -13,11 +10,6 @@ class CompanyDetails extends Component {
         return (
             <div>
                 <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-
-
                 <div className="card" style={{ textAlign: "center" }}>
                     <div className="card-body">
                         <h2 className="card-title">{this.props.location.state.name.name}</h2>
@@ -33,5 +25,5 @@ class CompanyDetails extends Component {
         )
     }
 }
-//export Login Component
+//export Component
 export default CompanyDetails;

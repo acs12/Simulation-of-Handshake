@@ -2,11 +2,8 @@ const express = require('express');
 const router = express.Router();
 var kafka = require('../../kafka/client');
 const {auth,checkAuth} =require('../../config/passport') 
-
-// const mongoose = require("mongoose")
-
-const Student = require("../../models/students")
 auth()
+
 router.post('/', checkAuth,(req, res, next) => {
 
     console.log("Req Body", req.body)

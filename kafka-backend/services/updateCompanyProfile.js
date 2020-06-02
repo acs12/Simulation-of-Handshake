@@ -1,15 +1,7 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const router = express.Router();
 const Company = require("../models/company")
-
-
-
 
 function handle_request(msg, callback) {
     console.log("message", msg)
-
-
     Company.
         updateOne(
             {

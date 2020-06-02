@@ -1,7 +1,5 @@
 import { COMPANY_SEND_MSG, MESSAGE_FROM_COMPANY } from '../types/message/companyMessage'
 
-
-
 const initialState = {
     data: [],
     companyData : []

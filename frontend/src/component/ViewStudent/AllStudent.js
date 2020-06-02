@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBContainer, MDBCol } from "mdbreact";
-
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 
-//Define a Login Component
+//Define a Component
 class AllStudent extends Component {
     //call the constructor method
     constructor(props) {
@@ -113,5 +112,5 @@ class AllStudent extends Component {
         )
     }
 }
-//export Login Component
+//export Component
 export default AllStudent;

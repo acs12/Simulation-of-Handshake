@@ -7,8 +7,7 @@ import { allStudents } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 
-
-//Define a Login Component
+//Define a Component
 class ViewStudents extends Component {
     //call the constructor method
     constructor(props) {
@@ -24,14 +23,12 @@ class ViewStudents extends Component {
             itemsPerPage: 2
         }
         //Bind the handlers to this class
-        // this.changeMajorStatus = this.changeMajorStatus.bind(this)
         this.studentSearch = this.studentSearch.bind(this)
         this.companySearch = this.companySearch.bind(this)
 
     }
 
     componentDidMount = async (e) => {
-        // e.preventDefault();
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
@@ -41,7 +38,6 @@ class ViewStudents extends Component {
                 getStudents: res.data
             })
         })
-        // this.componentWillReceiveProps()
     }
 
     handleClick(e) {
@@ -224,5 +220,5 @@ const mapStateToProps = state => {
     }
 }
 
-//export Login Component
+//export Component
 export default connect(mapStateToProps, { allStudents })(ViewStudents);

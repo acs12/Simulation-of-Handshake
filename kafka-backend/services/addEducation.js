@@ -1,9 +1,4 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const router = express.Router();
 const Student = require("../models/students")
-var ObjectId = mongoose.Schema.Types.ObjectId;
-
 
 function handle_request(msg, callback) {
     console.log("message", msg)

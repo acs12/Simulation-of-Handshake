@@ -1,15 +1,7 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const router = express.Router();
 const Student = require("../models/students")
-
-
-
 
 function handle_request(msg, callback) {
     console.log("message", msg)
-
-
     Student.
         updateOne(
             {

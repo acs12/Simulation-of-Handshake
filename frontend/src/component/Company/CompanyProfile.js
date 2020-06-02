@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { MDBContainer, MDBCol } from "mdbreact";
 import { updateCompanyProfile, getCompanyProfile } from '../../redux'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
-
-
 
 class CompanyProfile extends Component {
     //call the constructor method

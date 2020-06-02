@@ -6,9 +6,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 
-
-
-//Define a Login Component
+//Define a Component
 class CompanyLogin extends Component {
     //call the constructor method
     constructor(props) {
@@ -35,8 +33,7 @@ class CompanyLogin extends Component {
 
     //submit Login handler to send a request to the node backend
     submitCompanyLogin = async (e) => {
-        // var headers = new Headers();
-        //prevent page from refresh
+
         e.preventDefault();
         const data = {
             email: this.state.email,
@@ -134,5 +131,5 @@ class CompanyLogin extends Component {
         )
     }
 }
-//export Login Component
+//export Component
 export default connect(null, {companyLogin})(CompanyLogin);

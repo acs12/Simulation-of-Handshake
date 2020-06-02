@@ -6,8 +6,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router';
 import { MDBContainer, MDBCol } from "mdbreact";
 
-
-//Define a Login Component
+//Define a Component
 class CompanySignup extends Component {
     //call the constructor method
     constructor(props) {
@@ -15,8 +14,6 @@ class CompanySignup extends Component {
         super(props);
         //maintain the state required for this component
         this.state = {
-
-
             name: "",
             email: "",
             location: "",
@@ -37,7 +34,6 @@ class CompanySignup extends Component {
 
     //submit Login handler to send a request to the node backend
     submitCompanySignup = async (e) => {
-        // var headers = new Headers();
         //prevent page from refresh
         e.preventDefault();
         const companySignup = {
@@ -54,7 +50,6 @@ class CompanySignup extends Component {
                 this.setState({
                     response: <div className="alert alert-success" role="alert">Account Created. Go to Login Page</div>
                 })
-                //localStorage.setItem("token")
             } else {
                 this.setState({
                     response: <div className="alert alert-danger" role="alert">Error</div>
@@ -152,5 +147,5 @@ class CompanySignup extends Component {
         )
     }
 }
-//export Login Component
+//export Component
 export default connect(null,{companySignup})(CompanySignup);

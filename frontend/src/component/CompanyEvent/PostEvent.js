@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import '../../App.css';
-import axios from 'axios';
 import { MDBContainer, MDBCol } from "mdbreact";
 import CompanyEventBar from '../LandingPage/CompanyEventBar'
 import { Redirect } from 'react-router';
 import { postEvents } from '../../redux'
 import { connect } from 'react-redux'
-
-
-
 
 class PostEvent extends Component {
     //call the constructor method

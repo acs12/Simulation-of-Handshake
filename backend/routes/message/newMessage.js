@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 var kafka = require('../../kafka/client');
 
-// const mongoose = require("mongoose")
-
-const Student = require("../../models/students")
-
 router.post('/', (req, res, next) => {
 
     console.log("Req Body", req.body)

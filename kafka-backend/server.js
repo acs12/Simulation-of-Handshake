@@ -3,13 +3,12 @@ var express = require('express');
 var app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://admin:admin@cluster0-mgk28.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MongoDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   poolSize : 500,
   bufferMaxEntries : 0
 });
-
 
 //topics files
 //common
@@ -60,7 +59,6 @@ var MessageFromCompany = require('./services/getCompanyMessages')
 
 
 function handleTopicRequest(topic_name,fname){
-    //var topic_name = 'root_topic';
     var consumer = connection.getConsumer(topic_name);
     var producer = connection.getProducer();
     console.log('server is running '+topic_name);
