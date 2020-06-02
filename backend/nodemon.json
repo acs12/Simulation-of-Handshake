@@ -1,6 +1,0 @@
-{
-    "env":{
-        "Mongo_Atlas_PWD": "admin",
-        "port": 3001
-    }
-}
