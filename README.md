@@ -1,4 +1,4 @@
-# handshake-sjsu
+# Simulation of Handshake Using React-Redux-Node-Kafka-MongoDB
 
 Handshake-Redux-Dummy is the simulation of the website named Handshake. All the services offered by the Handshake for student and company is acieved in thie project.
 
@@ -43,6 +43,9 @@ npm start
 ```
 It will start our frontend server which is in React.
 
+* Install Kafka on your local computer and start Kafka and Zookeeper server.
+Apache Kafka(https://kafka.apache.org/downloads)
+
 Travser to Kafka-Backend folder and again install the dependencies by entering
 ```
 npm install
@@ -51,7 +54,8 @@ After Installing all the dependencies enter
 ```
 node server.js
 ```
-It will start our Kafka-Backend server which is in NodeJS.
+It will create Kafka topics and will connect to Kafka server.
+
 Everything is set and you are good to go.
 
 ## Running the tests
@@ -66,14 +70,18 @@ You can add new Tests by adding test cases in this file.
 
 ## Deployment
 
-To deploy this on live system go to aws.amazon.com and follow the steps to instantiate EC2 instance.
+To deploy this on live system go to aws.amazon.com and follow the steps to instantiate EC2 instance for each Backend, Frontend and Kafka Backend with Auto-Scaling and Load Balancer.
+
 ## Built With
 
+* [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Programing Language used
 * [React](https://reactjs.org/docs/getting-started.html) - The library used
 * [Redux](https://redux.js.org/introduction/getting-started) - The open source library used
+* [Apache Kafka](https://kafka.apache.org/documentation/) - A distributed streaming platform and Message Queues
+* [Passport-JWT Token](http://www.passportjs.org/docs/) - Authentication Strategy used
 * [NodeJS](https://nodejs.org/en/docs/) - run time open source development platform
 * [MongoDB](https://docs.mongodb.com/) - Database used
 
-## Authors
+## Author
 
 * **Aayush Sukhadia**
